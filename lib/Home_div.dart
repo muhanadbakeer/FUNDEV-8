@@ -2,6 +2,7 @@ import 'package:div/Gredview.dart';
 import 'package:div/Items_mode.dart';
 import 'package:div/List_viow.dart';
 import 'package:div/first.dart';
+import 'package:div/screens/test.dart';
 import 'package:flutter/material.dart';
 
 class HomeDiv extends StatefulWidget {
@@ -17,7 +18,7 @@ class _HomeDivState extends State<HomeDiv> {
     ListViow(),
     items_mode(),
     Gredview(),
-    Text("LOGOUT"),
+    test(),
   ];
 
   @override
