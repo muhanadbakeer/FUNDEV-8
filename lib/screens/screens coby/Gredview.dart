@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'model/items.dart';
+import '../../model/items.dart';
 
 class Gredview extends StatefulWidget {
   const Gredview({super.key});

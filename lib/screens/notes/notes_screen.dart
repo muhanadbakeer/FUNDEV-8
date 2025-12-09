@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../core/uite/db_helper.dart';
+import '../../core/uite/db_helper.dart';
 
 class NotesScreen extends StatefulWidget {
   const NotesScreen({super.key});
@@ -31,9 +31,7 @@ class _NotesScreenState extends State<NotesScreen> {
     final contentController = TextEditingController(
       text: note?['content'] ?? "",
     );
-
     final isEdit = note != null;
-
     showDialog(
       context: context,
       builder: (_) {
@@ -45,20 +43,20 @@ class _NotesScreenState extends State<NotesScreen> {
               children: [
                 TextField(
                   controller: titleController,
-                  decoration: const InputDecoration(labelText: "Title"),
+                  decoration: InputDecoration(labelText: "Title"),
                 ),
-                const SizedBox(height: 10),
+                SizedBox(height: 10),
                 TextField(
                   controller: contentController,
                   maxLines: 5,
-                  decoration: const InputDecoration(labelText: "Content"),
+                  decoration: InputDecoration(labelText: "Content"),
                 ),
               ],
             ),
           ),
           actions: [
             TextButton(
-              child: const Text("Cancel"),
+              child: Text("Cancel"),
               onPressed: () => Navigator.pop(context),
             ),
             ElevatedButton(
@@ -72,8 +70,6 @@ class _NotesScreenState extends State<NotesScreen> {
                 };
                 if (isEdit) {
                   newNote.addAll({"id": note['id'].toString()});
-
-                  // newNote["id"] = note['id'];
                   await NotesDatabase().updateNote(newNote);
                 } else {
                   await NotesDatabase().insertNote(newNote);
@@ -98,55 +94,55 @@ class _NotesScreenState extends State<NotesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Notes"),
+        title: Text("Notes"),
         centerTitle: true,
         backgroundColor: Colors.deepPurple,
       ),
 
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.deepPurple,
-        child: const Icon(Icons.add),
+        child: Icon(Icons.add),
         onPressed: () => _showNoteDialog(),
       ),
 
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
           : notes.isEmpty
-          ? const Center(
-        child: Text("No Notes Found", style: TextStyle(fontSize: 18)),
-      )
+          ? Center(
+              child: Text("No Notes Found", style: TextStyle(fontSize: 18)),
+            )
           : ListView.builder(
-        padding: const EdgeInsets.all(12),
-        itemCount: notes.length,
-        itemBuilder: (context, index) {
-          final item = notes[index];
+              padding: EdgeInsets.all(12),
+              itemCount: notes.length,
+              itemBuilder: (context, index) {
+                final item = notes[index];
 
-          return Card(
-            elevation: 3,
-            margin: const EdgeInsets.symmetric(vertical: 8),
-            child: ListTile(
-              title: Text(
-                item['title'],
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              subtitle: Text(
-                item['content'],
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-              onTap: () => _showNoteDialog(note: item),
+                return Card(
+                  elevation: 3,
+                  margin: EdgeInsets.symmetric(vertical: 8),
+                  child: ListTile(
+                    title: Text(
+                      item['title'],
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    subtitle: Text(
+                      item['content'],
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    onTap: () => _showNoteDialog(note: item),
 
-              trailing: IconButton(
-                icon: const Icon(Icons.delete, color: Colors.red),
-                onPressed: () => _deleteNote(item['id']),
-              ),
+                    trailing: IconButton(
+                      icon: Icon(Icons.delete, color: Colors.red),
+                      onPressed: () => _deleteNote(item['id']),
+                    ),
+                  ),
+                );
+              },
             ),
-          );
-        },
-      ),
     );
   }
 }

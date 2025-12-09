@@ -1,12 +1,14 @@
-import 'package:div/screens/AppointmentsPage.dart';
-import 'package:div/screens/MealPlanPage.dart';
-import 'package:div/screens/ProgressPage.dart';
-import 'package:div/screens/SettingsPage.dart';
-import 'package:div/screens/WeightPage.dart';
-import 'package:div/screens/WorkoutPage.dart';
+import 'package:div/screens/home/AppointmentsPage.dart';
+import 'package:div/screens/home/MealPlanPage.dart';
+import 'package:div/screens/home/ProgressPage.dart';
+import 'package:div/screens/home/SettingsPage.dart';
+import 'package:div/screens/home/WeightPage.dart';
+import 'package:div/screens/home/WorkoutPage.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'screens/daily_summary_page.dart';
+import '../doctors/DoctorsListPage.dart';
+import 'MealRecommendationPage.dart';
+import 'daily_summary_page.dart';
 
 class ListViow extends StatefulWidget {
   ListViow({super.key});
@@ -16,7 +18,6 @@ class ListViow extends StatefulWidget {
 }
 
 class _ListViowState extends State<ListViow> {
-  // أقسام الصفحة الرئيسية (نخزن الـ keys فقط ونترجم داخل الـ build)
   final List<Map<String, dynamic>> features = [
     {
       "title": "Weight",
@@ -48,6 +49,16 @@ class _ListViowState extends State<ListViow> {
       "subtitle": "App settings",
       "icon": Icons.settings,
     },
+    {
+      "title": "Doctors",
+      "subtitle": "Select nutritionist",
+      "icon": Icons.person_search,
+    },
+    {
+      "title": "Meal recommendations",
+      "subtitle": "Recommended meals for you",
+      "icon": Icons.lightbulb,
+    },
   ];
 
   @override
@@ -59,9 +70,7 @@ class _ListViowState extends State<ListViow> {
       appBar: AppBar(
         title: Text(
           "DIV Nutrition".tr(),
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
         backgroundColor: Colors.green,
@@ -86,34 +95,24 @@ class _ListViowState extends State<ListViow> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // نص ترحيبي
             Text(
               "Welcome back!".tr(),
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.w700,
-              ),
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
             ),
             SizedBox(height: 4),
             Text(
               "Here is your daily overview".tr(),
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey.shade700,
-              ),
+              style: TextStyle(fontSize: 14, color: Colors.grey.shade700),
             ),
 
             SizedBox(height: height * 0.02),
 
-            // كرت ملخص بسيط
             InkWell(
               borderRadius: BorderRadius.circular(12),
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => DailySummaryPage(), // صفحة ملخص اليوم
-                  ),
+                  MaterialPageRoute(builder: (context) => DailySummaryPage()),
                 );
               },
               child: Card(
@@ -122,7 +121,6 @@ class _ListViowState extends State<ListViow> {
                   padding: EdgeInsets.all(16.0),
                   child: Row(
                     children: [
-                      // أيقونة
                       Container(
                         width: 60,
                         height: 60,
@@ -137,7 +135,6 @@ class _ListViowState extends State<ListViow> {
                         ),
                       ),
                       SizedBox(width: 16),
-                      // نصوص الملخص
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -173,25 +170,20 @@ class _ListViowState extends State<ListViow> {
               ),
             ),
 
-
             SizedBox(height: height * 0.03),
 
             Text(
               "Sections".tr(),
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
-              ),
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
             ),
             SizedBox(height: 8),
 
-            // شبكة الأقسام (Grid)
             GridView.builder(
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: features.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2, // عمودين
+                crossAxisCount: 2,
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
                 childAspectRatio: 1,
@@ -201,22 +193,17 @@ class _ListViowState extends State<ListViow> {
 
                 return InkWell(
                   onTap: () {
-                    // هنا نربط كل عنصر بصفحة معينة
                     String title = item["title"] as String;
 
                     if (title == "Weight") {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => WeightPage(),
-                        ),
+                        MaterialPageRoute(builder: (context) => WeightPage()),
                       );
                     } else if (title == "Meal plan") {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => MealPlanPage(),
-                        ),
+                        MaterialPageRoute(builder: (context) => MealPlanPage()),
                       );
                     } else if (title == "Appointments") {
                       Navigator.push(
@@ -228,22 +215,30 @@ class _ListViowState extends State<ListViow> {
                     } else if (title == "Workout") {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => WorkoutPage(),
-                        ),
+                        MaterialPageRoute(builder: (context) => WorkoutPage()),
                       );
                     } else if (title == "Progress") {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => ProgressPage(),
-                        ),
+                        MaterialPageRoute(builder: (context) => ProgressPage()),
                       );
                     } else if (title == "Settings") {
                       Navigator.push(
                         context,
+                        MaterialPageRoute(builder: (context) => SettingsPage()),
+                      );
+                    } else if (title == "Doctors") {
+                      Navigator.push(
+                        context,
                         MaterialPageRoute(
-                          builder: (context) => SettingsPage(),
+                          builder: (context) => DoctorsListPage(),
+                        ),
+                      );
+                    } else if (title == "Meal recommendations") {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MealRecommendationPage(),
                         ),
                       );
                     }
@@ -251,9 +246,6 @@ class _ListViowState extends State<ListViow> {
                   borderRadius: BorderRadius.circular(16),
                   child: Card(
                     elevation: 3,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
                     child: Padding(
                       padding: EdgeInsets.all(12.0),
                       child: Column(

@@ -51,7 +51,6 @@ class WeightPage extends StatelessWidget {
              SizedBox(height: 24),
             ElevatedButton.icon(
               onPressed: () {
-                // TODO: إضافة وزن جديد
               },
               icon:  Icon(Icons.add),
               label: Text("Add new measurement".tr()),

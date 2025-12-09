@@ -50,7 +50,6 @@ class RegisterPage extends StatelessWidget {
             ),
              SizedBox(height: 32),
 
-            // Full Name
             TextField(
               decoration: InputDecoration(
                 labelText: "Full name".tr(),
@@ -63,7 +62,6 @@ class RegisterPage extends StatelessWidget {
             ),
              SizedBox(height: 16),
 
-            // Email
             TextField(
               decoration: InputDecoration(
                 labelText: "Email".tr(),
@@ -76,7 +74,6 @@ class RegisterPage extends StatelessWidget {
             ),
              SizedBox(height: 16),
 
-            // Password
             TextField(
               obscureText: true,
               decoration: InputDecoration(
@@ -90,7 +87,6 @@ class RegisterPage extends StatelessWidget {
             ),
              SizedBox(height: 16),
 
-            // Confirm Password
             TextField(
               obscureText: true,
               decoration: InputDecoration(
@@ -104,7 +100,6 @@ class RegisterPage extends StatelessWidget {
             ),
              SizedBox(height: 24),
 
-            // Register Button
             ElevatedButton(
               onPressed: () {
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -123,7 +118,6 @@ class RegisterPage extends StatelessWidget {
             ),
              SizedBox(height: 16),
 
-            // Login link
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

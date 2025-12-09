@@ -14,7 +14,7 @@ class ItemDetailsPage extends StatelessWidget {
         centerTitle: true,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding:  EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -25,17 +25,17 @@ class ItemDetailsPage extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ),
-            const SizedBox(height: 20),
+             SizedBox(height: 20),
             Text(
               item.itemName ?? "No Name",
-              style: const TextStyle(
+              style:  TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 10),
+             SizedBox(height: 10),
             Text("Description: ${item.itemDESCRIPTION ?? '_'}"),
-            const SizedBox(height: 10),
+             SizedBox(height: 10),
             Text("Price: ${item.itemPRICE ?? '_'}"),
           ],
         ),

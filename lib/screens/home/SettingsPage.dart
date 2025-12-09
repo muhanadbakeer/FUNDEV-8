@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-import '../profile.dart';
+import '../ profile/profile.dart';
 
 class SettingsPage extends StatelessWidget {
    SettingsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    bool isDark = false; // مؤقت، الأفضل تحوله لـ state لاحقاً
+    bool isDark = false;
 
     return Scaffold(
       appBar: AppBar(
@@ -42,7 +42,7 @@ class SettingsPage extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>  items_mode(), // صفحة البروفايل
+                  builder: (context) =>  items_mode(),
                 ),
               );
             },
@@ -59,7 +59,6 @@ class SettingsPage extends StatelessWidget {
             title: Text("Language".tr()),
             subtitle: Text("Change app language".tr()),
             onTap: () {
-              // ممكن تفتح دايالوغ تختار فيه اللغة
             },
           ),
         ],

@@ -1,8 +1,9 @@
-import 'package:div/screens/http1.dart';
+import 'package:div/screens/auth/SplashView.dart';
+import 'package:div/screens/screens%20coby/http1.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'sigin_in.dart';
-import 'screens/notes_screen.dart';
+import '../auth/sigin_in.dart';
+import '../notes/notes_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +20,7 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+   MyApp({super.key});
 
   // This widget is the root of your application.
   @override
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
       ),
-      home: First(),
+      home: SplashView(),
     );
   }
 }

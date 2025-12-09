@@ -1,9 +1,9 @@
-import 'package:div/Gredview.dart';
-import 'package:div/profile.dart';
-import 'package:div/home page.dart';
-import 'package:div/screens/SettingsPage.dart';
-import 'package:div/sigin_in.dart';
-import 'package:div/screens/test.dart';
+import 'package:div/screens/screens%20coby/Gredview.dart';
+import 'package:div/screens/%20profile/profile.dart';
+import 'package:div/screens/home/home%20page.dart';
+import 'package:div/screens/home/SettingsPage.dart';
+import 'package:div/screens/auth/sigin_in.dart';
+import 'package:div/screens/screens%20coby/test.dart';
 import 'package:flutter/material.dart';
 
 class HomeDiv extends StatefulWidget {
@@ -21,7 +21,7 @@ class _HomeDivState extends State<HomeDiv> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // ===== Drawer =====
+
       drawer: Drawer(
         child: ListView(
           children: [
@@ -84,7 +84,7 @@ class _HomeDivState extends State<HomeDiv> {
       // ===== Floating Action Button =====
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.green,
-        child: Icon(Icons.menu), // بدل أيقونة الشات إلى قائمة
+        child: Icon(Icons.menu),
         onPressed: () {
           showModalBottomSheet(
             context: context,

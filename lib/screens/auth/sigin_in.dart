@@ -1,7 +1,7 @@
-import 'package:div/Home_div.dart';
+import 'package:div/screens/home/Home_div.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'core/uite/sherd.dart';
+import '../../core/uite/sherd.dart';
 import 'sign_up.dart';
 
 class First extends StatefulWidget {
@@ -60,7 +60,6 @@ class _FirstState extends State<First> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    // الشعار (لوغو بسيط للتغذية)
                     Container(
                       width: 80,
                       height: 80,
@@ -76,7 +75,7 @@ class _FirstState extends State<First> {
                         ),
                       ),
                       child:  Icon(
-                        Icons.spa, // ممكن تغيّرها لأي أيقونة مناسبة
+                        Icons.spa,
                         color: Colors.white,
                         size: 40,
                       ),
@@ -101,7 +100,7 @@ class _FirstState extends State<First> {
 
                     SizedBox(height: height * 0.04),
 
-                    // Email
+
                     TextField(
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
@@ -132,7 +131,7 @@ class _FirstState extends State<First> {
 
                     SizedBox(height: height * 0.02),
 
-                    // Password
+
                     TextField(
                       obscureText: true,
                       decoration: InputDecoration(
@@ -163,7 +162,7 @@ class _FirstState extends State<First> {
 
                     SizedBox(height: height * 0.015),
 
-                    // Remember me
+
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -183,7 +182,6 @@ class _FirstState extends State<First> {
 
                     SizedBox(height: height * 0.015),
 
-                    // زر الدخول
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
@@ -217,7 +215,7 @@ class _FirstState extends State<First> {
 
                     SizedBox(height: height * 0.03),
 
-                    // Sign up text
+
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
