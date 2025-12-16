@@ -3,6 +3,11 @@
         android:label="div"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3940256099942544~3347511713"/>
+        <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAJTQ446C_TALaVVa9lvDOJmFrWjKXG0FQ"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"

@@ -1,28 +1,35 @@
 import 'package:div/screens/auth/SplashView.dart';
-import 'package:div/screens/screens%20coby/http1.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import '../auth/sigin_in.dart';
-import '../notes/notes_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+
+import '../../feature/ads/banner_ads.dart';
+import '../../feature/map/googl_map.dart';
+import '../login/cubit/cubit1.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+  MobileAds.instance.initialize();
+  await MobileAds.instance.initialize();
 
   runApp(
-    EasyLocalization(
-      supportedLocales: [Locale('en'), Locale("ar")],
-      path: 'assets/translations',
-      fallbackLocale: Locale('en'),
-      child: MyApp(),
+    MultiBlocProvider(
+      providers: [BlocProvider<LoginCubit>(create: (context) => LoginCubit())],
+      child: EasyLocalization(
+        supportedLocales: [Locale('en'), Locale("ar")],
+        path: 'assets/translations',
+        fallbackLocale: Locale('en'),
+        child: MyApp(),
+      ),
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
-   MyApp({super.key});
+  MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -33,7 +40,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
       ),
-      home: SplashView(),
+      home: MapSample(),
     );
   }
 }

@@ -50,9 +50,6 @@ class _FirstState extends State<First> {
           child: Card(
             color: Colors.white,
             elevation: 5,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(24),
-            ),
             child: Padding(
               padding:  EdgeInsets.all(20.0),
               child: SizedBox(

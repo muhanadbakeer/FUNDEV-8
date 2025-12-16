@@ -41,6 +41,9 @@ dependencies:
   http: ^1.6.0
   webview_flutter: ^4.13.0
   fl_chart: ^1.1.1
+  flutter_bloc: ^9.1.1
+  google_mobile_ads: ^6.0.0
+  google_maps_flutter: ^2.14.0
 
 
 dev_dependencies:

@@ -17,7 +17,6 @@ class UserProfile {
     required this.height,
   });
 
-  // من Map (من الداتا بيز) لكائن
   factory UserProfile.fromMap(Map<String, dynamic> map) {
     return UserProfile(
       id: map['id'] as int?,
@@ -30,7 +29,6 @@ class UserProfile {
     );
   }
 
-  // من كائن لـ Map (علشان نخزن في DB)
   Map<String, dynamic> toMap() {
     return {
       'id': id,

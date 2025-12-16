@@ -7,7 +7,7 @@ import 'package:div/screens/screens%20coby/test.dart';
 import 'package:flutter/material.dart';
 
 class HomeDiv extends StatefulWidget {
-  const HomeDiv({super.key});
+  HomeDiv({super.key});
 
   @override
   State<HomeDiv> createState() => _HomeDivState();
@@ -78,19 +78,14 @@ class _HomeDivState extends State<HomeDiv> {
         ),
       ),
 
-      // ===== Main Body =====
       body: Center(child: screens[selectedindex]),
 
-      // ===== Floating Action Button =====
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.green,
         child: Icon(Icons.menu),
         onPressed: () {
           showModalBottomSheet(
             context: context,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-            ),
             builder: (context) => Container(
               padding: EdgeInsets.all(16),
               child: Wrap(
@@ -131,7 +126,7 @@ class _HomeDivState extends State<HomeDiv> {
                     onTap: () {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) => const First()),
+                        MaterialPageRoute(builder: (context) =>  First()),
                       );
                     },
                   ),
