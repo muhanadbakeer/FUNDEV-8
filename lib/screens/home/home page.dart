@@ -8,6 +8,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import '../doctors/DoctorsListPage.dart';
 import 'MealRecommendationPage.dart';
+import '../../feature/ads/banner_ads.dart';
 import 'daily_summary_page.dart';
 
 class ListViow extends StatefulWidget {
@@ -35,6 +36,11 @@ class _ListViowState extends State<ListViow> {
       "icon": Icons.calendar_today,
     },
     {
+      "title": "Doctors",
+      "subtitle": "Select nutritionist",
+      "icon": Icons.person_search,
+    },
+    {
       "title": "Workout",
       "subtitle": "Daily exercises",
       "icon": Icons.fitness_center,
@@ -45,19 +51,14 @@ class _ListViowState extends State<ListViow> {
       "icon": Icons.show_chart,
     },
     {
-      "title": "Settings",
-      "subtitle": "App settings",
-      "icon": Icons.settings,
-    },
-    {
-      "title": "Doctors",
-      "subtitle": "Select nutritionist",
-      "icon": Icons.person_search,
-    },
-    {
       "title": "Meal recommendations",
       "subtitle": "Recommended meals for you",
       "icon": Icons.lightbulb,
+    },
+    {
+      "title": "Settings",
+      "subtitle": "App settings",
+      "icon": Icons.settings,
     },
   ];
 
@@ -87,7 +88,22 @@ class _ListViowState extends State<ListViow> {
               }
             },
             icon: Icon(Icons.language),
+
           ),
+          IconButton(
+            icon:  Icon(Icons.card_giftcard),
+            tooltip: "Watch ad & earn reward",
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>  banner_ads(),
+                ),
+              );
+            },
+          ),
+
+
         ],
       ),
       body: SingleChildScrollView(
@@ -222,12 +238,7 @@ class _ListViowState extends State<ListViow> {
                         context,
                         MaterialPageRoute(builder: (context) => ProgressPage()),
                       );
-                    } else if (title == "Settings") {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => SettingsPage()),
-                      );
-                    } else if (title == "Doctors") {
+                    }  else if (title == "Doctors") {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -239,7 +250,12 @@ class _ListViowState extends State<ListViow> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => MealRecommendationPage(),
-                        ),
+                        )
+                      );
+                    }else if (title == "Settings") {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => SettingsPage()),
                       );
                     }
                   },

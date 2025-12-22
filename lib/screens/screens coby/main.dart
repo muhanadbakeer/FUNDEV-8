@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
       ),
-      home: MapSample(),
+      home: SplashView(),
     );
   }
 }
