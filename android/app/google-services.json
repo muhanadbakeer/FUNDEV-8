@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "267081180588",
+    "project_id": "div-nutrition",
+    "storage_bucket": "div-nutrition.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:267081180588:android:fa66fa51dc460a374e4609",
+        "android_client_info": {
+          "package_name": "com.coderz.div"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBc8uS57x6yrAKhydIObRM71uJMQi9EERs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
