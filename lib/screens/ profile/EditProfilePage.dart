@@ -104,7 +104,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   color: Colors.green,
                 ),
               ),
-               SizedBox(height: 16),
+              SizedBox(height: 16),
 
               TextFormField(
                 controller: nameController,
@@ -124,7 +124,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   return null;
                 },
               ),
-               SizedBox(height: 12),
+              SizedBox(height: 12),
 
               TextFormField(
                 controller: emailController,
@@ -148,7 +148,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   return null;
                 },
               ),
-               SizedBox(height: 12),
+              SizedBox(height: 12),
 
               TextFormField(
                 controller: phoneController,
@@ -163,7 +163,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   fillColor: Colors.white,
                 ),
               ),
-               SizedBox(height: 12),
+              SizedBox(height: 12),
 
               Row(
                 children: [
@@ -182,7 +182,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       ),
                     ),
                   ),
-                   SizedBox(width: 8),
+                  SizedBox(width: 8),
                   Expanded(
                     child: TextFormField(
                       controller: weightController,
@@ -200,7 +200,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   ),
                 ],
               ),
-               SizedBox(height: 12),
+              SizedBox(height: 12),
 
               TextFormField(
                 controller: heightController,
@@ -216,7 +216,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 ),
               ),
 
-               SizedBox(height: 24),
+              SizedBox(height: 24),
 
               SizedBox(
                 width: double.infinity,
@@ -269,3 +269,4 @@ class _EditProfilePageState extends State<EditProfilePage> {
     }
   }
 }
+

@@ -206,10 +206,102 @@
   "Location not available": "الموقع غير متوفر",
   "Cannot open phone app": "لا يمكن فتح تطبيق الاتصال",
   "WhatsApp not available": "واتساب غير متوفر",
-  "Cannot open Google Maps": "لا يمكن فتح خرائط Google"
+  "Cannot open Google Maps": "لا يمكن فتح خرائط Google",
 
+  "app": {
+    "name": "DIV للتغذية"
+  },
 
+  "common": {
+    "save": "حفظ",
+    "apply": "تطبيق",
+    "cancel": "إلغاء",
+    "done": "تم",
+    "next": "التالي",
+    "back": "رجوع"
+  },
+
+  "navigation": {
+    "home": "الرئيسية",
+    "history": "السجل",
+    "mealPlan": "خطة الوجبات",
+    "recipes": "الوصفات",
+    "settings": "الإعدادات",
+    "favorites": "المفضلة",
+    "ratings": "التقييمات"
+  },
+
+  "settings": {
+    "title": "الإعدادات",
+    "account": "الحساب",
+    "upgradeToPro": "الترقية إلى PRO",
+    "restoreSubscription": "استعادة الاشتراك",
+    "signIn": "تسجيل الدخول",
+    "rateUs": "قيّمنا",
+
+    "nutrition": "التغذية",
+    "calorieGoal": "هدف السعرات الحرارية",
+    "macrosGoal": "أهداف المغذيات الكبرى",
+    "dietPreference": "تفضيل النظام الغذائي",
+    "allergens": "المكروهات",
+    "favoriteCuisines": "المطابخ المفضلة",
+    "cookingSkill": "مهارات الطهي",
+
+    "mealPlan": "خطة الوجبات",
+    "mealsPerDay": "عدد الوجبات في اليوم",
+    "mealSchedule": "جدول الوجبات",
+    "mealPlanPriorities": "أولويات خطة الوجبات",
+
+    "general": "عام",
+    "language": "اللغة",
+    "units": "الوحدات",
+
+    "support": "الدعم",
+    "privacyPolicy": "سياسة الخصوصية",
+    "terms": "شروط الخدمة",
+    "recommendationSource": "مصدر التوصيات",
+    "contactUs": "اتصل بنا",
+
+    "access": "الوصول",
+    "deleteAccount": "حذف الحساب",
+    "referralCode": "رمز الإحالة"
+  },
+
+  "language": {
+    "title": "اللغة",
+    "choose": "اختر لغتك",
+    "arabic": "العربية",
+    "english": "الإنجليزية"
+  },
+
+  "history": {
+    "title": "السجل",
+    "protein": "بروتين",
+    "fat": "دهون",
+    "carbs": "كربوهيدرات",
+    "remaining": "السعرات المتبقية",
+    "consumed": "الطعام المتناول",
+    "emptyTitle": "لم تقم بتسجيل أي شيء بعد",
+    "emptyDesc": "ابدأ بتتبع وجباتك باستخدام الصور أو النص أو الإدخال اليدوي"
+  },
+
+  "addMeal": {
+    "title": "تسجيل وجبة",
+    "text": "نص",
+    "camera": "كاميرا",
+    "gallery": "معرض",
+    "manual": "تسجيل المغذيات الكبرى يدويًا"
+  },
+
+  "notifications": {
+    "title": "الإشعارات",
+    "empty": "لا توجد إشعارات حالياً"
+  }
 }
+
+
+
+
 
 
 

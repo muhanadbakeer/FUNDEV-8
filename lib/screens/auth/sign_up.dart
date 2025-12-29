@@ -37,9 +37,9 @@ class RegisterPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-             SizedBox(height: 24),
-             Icon(Icons.account_circle, size: 80, color: Colors.greenAccent),
-             SizedBox(height: 16),
+            SizedBox(height: 24),
+            Icon(Icons.account_circle, size: 80, color: Colors.greenAccent),
+            SizedBox(height: 16),
             Text(
               "Create your account".tr(),
               textAlign: TextAlign.center,
@@ -48,7 +48,7 @@ class RegisterPage extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-             SizedBox(height: 32),
+            SizedBox(height: 32),
 
             TextField(
               decoration: InputDecoration(
@@ -60,7 +60,7 @@ class RegisterPage extends StatelessWidget {
                 ),
               ),
             ),
-             SizedBox(height: 16),
+            SizedBox(height: 16),
 
             TextField(
               decoration: InputDecoration(
@@ -72,7 +72,7 @@ class RegisterPage extends StatelessWidget {
                 ),
               ),
             ),
-             SizedBox(height: 16),
+            SizedBox(height: 16),
 
             TextField(
               obscureText: true,
@@ -85,7 +85,7 @@ class RegisterPage extends StatelessWidget {
                 ),
               ),
             ),
-             SizedBox(height: 16),
+            SizedBox(height: 16),
 
             TextField(
               obscureText: true,
@@ -98,7 +98,7 @@ class RegisterPage extends StatelessWidget {
                 ),
               ),
             ),
-             SizedBox(height: 24),
+            SizedBox(height: 24),
 
             ElevatedButton(
               onPressed: () {
@@ -116,7 +116,7 @@ class RegisterPage extends StatelessWidget {
               ),
               child: Text("Sign up".tr()),
             ),
-             SizedBox(height: 16),
+            SizedBox(height: 16),
 
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -137,3 +137,4 @@ class RegisterPage extends StatelessWidget {
     );
   }
 }
+

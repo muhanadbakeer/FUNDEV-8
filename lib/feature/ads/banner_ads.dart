@@ -117,18 +117,18 @@ class _banner_adsState extends State<banner_ads> {
                     backgroundColor: Colors.green.withOpacity(0.12),
                     child:  Icon(Icons.card_giftcard, color: Colors.green, size: 34),
                   ),
-                   SizedBox(height: 12),
+                  SizedBox(height: 12),
                   Text(
                     "Get a reward".tr(),
                     style:  TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
                   ),
-                   SizedBox(height: 6),
+                  SizedBox(height: 6),
                   Text(
                     "Watch a short ad to unlock a feature.".tr(),
                     textAlign: TextAlign.center,
                     style: TextStyle(color: Colors.grey.shade700),
                   ),
-                   SizedBox(height: 16),
+                  SizedBox(height: 16),
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton.icon(
@@ -151,3 +151,4 @@ class _banner_adsState extends State<banner_ads> {
     );
   }
 }
+

@@ -20,3 +20,4 @@ class LoginModel {
     return data;
   }
 }
+

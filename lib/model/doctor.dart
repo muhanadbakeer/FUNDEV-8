@@ -23,3 +23,4 @@ class Doctor {
     this.lng,
   });
 }
+

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class WeightPage extends StatelessWidget {
-   WeightPage({super.key});
+  WeightPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -40,15 +40,15 @@ class WeightPage extends StatelessWidget {
                 fontWeight: FontWeight.w700,
               ),
             ),
-             SizedBox(height: 8),
-             Text(
+            SizedBox(height: 8),
+            Text(
               "78 kg",
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.w800,
               ),
             ),
-             SizedBox(height: 24),
+            SizedBox(height: 24),
             ElevatedButton.icon(
               onPressed: () {
               },
@@ -59,7 +59,7 @@ class WeightPage extends StatelessWidget {
                 foregroundColor: Colors.white,
               ),
             ),
-             SizedBox(height: 24),
+            SizedBox(height: 24),
             Text(
               "Weight history".tr(),
               style:  TextStyle(
@@ -67,7 +67,7 @@ class WeightPage extends StatelessWidget {
                 fontWeight: FontWeight.w700,
               ),
             ),
-             SizedBox(height: 8),
+            SizedBox(height: 8),
             Expanded(
               child: ListView(
                 children:  [
@@ -95,3 +95,4 @@ class WeightPage extends StatelessWidget {
     );
   }
 }
+

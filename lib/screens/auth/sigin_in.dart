@@ -14,6 +14,8 @@ class First extends StatefulWidget {
 class _FirstState extends State<First> {
   bool isChecked = false;
 
+  get sherd => null;
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;

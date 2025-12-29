@@ -40,7 +40,7 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
         return AlertDialog(
           title: Text("Book new appointment".tr()),
           content: SingleChildScrollView(
-          child: Column(
+            child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 TextField(
@@ -221,3 +221,4 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
     );
   }
 }
+

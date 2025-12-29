@@ -1,0 +1,84 @@
+{
+  "common": {
+    "save": "Kaydet",
+    "apply": "Uygula",
+    "cancel": "İptal"
+  },
+  "app": { "name": "DIV Beslenme" },
+
+  "settings": {
+    "title": "Ayarlar",
+    "account": "HESAP",
+    "nutrition": "BESLENME",
+    "mealPlan": "YEMEK PLANI",
+    "general": "GENEL",
+    "language": "Dil",
+    "units": "Birimler",
+    "support": "DESTEK",
+    "access": "ERİŞİM"
+  },
+
+  "language": { "title": "Dil" },
+
+  "notifications": {
+    "title": "Bildirimler",
+    "general": "GENEL",
+    "push": "Bildirimler",
+    "reminders": "HATIRLATMALAR",
+    "reports": "RAPORLAR",
+    "behavior": "DAVRANIŞ",
+
+  "WELCOME TO DIV": "DIV'e Hoş Geldiniz",
+  "WELCOME": "Hoş geldiniz",
+  "Email": "E-posta",
+  "Enter your email": "E-postanızı girin",
+  "Password": "Şifre",
+  "Enter your password": "Şifrenizi girin",
+  "remember me": "Beni hatırla",
+  "Login": "Giriş yap",
+  "Don't have an account?": "Hesabınız yok mu?",
+  "Sign up": "Kayıt ol",
+
+  "DIV Nutrition": "DIV Beslenme",
+  "Track your health & nutrition": "Sağlığınızı ve beslenmenizi takip edin",
+
+  "REGISTER": "Kayıt Ol",
+  "Create your account": "Hesabınızı oluşturun",
+  "Full name": "Ad Soyad",
+  "Enter your full name": "Ad soyadınızı girin",
+
+  "Welcome back!": "Tekrar hoş geldiniz!",
+  "Here is your daily overview": "Günlük özetiniz",
+  "Today's summary": "Bugünün özeti",
+
+  "Weight": "Kilo",
+  "Track your weight": "Kilonuzu takip edin",
+
+  "Meal plan": "Yemek planı",
+  "View your meals": "Yemeklerinizi görüntüleyin",
+
+  "Workout": "Egzersiz",
+  "Daily exercises": "Günlük egzersizler",
+
+  "Progress": "İlerleme",
+  "See your progress": "İlerlemenizi görün",
+
+  "Settings": "Ayarlar",
+  "Language": "Dil",
+  "Change language": "Dili değiştir",
+
+  "Notifications": "Bildirimler",
+  "Logout": "Çıkış yap",
+
+  "Breakfast": "Kahvaltı",
+  "Lunch": "Öğle yemeği",
+  "Dinner": "Akşam yemeği",
+  "Snack": "Atıştırmalık",
+
+  "Save": "Kaydet",
+  "Cancel": "İptal",
+  "Apply": "Uygula"
+
+
+}
+}

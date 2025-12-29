@@ -1,0 +1,84 @@
+{
+  "common": {
+    "save": "Сохранить",
+    "apply": "Применить",
+    "cancel": "Отмена"
+  },
+  "app": { "name": "DIV Питание" },
+
+  "settings": {
+    "title": "Настройки",
+    "account": "АККАУНТ",
+    "nutrition": "ПИТАНИЕ",
+    "mealPlan": "ПЛАН ПИТАНИЯ",
+    "general": "ОБЩЕЕ",
+    "language": "Язык",
+    "units": "Единицы",
+    "support": "ПОДДЕРЖКА",
+    "access": "ДОСТУП"
+  },
+
+  "language": { "title": "Язык" },
+
+  "notifications": {
+    "title": "Уведомления",
+    "general": "ОБЩЕЕ",
+    "push": "Уведомления",
+    "reminders": "НАПОМИНАНИЯ",
+    "reports": "ОТЧЁТЫ",
+    "behavior": "ПОВЕДЕНИЕ",
+
+  "WELCOME TO DIV": "Добро пожаловать в DIV",
+  "WELCOME": "Добро пожаловать",
+  "Email": "Электронная почта",
+  "Enter your email": "Введите ваш email",
+  "Password": "Пароль",
+  "Enter your password": "Введите пароль",
+  "remember me": "Запомнить меня",
+  "Login": "Войти",
+  "Don't have an account?": "Нет аккаунта?",
+  "Sign up": "Зарегистрироваться",
+
+  "DIV Nutrition": "DIV Питание",
+  "Track your health & nutrition": "Следите за своим здоровьем и питанием",
+
+  "REGISTER": "Регистрация",
+  "Create your account": "Создайте аккаунт",
+  "Full name": "Полное имя",
+  "Enter your full name": "Введите полное имя",
+
+  "Welcome back!": "С возвращением!",
+  "Here is your daily overview": "Ваш ежедневный обзор",
+  "Today's summary": "Итоги дня",
+
+  "Weight": "Вес",
+  "Track your weight": "Отслеживайте вес",
+
+  "Meal plan": "План питания",
+  "View your meals": "Просмотр приемов пищи",
+
+  "Workout": "Тренировка",
+  "Daily exercises": "Ежедневные упражнения",
+
+  "Progress": "Прогресс",
+  "See your progress": "Посмотреть прогресс",
+
+  "Settings": "Настройки",
+  "Language": "Язык",
+  "Change language": "Сменить язык",
+
+  "Notifications": "Уведомления",
+  "Logout": "Выйти",
+
+  "Breakfast": "Завтрак",
+  "Lunch": "Обед",
+  "Dinner": "Ужин",
+  "Snack": "Перекус",
+
+  "Save": "Сохранить",
+  "Cancel": "Отмена",
+  "Apply": "Применить"
+
+
+}
+}

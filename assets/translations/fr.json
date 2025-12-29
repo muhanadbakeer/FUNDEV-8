@@ -1,0 +1,84 @@
+{
+  "common": {
+    "save": "Enregistrer",
+    "apply": "Appliquer",
+    "cancel": "Annuler"
+  },
+  "app": { "name": "DIV Nutrition" },
+
+  "settings": {
+    "title": "Paramètres",
+    "account": "COMPTE",
+    "nutrition": "NUTRITION",
+    "mealPlan": "PLAN DE REPAS",
+    "general": "GÉNÉRAL",
+    "language": "Langue",
+    "units": "Unités",
+    "support": "SUPPORT",
+    "access": "ACCÈS"
+  },
+
+  "language": { "title": "Langue" },
+
+  "notifications": {
+    "title": "Notifications",
+    "general": "GÉNÉRAL",
+    "push": "Notifications",
+    "reminders": "RAPPELS",
+    "reports": "RAPPORTS",
+    "behavior": "COMPORTEMENT",
+
+  "WELCOME TO DIV": "Bienvenue sur DIV",
+  "WELCOME": "Bienvenue",
+  "Email": "Email",
+  "Enter your email": "Entrez votre email",
+  "Password": "Mot de passe",
+  "Enter your password": "Entrez votre mot de passe",
+  "remember me": "Se souvenir de moi",
+  "Login": "Connexion",
+  "Don't have an account?": "Vous n'avez pas de compte ?",
+  "Sign up": "Créer un compte",
+
+  "DIV Nutrition": "DIV Nutrition",
+  "Track your health & nutrition": "Suivez votre santé et votre nutrition",
+
+  "REGISTER": "S'inscrire",
+  "Create your account": "Créer votre compte",
+  "Full name": "Nom complet",
+  "Enter your full name": "Entrez votre nom complet",
+
+  "Welcome back!": "Bon retour !",
+  "Here is your daily overview": "Voici votre aperçu quotidien",
+  "Today's summary": "Résumé du jour",
+
+  "Weight": "Poids",
+  "Track your weight": "Suivez votre poids",
+
+  "Meal plan": "Plan alimentaire",
+  "View your meals": "Voir vos repas",
+
+  "Workout": "Entraînement",
+  "Daily exercises": "Exercices quotidiens",
+
+  "Progress": "Progression",
+  "See your progress": "Voir votre progression",
+
+  "Settings": "Paramètres",
+  "Language": "Langue",
+  "Change language": "Changer la langue",
+
+  "Notifications": "Notifications",
+  "Logout": "Déconnexion",
+
+  "Breakfast": "Petit-déjeuner",
+  "Lunch": "Déjeuner",
+  "Dinner": "Dîner",
+  "Snack": "Collation",
+
+  "Save": "Enregistrer",
+  "Cancel": "Annuler",
+  "Apply": "Appliquer"
+}
+
+}
+

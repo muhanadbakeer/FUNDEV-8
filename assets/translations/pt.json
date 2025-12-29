@@ -1,0 +1,84 @@
+{
+  "common": {
+    "save": "Salvar",
+    "apply": "Aplicar",
+    "cancel": "Cancelar"
+  },
+  "app": { "name": "DIV Nutrição" },
+
+  "settings": {
+    "title": "Configurações",
+    "account": "CONTA",
+    "nutrition": "NUTRIÇÃO",
+    "mealPlan": "PLANO DE REFEIÇÕES",
+    "general": "GERAL",
+    "language": "Idioma",
+    "units": "Unidades",
+    "support": "SUPORTE",
+    "access": "ACESSO"
+  },
+
+  "language": { "title": "Idioma" },
+
+  "notifications": {
+    "title": "Notificações",
+    "general": "GERAL",
+    "push": "Notificações",
+    "reminders": "LEMBRETES",
+    "reports": "RELATÓRIOS",
+    "behavior": "COMPORTAMENTO",
+
+  "WELCOME TO DIV": "Bem-vindo ao DIV",
+  "WELCOME": "Bem-vindo",
+  "Email": "Email",
+  "Enter your email": "Digite seu email",
+  "Password": "Senha",
+  "Enter your password": "Digite sua senha",
+  "remember me": "Lembrar de mim",
+  "Login": "Entrar",
+  "Don't have an account?": "Não tem uma conta?",
+  "Sign up": "Criar conta",
+
+  "DIV Nutrition": "DIV Nutrição",
+  "Track your health & nutrition": "Acompanhe sua saúde e nutrição",
+
+  "REGISTER": "Registrar",
+  "Create your account": "Crie sua conta",
+  "Full name": "Nome completo",
+  "Enter your full name": "Digite seu nome completo",
+
+  "Welcome back!": "Bem-vindo de volta!",
+  "Here is your daily overview": "Aqui está seu resumo diário",
+  "Today's summary": "Resumo de hoje",
+
+  "Weight": "Peso",
+  "Track your weight": "Acompanhe seu peso",
+
+  "Meal plan": "Plano alimentar",
+  "View your meals": "Ver suas refeições",
+
+  "Workout": "Treino",
+  "Daily exercises": "Exercícios diários",
+
+  "Progress": "Progresso",
+  "See your progress": "Veja seu progresso",
+
+  "Settings": "Configurações",
+  "Language": "Idioma",
+  "Change language": "Alterar idioma",
+
+  "Notifications": "Notificações",
+  "Logout": "Sair",
+
+  "Breakfast": "Café da manhã",
+  "Lunch": "Almoço",
+  "Dinner": "Jantar",
+  "Snack": "Lanche",
+
+  "Save": "Salvar",
+  "Cancel": "Cancelar",
+  "Apply": "Aplicar"
+
+
+}
+}

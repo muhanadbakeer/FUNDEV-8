@@ -15,3 +15,4 @@ class DoctorModel {
     required this.phone,
   });
 }
+

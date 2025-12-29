@@ -1,0 +1,84 @@
+{
+  "common": {
+    "save": "Speichern",
+    "apply": "Anwenden",
+    "cancel": "Abbrechen"
+  },
+  "app": { "name": "DIV Ernährung" },
+
+  "settings": {
+    "title": "Einstellungen",
+    "account": "KONTO",
+    "nutrition": "ERNÄHRUNG",
+    "mealPlan": "ESSENSPLAN",
+    "general": "ALLGEMEIN",
+    "language": "Sprache",
+    "units": "Einheiten",
+    "support": "SUPPORT",
+    "access": "ZUGRIFF"
+  },
+
+  "language": { "title": "Sprache" },
+
+  "notifications": {
+    "title": "Benachrichtigungen",
+    "general": "ALLGEMEIN",
+    "push": "Benachrichtigungen",
+    "reminders": "ERINNERUNGEN",
+    "reports": "BERICHTE",
+    "behavior": "VERHALTEN",
+
+  "WELCOME TO DIV": "Willkommen bei DIV",
+  "WELCOME": "Willkommen",
+  "Email": "E-Mail",
+  "Enter your email": "E-Mail eingeben",
+  "Password": "Passwort",
+  "Enter your password": "Passwort eingeben",
+  "remember me": "Angemeldet bleiben",
+  "Login": "Anmelden",
+  "Don't have an account?": "Noch kein Konto?",
+  "Sign up": "Registrieren",
+
+  "DIV Nutrition": "DIV Ernährung",
+  "Track your health & nutrition": "Verfolgen Sie Ihre Gesundheit und Ernährung",
+
+  "REGISTER": "Registrieren",
+  "Create your account": "Konto erstellen",
+  "Full name": "Vollständiger Name",
+  "Enter your full name": "Geben Sie Ihren vollständigen Namen ein",
+
+  "Welcome back!": "Willkommen zurück!",
+  "Here is your daily overview": "Hier ist Ihre tägliche Übersicht",
+  "Today's summary": "Tagesübersicht",
+
+  "Weight": "Gewicht",
+  "Track your weight": "Gewicht verfolgen",
+
+  "Meal plan": "Ernährungsplan",
+  "View your meals": "Mahlzeiten anzeigen",
+
+  "Workout": "Training",
+  "Daily exercises": "Tägliche Übungen",
+
+  "Progress": "Fortschritt",
+  "See your progress": "Fortschritt anzeigen",
+
+  "Settings": "Einstellungen",
+  "Language": "Sprache",
+  "Change language": "Sprache ändern",
+
+  "Notifications": "Benachrichtigungen",
+  "Logout": "Abmelden",
+
+  "Breakfast": "Frühstück",
+  "Lunch": "Mittagessen",
+  "Dinner": "Abendessen",
+  "Snack": "Snack",
+
+  "Save": "Speichern",
+  "Cancel": "Abbrechen",
+  "Apply": "Anwenden"
+
+
+}
+}

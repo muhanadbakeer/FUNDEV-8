@@ -92,26 +92,26 @@ class DoctorDetailsPage extends StatelessWidget {
               backgroundColor: Colors.green.withOpacity(0.2),
               child:  Icon(Icons.person, size: 50, color: Colors.green),
             ),
-             SizedBox(height: 12),
+            SizedBox(height: 12),
 
             Text(
               doctor.name,
               style:  TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
             ),
-             SizedBox(height: 4),
+            SizedBox(height: 4),
 
             Text(
               doctor.specialty,
               style: TextStyle(fontSize: 14, color: Colors.grey.shade700),
             ),
-             SizedBox(height: 8),
+            SizedBox(height: 8),
 
             Text(
               "${"Experience".tr()}: ${doctor.experience}",
               style: TextStyle(fontSize: 14, color: Colors.grey.shade700),
             ),
 
-             SizedBox(height: 16),
+            SizedBox(height: 16),
 
             Card(
               child: Padding(
@@ -123,7 +123,7 @@ class DoctorDetailsPage extends StatelessWidget {
                       "About doctor".tr(),
                       style:  TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
                     ),
-                     SizedBox(height: 8),
+                    SizedBox(height: 8),
                     Text(
                       doctor.about,
                       style: TextStyle(fontSize: 14, color: Colors.grey.shade800),
@@ -133,7 +133,7 @@ class DoctorDetailsPage extends StatelessWidget {
               ),
             ),
 
-             SizedBox(height: 12),
+            SizedBox(height: 12),
 
             Card(
               child: Padding(
@@ -145,7 +145,7 @@ class DoctorDetailsPage extends StatelessWidget {
                       "Clinic info".tr(),
                       style:  TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
                     ),
-                     SizedBox(height: 10),
+                    SizedBox(height: 10),
 
                     ListTile(
                       contentPadding: EdgeInsets.zero,
@@ -159,13 +159,13 @@ class DoctorDetailsPage extends StatelessWidget {
                       title: Text(extra.address),
                     ),
 
-                     Divider(height: 24),
+                    Divider(height: 24),
 
                     Text(
                       "Contact".tr(),
                       style:  TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
                     ),
-                     SizedBox(height: 10),
+                    SizedBox(height: 10),
 
                     ListTile(
                       contentPadding: EdgeInsets.zero,
@@ -204,14 +204,14 @@ class DoctorDetailsPage extends StatelessWidget {
                         },
                       ),
 
-                     SizedBox(height: 8),
-                     Divider(height: 24),
+                    SizedBox(height: 8),
+                    Divider(height: 24),
 
                     Text(
                       "Details".tr(),
                       style:  TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
                     ),
-                     SizedBox(height: 8),
+                    SizedBox(height: 8),
                     Text(
                       extra.details,
                       style: TextStyle(fontSize: 14, color: Colors.grey.shade800),
@@ -221,7 +221,7 @@ class DoctorDetailsPage extends StatelessWidget {
               ),
             ),
 
-             SizedBox(height: 16),
+            SizedBox(height: 16),
 
             SizedBox(
               width: double.infinity,
@@ -249,3 +249,4 @@ class DoctorDetailsPage extends StatelessWidget {
     );
   }
 }
+

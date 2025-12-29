@@ -1,7 +1,7 @@
 import 'package:div/screens/screens%20coby/Gredview.dart';
 import 'package:div/screens/%20profile/profile.dart';
 import 'package:div/screens/home/home%20page.dart';
-import 'package:div/screens/home/SettingsPage.dart';
+import 'package:div/screens/home/home/SETTINGS/SettingsPage.dart';
 import 'package:div/screens/auth/sigin_in.dart';
 import 'package:div/screens/screens%20coby/test.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +16,7 @@ class HomeDiv extends StatefulWidget {
 class _HomeDivState extends State<HomeDiv> {
   int selectedindex = 0;
 
-  List<Widget> screens = [ListViow(), items_mode(), Gredview(), test()];
+  List<Widget> screens = [RecipesExplorePage(), items_mode(), Gredview(), test()];
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +96,7 @@ class _HomeDivState extends State<HomeDiv> {
                     onTap: () {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) => ListViow()),
+                        MaterialPageRoute(builder: (context) => RecipesExplorePage()),
                       );
                     },
                   ),

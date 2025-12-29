@@ -185,9 +185,101 @@
   "Location not available": "Location not available",
   "Cannot open phone app": "Cannot open phone app",
   "WhatsApp not available": "WhatsApp not available",
-  "Cannot open Google Maps": "Cannot open Google Maps"
+  "Cannot open Google Maps": "Cannot open Google Maps",
 
+  "app": {
+    "name": "DIV Nutrition"
+  },
+
+  "common": {
+    "save": "Save",
+    "apply": "Apply",
+    "cancel": "Cancel",
+    "done": "Done",
+    "next": "Next",
+    "back": "Back"
+  },
+
+  "navigation": {
+    "home": "Home",
+    "history": "History",
+    "mealPlan": "Meal Plan",
+    "recipes": "Recipes",
+    "settings": "Settings",
+    "favorites": "Favorites",
+    "ratings": "Ratings"
+  },
+
+  "settings": {
+    "title": "Settings",
+    "account": "Account",
+    "upgradeToPro": "Upgrade to PRO",
+    "restoreSubscription": "Restore Subscription",
+    "signIn": "Sign In",
+    "rateUs": "Rate Us",
+
+    "nutrition": "Nutrition",
+    "calorieGoal": "Calorie Goal",
+    "macrosGoal": "Macros Goal",
+    "dietPreference": "Diet Preference",
+    "allergens": "Allergens",
+    "favoriteCuisines": "Favorite Cuisines",
+    "cookingSkill": "Cooking Skill",
+
+    "mealPlan": "Meal Plan",
+    "mealsPerDay": "Meals Per Day",
+    "mealSchedule": "Meal Schedule",
+    "mealPlanPriorities": "Meal Plan Priorities",
+
+    "general": "General",
+    "language": "Language",
+    "units": "Units",
+
+    "support": "Support",
+    "privacyPolicy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "recommendationSource": "Recommendation Source",
+    "contactUs": "Contact Us",
+
+    "access": "Access",
+    "deleteAccount": "Delete Account",
+    "referralCode": "Referral Code"
+  },
+
+  "language": {
+    "title": "Language",
+    "choose": "Choose your language",
+    "arabic": "Arabic",
+    "english": "English"
+  },
+
+  "history": {
+    "title": "History",
+    "protein": "Protein",
+    "fat": "Fat",
+    "carbs": "Carbohydrates",
+    "remaining": "Remaining Calories",
+    "consumed": "Consumed Food",
+    "emptyTitle": "You haven't logged anything yet",
+    "emptyDesc": "Start tracking your meals using photos, text, or manual entry"
+  },
+
+  "addMeal": {
+    "title": "Add Meal",
+    "text": "Text",
+    "camera": "Camera",
+    "gallery": "Gallery",
+    "manual": "Manual Macros Entry"
+  },
+
+  "notifications": {
+    "title": "Notifications",
+    "empty": "No notifications yet"
+  }
 }
+
+
+
 
 
 

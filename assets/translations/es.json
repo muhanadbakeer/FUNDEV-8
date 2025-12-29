@@ -1,0 +1,84 @@
+{
+  "common": {
+    "save": "Guardar",
+    "apply": "Aplicar",
+    "cancel": "Cancelar"
+  },
+  "app": { "name": "DIV Nutrición" },
+
+  "settings": {
+    "title": "Configuración",
+    "account": "CUENTA",
+    "nutrition": "NUTRICIÓN",
+    "mealPlan": "PLAN DE COMIDAS",
+    "general": "GENERAL",
+    "language": "Idioma",
+    "units": "Unidades",
+    "support": "SOPORTE",
+    "access": "ACCESO"
+  },
+
+  "language": { "title": "Idioma" },
+
+  "notifications": {
+    "title": "Notificaciones",
+    "general": "GENERAL",
+    "push": "Notificaciones",
+    "reminders": "RECORDATORIOS",
+    "reports": "REPORTES",
+    "behavior": "COMPORTAMIENTO",
+
+  "WELCOME TO DIV": "Bienvenido a DIV",
+  "WELCOME": "Bienvenido",
+  "Email": "Correo electrónico",
+  "Enter your email": "Ingrese su correo electrónico",
+  "Password": "Contraseña",
+  "Enter your password": "Ingrese su contraseña",
+  "remember me": "Recuérdame",
+  "Login": "Iniciar sesión",
+  "Don't have an account?": "¿No tienes una cuenta?",
+  "Sign up": "Registrarse",
+
+  "DIV Nutrition": "DIV Nutrición",
+  "Track your health & nutrition": "Controla tu salud y nutrición",
+
+  "REGISTER": "Registrarse",
+  "Create your account": "Crear tu cuenta",
+  "Full name": "Nombre completo",
+  "Enter your full name": "Ingrese su nombre completo",
+
+  "Welcome back!": "¡Bienvenido de nuevo!",
+  "Here is your daily overview": "Aquí está tu resumen diario",
+  "Today's summary": "Resumen de hoy",
+
+  "Weight": "Peso",
+  "Track your weight": "Controla tu peso",
+
+  "Meal plan": "Plan de comidas",
+  "View your meals": "Ver tus comidas",
+
+  "Workout": "Entrenamiento",
+  "Daily exercises": "Ejercicios diarios",
+
+  "Progress": "Progreso",
+  "See your progress": "Ver tu progreso",
+
+  "Settings": "Configuración",
+  "Language": "Idioma",
+  "Change language": "Cambiar idioma",
+
+  "Notifications": "Notificaciones",
+  "Logout": "Cerrar sesión",
+
+  "Breakfast": "Desayuno",
+  "Lunch": "Almuerzo",
+  "Dinner": "Cena",
+  "Snack": "Bocadillo",
+
+  "Save": "Guardar",
+  "Cancel": "Cancelar",
+  "Apply": "Aplicar"
+}
+
+}
+

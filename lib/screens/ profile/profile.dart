@@ -5,7 +5,11 @@ import 'package:easy_localization/easy_localization.dart';
 import 'EditProfilePage.dart';
 
 class items_mode extends StatefulWidget {
-  const items_mode({super.key});
+  const items_mode({super.key, this.embedded = false});
+
+  /// When true, renders only the page content (no Scaffold/AppBar).
+  /// Used inside HomeDiv which provides the AppBar + Drawer.
+  final bool embedded;
 
   @override
   State<items_mode> createState() => _items_modeState();
@@ -45,6 +49,75 @@ class _items_modeState extends State<items_mode> {
 
   @override
   Widget build(BuildContext context) {
+    final pageBody = isLoading
+        ? const Center(child: CircularProgressIndicator())
+        : SingleChildScrollView(
+      padding:  EdgeInsets.all(16),
+      child: Column(
+        children: [
+          SizedBox(height: 12),
+          CircleAvatar(
+            radius: 45,
+            backgroundColor: Colors.green.withOpacity(0.2),
+            child:  Icon(Icons.person, size: 50, color: Colors.green),
+          ),
+          SizedBox(height: 12),
+          Text(
+            userData?['name'] ?? "User",
+            style:  TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          SizedBox(height: 4),
+          Text(
+            userData?['email'] ?? "",
+            style: TextStyle(
+              fontSize: 14,
+              color: Colors.grey.shade700,
+            ),
+          ),
+          SizedBox(height: 20),
+
+          Card(
+            child: ListTile(
+              leading:  Icon(Icons.phone),
+              title: Text("Phone number".tr()),
+              subtitle: Text(userData?['phone'] ?? "-"),
+            ),
+          ),
+          Card(
+            child: ListTile(
+              leading:  Icon(Icons.cake),
+              title: Text("Age".tr()),
+              subtitle: Text(userData?['age'] ?? "-"),
+            ),
+          ),
+          Card(
+            child: ListTile(
+              leading:  Icon(Icons.monitor_weight),
+              title: Text("Weight (kg)".tr()),
+              subtitle: Text(userData?['weight'] ?? "-"),
+            ),
+          ),
+          Card(
+            child: ListTile(
+              leading:  Icon(Icons.height),
+              title: Text("Height (cm)".tr()),
+              subtitle: Text(userData?['height'] ?? "-"),
+            ),
+          ),
+        ],
+      ),
+    );
+
+    if (widget.embedded) {
+      return Container(
+        color: Colors.grey.shade100,
+        child: pageBody,
+      );
+    }
+
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
       appBar: AppBar(
@@ -57,80 +130,21 @@ class _items_modeState extends State<items_mode> {
             onPressed: () {
               final lang = context.locale.languageCode;
               if (lang == "en") {
-                context.setLocale( Locale("ar"));
+                context.setLocale(const Locale("ar"));
               } else {
-                context.setLocale( Locale("en"));
+                context.setLocale(const Locale("en"));
               }
             },
-            icon:  Icon(Icons.language),
+            icon: const Icon(Icons.language),
           ),
           IconButton(
             onPressed: _goToEditProfile,
-            icon:  Icon(Icons.edit),
+            icon: const Icon(Icons.edit),
           ),
         ],
       ),
-      body: isLoading
-          ?  Center(child: CircularProgressIndicator())
-          : SingleChildScrollView(
-        padding:  EdgeInsets.all(16),
-        child: Column(
-          children: [
-             SizedBox(height: 12),
-            CircleAvatar(
-              radius: 45,
-              backgroundColor: Colors.green.withOpacity(0.2),
-              child:  Icon(Icons.person, size: 50, color: Colors.green),
-            ),
-             SizedBox(height: 12),
-            Text(
-              userData?['name'] ?? "User",
-              style:  TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-             SizedBox(height: 4),
-            Text(
-              userData?['email'] ?? "",
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey.shade700,
-              ),
-            ),
-             SizedBox(height: 20),
-
-            Card(
-              child: ListTile(
-                leading:  Icon(Icons.phone),
-                title: Text("Phone number".tr()),
-                subtitle: Text(userData?['phone'] ?? "-"),
-              ),
-            ),
-            Card(
-              child: ListTile(
-                leading:  Icon(Icons.cake),
-                title: Text("Age".tr()),
-                subtitle: Text(userData?['age'] ?? "-"),
-              ),
-            ),
-            Card(
-              child: ListTile(
-                leading:  Icon(Icons.monitor_weight),
-                title: Text("Weight (kg)".tr()),
-                subtitle: Text(userData?['weight'] ?? "-"),
-              ),
-            ),
-            Card(
-              child: ListTile(
-                leading:  Icon(Icons.height),
-                title: Text("Height (cm)".tr()),
-                subtitle: Text(userData?['height'] ?? "-"),
-              ),
-            ),
-          ],
-        ),
-      ),
+      body: pageBody,
     );
   }
 }
+

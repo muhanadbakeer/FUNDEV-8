@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class ProgressPage extends StatelessWidget {
-   ProgressPage({super.key});
+  ProgressPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,7 @@ class ProgressPage extends StatelessWidget {
                 fontWeight: FontWeight.w700,
               ),
             ),
-             SizedBox(height: 12),
+            SizedBox(height: 12),
             Card(
               child: ListTile(
                 leading:  Icon(Icons.monitor_weight),
@@ -55,7 +55,7 @@ class ProgressPage extends StatelessWidget {
                 subtitle: Text("1500 kcal / day".tr()),
               ),
             ),
-             SizedBox(height: 16),
+            SizedBox(height: 16),
             Text(
               "Notes".tr(),
               style:  TextStyle(
@@ -63,7 +63,7 @@ class ProgressPage extends StatelessWidget {
                 fontWeight: FontWeight.w600,
               ),
             ),
-             SizedBox(height: 8),
+            SizedBox(height: 8),
             Expanded(
               child: Center(
                 child: Text(
@@ -82,3 +82,4 @@ class ProgressPage extends StatelessWidget {
     );
   }
 }
+

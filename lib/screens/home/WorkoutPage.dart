@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class WorkoutPage extends StatelessWidget {
-   WorkoutPage({super.key});
+  WorkoutPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -38,22 +38,22 @@ class WorkoutPage extends StatelessWidget {
               fontWeight: FontWeight.w700,
             ),
           ),
-           SizedBox(height: 12),
-           Card(
+          SizedBox(height: 12),
+          Card(
             child: ListTile(
               leading: Icon(Icons.directions_run),
               title: Text("Walking"),
               subtitle: Text("30 minutes - moderate"),
             ),
           ),
-           Card(
+          Card(
             child: ListTile(
               leading: Icon(Icons.fitness_center),
               title: Text("Strength training"),
               subtitle: Text("20 minutes - full body"),
             ),
           ),
-           SizedBox(height: 16),
+          SizedBox(height: 16),
           Text(
             "Notes".tr(),
             style:  TextStyle(
@@ -61,7 +61,7 @@ class WorkoutPage extends StatelessWidget {
               fontWeight: FontWeight.w600,
             ),
           ),
-           SizedBox(height: 8),
+          SizedBox(height: 8),
           TextField(
             maxLines: 3,
             decoration: InputDecoration(
@@ -76,3 +76,4 @@ class WorkoutPage extends StatelessWidget {
     );
   }
 }
+

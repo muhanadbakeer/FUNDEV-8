@@ -63,7 +63,7 @@ class CaloriesPage extends StatelessWidget {
                 fontWeight: FontWeight.w700,
               ),
             ),
-             SizedBox(height: 8),
+            SizedBox(height: 8),
             Card(
               elevation: 3,
               child: Padding(
@@ -83,7 +83,7 @@ class CaloriesPage extends StatelessWidget {
                         size: 32,
                       ),
                     ),
-                     SizedBox(width: 16),
+                    SizedBox(width: 16),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -95,7 +95,7 @@ class CaloriesPage extends StatelessWidget {
                               fontWeight: FontWeight.w700,
                             ),
                           ),
-                           SizedBox(height: 4),
+                          SizedBox(height: 4),
                           Text(
                             "12340 kcal",
                             style: TextStyle(
@@ -104,7 +104,7 @@ class CaloriesPage extends StatelessWidget {
                               color: Colors.green.shade700,
                             ),
                           ),
-                           SizedBox(height: 4),
+                          SizedBox(height: 4),
                           Text(
                             "Average: 1763 kcal / day".tr(),
                             style: TextStyle(
@@ -120,7 +120,7 @@ class CaloriesPage extends StatelessWidget {
               ),
             ),
 
-             SizedBox(height: 20),
+            SizedBox(height: 20),
 
             Text(
               "Weekly calories chart".tr(),
@@ -129,7 +129,7 @@ class CaloriesPage extends StatelessWidget {
                 fontWeight: FontWeight.w700,
               ),
             ),
-             SizedBox(height: 8),
+            SizedBox(height: 8),
 
             SizedBox(
               height: 220,
@@ -187,7 +187,7 @@ class CaloriesPage extends StatelessWidget {
               ),
             ),
 
-             SizedBox(height: 20),
+            SizedBox(height: 20),
 
             Text(
               "Previous weeks".tr(),
@@ -196,7 +196,7 @@ class CaloriesPage extends StatelessWidget {
                 fontWeight: FontWeight.w700,
               ),
             ),
-             SizedBox(height: 8),
+            SizedBox(height: 8),
 
             Expanded(
               child: ListView.builder(
@@ -254,3 +254,4 @@ class CaloriesPage extends StatelessWidget {
     }).toList();
   }
 }
+

@@ -153,3 +153,4 @@ class DoctorsListPage extends StatelessWidget {
     );
   }
 }
+

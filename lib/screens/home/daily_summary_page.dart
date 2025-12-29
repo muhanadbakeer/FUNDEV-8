@@ -92,7 +92,7 @@ class DailySummaryPage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => MealPlanPage(),
+                    builder: (context) => MealPlanIntroPage(),
                   ),
                 );
               },
@@ -136,3 +136,4 @@ class DailySummaryPage extends StatelessWidget {
     );
   }
 }
+

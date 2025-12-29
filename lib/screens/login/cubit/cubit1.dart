@@ -9,29 +9,30 @@ class LoginCubit extends Cubit<loginstate> {
 
   void login({required String email, required String password}) async {
     emit(OnStartLoginStats());
-try{
-  final url = Uri.parse("");
-  final response = await http.post(
-      url,
-      headers: {"Accept": "application/json"},
-      body: {
-    'email': email,
-    'password': password,
-  });
-  print("respons staats code${response.statusCode}");
-  print("response body${response.body}");
+    try{
+      final url = Uri.parse("");
+      final response = await http.post(
+          url,
+          headers: {"Accept": "application/json"},
+          body: {
+            'email': email,
+            'password': password,
+          });
+      print("respons staats code${response.statusCode}");
+      print("response body${response.body}");
 
-  if (response.statusCode == 200) {
-    final data = jsonDecode(response.body);
-    LoginModel login = LoginModel.fromJson(data);
-    emit(OnLoadedloginstats(login.data!.accessToken??""));
-  } else {
-    emit(OnErrorloginstats("something went wrong"));
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        LoginModel login = LoginModel.fromJson(data);
+        emit(OnLoadedloginstats(login.data!.accessToken??""));
+      } else {
+        emit(OnErrorloginstats("something went wrong"));
+      }
+    }catch(e){
+      emit(OnErrorloginstats(e.toString()));
+    }
   }
-}catch(e){
-  emit(OnErrorloginstats(e.toString()));
 }
-  }
-  }
+
 
 
