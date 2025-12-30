@@ -1,7 +1,7 @@
 import 'package:div/screens/home/home/SETTINGS/settings_store.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:div/core/settings_store.dart';
+
 
 class CalorieGoalPage extends StatefulWidget {
   CalorieGoalPage({super.key});

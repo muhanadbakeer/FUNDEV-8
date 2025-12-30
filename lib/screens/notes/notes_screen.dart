@@ -16,7 +16,7 @@ class _NotesScreenState extends State<NotesScreen> {
   bool isLoading = true;
   String? error;
 
-  int userId = 1;
+  int userId = 1; // لاحقاً خذها من login (SharedPreferences)
 
   @override
   void initState() {
@@ -38,9 +38,13 @@ class _NotesScreenState extends State<NotesScreen> {
       });
     } catch (e) {
       setState(() {
-        error = e.toString();
+        error = "Failed to load notes";
         isLoading = false;
       });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error: $e")),
+      );
     }
   }
 
@@ -91,16 +95,16 @@ class _NotesScreenState extends State<NotesScreen> {
                     await api.addNote(userId, body);
                   }
 
-                  if (mounted) Navigator.pop(context);
+                  if (context.mounted) Navigator.pop(context);
 
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(isEdit ? "Updated" : "Added")),
+                    SnackBar(content: Text(isEdit ? "Updated ✅" : "Saved ✅")),
                   );
 
                   _loadNotes();
                 } catch (e) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text("Error: $e")),
+                    SnackBar(content: Text("Operation failed: $e")),
                   );
                 }
               },
@@ -115,12 +119,12 @@ class _NotesScreenState extends State<NotesScreen> {
     try {
       await api.deleteNote(id);
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Deleted")),
+        const SnackBar(content: Text("Deleted ✅")),
       );
       _loadNotes();
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Delete error: $e")),
+        SnackBar(content: Text("Delete failed: $e")),
       );
     }
   }
@@ -132,46 +136,39 @@ class _NotesScreenState extends State<NotesScreen> {
         title: const Text("Notes"),
         centerTitle: true,
         backgroundColor: Colors.green,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            onPressed: _loadNotes,
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.green,
         child: const Icon(Icons.add),
         onPressed: () => _showNoteDialog(),
       ),
-      body: RefreshIndicator(
-        onRefresh: _loadNotes,
-        child: isLoading
-            ? const Center(child: CircularProgressIndicator())
-            : error != null
-            ? ListView(
+      body: isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : error != null
+          ? Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const SizedBox(height: 120),
-            Center(child: Text("Failed to load notes")),
-            const SizedBox(height: 8),
-            Center(
-              child: Text(
-                error!,
-                textAlign: TextAlign.center,
-                style: const TextStyle(color: Colors.red),
-              ),
-            ),
+            Text(error!, style: const TextStyle(color: Colors.red)),
             const SizedBox(height: 12),
-            Center(
-              child: ElevatedButton(
-                onPressed: _loadNotes,
-                child: const Text("Retry"),
-              ),
-            ),
+            ElevatedButton(
+              onPressed: _loadNotes,
+              child: const Text("Retry"),
+            )
           ],
-        )
-            : notes.isEmpty
-            ? ListView(
-          children: const [
-            SizedBox(height: 140),
-            Center(child: Text("No Notes Found")),
-          ],
-        )
-            : ListView.builder(
+        ),
+      )
+          : notes.isEmpty
+          ? const Center(child: Text("No Notes Found"))
+          : RefreshIndicator(
+        onRefresh: _loadNotes,
+        child: ListView.builder(
           padding: const EdgeInsets.all(12),
           itemCount: notes.length,
           itemBuilder: (context, index) {
@@ -181,17 +178,10 @@ class _NotesScreenState extends State<NotesScreen> {
               margin: const EdgeInsets.symmetric(vertical: 8),
               child: ListTile(
                 title: Text(
-                  (item['title'] ?? "").toString(),
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  item['title'] ?? "",
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
-                subtitle: Text(
-                  (item['content'] ?? "").toString(),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
+                subtitle: Text(item['content'] ?? ""),
                 onTap: () => _showNoteDialog(note: item),
                 trailing: IconButton(
                   icon: const Icon(Icons.delete, color: Colors.red),

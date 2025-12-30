@@ -1,7 +1,6 @@
 import 'package:div/screens/home/Home_div.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import '../../core/uite/sherd.dart';
 import 'sign_up.dart';
 
 class First extends StatefulWidget {

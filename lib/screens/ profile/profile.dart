@@ -7,8 +7,6 @@ import 'EditProfilePage.dart';
 class items_mode extends StatefulWidget {
   const items_mode({super.key, this.embedded = false});
 
-  /// When true, renders only the page content (no Scaffold/AppBar).
-  /// Used inside HomeDiv which provides the AppBar + Drawer.
   final bool embedded;
 
   @override
