@@ -3,7 +3,6 @@ import '../core/api_client.dart';
 class NotesApi {
   final _dio = ApiClient.instance.dio;
 
-  /// GET: كل الملاحظات
   Future<List<Map<String, dynamic>>> getAllNotes(int userId) async {
     try {
       final res = await _dio.get("/api/notes/$userId");
@@ -13,7 +12,6 @@ class NotesApi {
     }
   }
 
-  /// POST: إضافة ملاحظة
   Future<Map<String, dynamic>> addNote(
       int userId,
       Map<String, dynamic> note,
@@ -29,7 +27,6 @@ class NotesApi {
     }
   }
 
-  /// PUT: تعديل ملاحظة
   Future<Map<String, dynamic>> updateNote(
       int id,
       Map<String, dynamic> note,
@@ -45,7 +42,6 @@ class NotesApi {
     }
   }
 
-  /// DELETE: حذف ملاحظة
   Future<void> deleteNote(int id) async {
     try {
       await _dio.delete("/api/notes/$id");

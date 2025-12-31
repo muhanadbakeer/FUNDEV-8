@@ -1,6 +1,10 @@
+import 'dart:convert';
 import 'package:div/screens/home/Home_div.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import '../home/home page.dart';
+import '../home/home/SETTINGS/settings_store.dart';
 import 'sign_up.dart';
 
 class First extends StatefulWidget {
@@ -13,7 +17,74 @@ class First extends StatefulWidget {
 class _FirstState extends State<First> {
   bool isChecked = false;
 
-  get sherd => null;
+  final emailController = TextEditingController();
+  final passController = TextEditingController();
+
+  bool loading = false;
+
+  Future<void> _login() async {
+    final email = emailController.text.trim();
+    final pass = passController.text.trim();
+
+    if (email.isEmpty || pass.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Please enter email & password".tr())),
+      );
+      return;
+    }
+
+    setState(() => loading = true);
+
+    try {
+      final url = Uri.parse("http://10.0.2.2:5172/api/Auth/login");
+
+      final res = await http.post(
+        url,
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({
+          "email": email,
+          "password": pass,
+        }),
+      );
+
+      if (res.statusCode == 200) {
+        // ✅ نجاح: احفظ remember + خزّن userId لو رجع من API
+        await SettingsStore.saveBoolian("isRemember", isChecked);
+
+        // لو API برجع userId
+        final data = jsonDecode(res.body);
+        if (data is Map && data["id"] != null) {
+          await SettingsStore.saveInt("userId", data["id"]);
+        }
+
+        if (!mounted) return;
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => RecipesExplorePage()),
+        );
+      } else {
+        // ❌ فشل login
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Login failed".tr())),
+        );
+      }
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Operation failed".tr())),
+      );
+    } finally {
+      if (mounted) setState(() => loading = false);
+    }
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,30 +100,30 @@ class _FirstState extends State<First> {
         foregroundColor: Colors.green,
         title: Text(
           "WELCOME TO DIV".tr(),
-          style:  TextStyle(fontWeight: FontWeight.w700),
+          style: const TextStyle(fontWeight: FontWeight.w700),
         ),
         actions: [
           IconButton(
             onPressed: () {
               final lang = context.locale.languageCode;
               if (lang == "en") {
-                context.setLocale( Locale("ar"));
+                context.setLocale(const Locale("ar"));
               } else {
-                context.setLocale( Locale("en"));
+                context.setLocale(const Locale("en"));
               }
             },
-            icon:  Icon(Icons.language),
+            icon: const Icon(Icons.language),
           ),
         ],
       ),
       body: Center(
         child: SingleChildScrollView(
-          padding:  EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Card(
             color: Colors.white,
             elevation: 5,
             child: Padding(
-              padding:  EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(20.0),
               child: SizedBox(
                 width: width * 0.9,
                 child: Column(
@@ -72,7 +143,7 @@ class _FirstState extends State<First> {
                           end: Alignment.bottomRight,
                         ),
                       ),
-                      child:  Icon(
+                      child: const Icon(
                         Icons.spa,
                         color: Colors.white,
                         size: 40,
@@ -81,7 +152,7 @@ class _FirstState extends State<First> {
                     SizedBox(height: height * 0.02),
                     Text(
                       "DIV Nutrition".tr(),
-                      style:  TextStyle(
+                      style: const TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.w700,
                       ),
@@ -95,71 +166,59 @@ class _FirstState extends State<First> {
                         color: Colors.grey.shade600,
                       ),
                     ),
-
                     SizedBox(height: height * 0.04),
 
-
                     TextField(
+                      controller: emailController,
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
                         labelText: "Email".tr(),
                         hintText: "Enter your email".tr(),
-                        prefixIcon:  Icon(Icons.email_outlined),
+                        prefixIcon: const Icon(Icons.email_outlined),
                         filled: true,
                         fillColor: Colors.grey.shade50,
-                        contentPadding:  EdgeInsets.symmetric(
+                        contentPadding: const EdgeInsets.symmetric(
                           vertical: 14,
                           horizontal: 16,
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
-                          borderSide: BorderSide(
-                            color: Colors.grey.shade300,
-                          ),
+                          borderSide: BorderSide(color: Colors.grey.shade300),
                         ),
-                        focusedBorder:  OutlineInputBorder(
+                        focusedBorder: const OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(30)),
-                          borderSide: BorderSide(
-                            color: Colors.green,
-                            width: 1.5,
-                          ),
+                          borderSide: BorderSide(color: Colors.green, width: 1.5),
                         ),
                       ),
                     ),
 
                     SizedBox(height: height * 0.02),
 
-
                     TextField(
+                      controller: passController,
                       obscureText: true,
                       decoration: InputDecoration(
                         labelText: "Password".tr(),
                         hintText: "Enter your password".tr(),
-                        prefixIcon:  Icon(Icons.lock_outline),
+                        prefixIcon: const Icon(Icons.lock_outline),
                         filled: true,
                         fillColor: Colors.grey.shade50,
-                        contentPadding:  EdgeInsets.symmetric(
+                        contentPadding: const EdgeInsets.symmetric(
                           vertical: 14,
                           horizontal: 16,
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
-                          borderSide: BorderSide(
-                            color: Colors.grey.shade300,
-                          ),
+                          borderSide: BorderSide(color: Colors.grey.shade300),
                         ),
-                        focusedBorder:  OutlineInputBorder(
+                        focusedBorder: const OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(30)),
-                          borderSide: BorderSide(
-                            color: Colors.green,
-                            width: 1.5,
-                          ),
+                          borderSide: BorderSide(color: Colors.green, width: 1.5),
                         ),
                       ),
                     ),
 
                     SizedBox(height: height * 0.015),
-
 
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -169,9 +228,7 @@ class _FirstState extends State<First> {
                           activeColor: Colors.green,
                           value: isChecked,
                           onChanged: (bool? value) {
-                            setState(() {
-                              isChecked = value ?? false;
-                            });
+                            setState(() => isChecked = value ?? false);
                           },
                         ),
                         Text("remember me".tr()),
@@ -183,26 +240,24 @@ class _FirstState extends State<First> {
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () async {
-                          await sherd.saveBoolian("isRemember", isChecked);
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => HomeDiv(),
-                            ),
-                          );
-                        },
+                        onPressed: loading ? null : _login,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.green,
-                          padding:  EdgeInsets.symmetric(vertical: 14),
+                          padding: const EdgeInsets.symmetric(vertical: 14),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
                           ),
                           elevation: 3,
                         ),
-                        child: Text(
+                        child: loading
+                            ? const SizedBox(
+                          height: 22,
+                          width: 22,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                            : Text(
                           "Login".tr(),
-                          style:  TextStyle(
+                          style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
                             color: Colors.white,
@@ -213,7 +268,6 @@ class _FirstState extends State<First> {
 
                     SizedBox(height: height * 0.03),
 
-
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -221,19 +275,17 @@ class _FirstState extends State<First> {
                           "Don't have an account?".tr(),
                           style: TextStyle(color: Colors.grey.shade600),
                         ),
-                         SizedBox(width: 4),
+                        const SizedBox(width: 4),
                         GestureDetector(
                           onTap: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(
-                                builder: (context) => RegisterPage(),
-                              ),
+                              MaterialPageRoute(builder: (_) => RegisterPage()),
                             );
                           },
-                          child:  Text(
-                            "Sign up",
-                            style: TextStyle(
+                          child: Text(
+                            "Sign up".tr(),
+                            style: const TextStyle(
                               color: Colors.green,
                               fontWeight: FontWeight.w700,
                             ),
@@ -241,8 +293,6 @@ class _FirstState extends State<First> {
                         ),
                       ],
                     ),
-
-
                     SizedBox(height: height * 0.01),
                   ],
                 ),

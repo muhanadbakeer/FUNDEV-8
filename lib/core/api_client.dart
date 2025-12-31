@@ -7,7 +7,7 @@ class ApiClient {
 
   final Dio dio = Dio(
     BaseOptions(
-      baseUrl: "http://10.0.2.2:5172 ", // Android emulator
+      baseUrl: "http://10.0.2.2:5172", // Android emulator
       connectTimeout: const Duration(seconds: 20),
       receiveTimeout: const Duration(seconds: 20),
       headers: {"Content-Type": "application/json"},

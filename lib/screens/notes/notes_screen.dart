@@ -16,7 +16,7 @@ class _NotesScreenState extends State<NotesScreen> {
   bool isLoading = true;
   String? error;
 
-  int userId = 1; // لاحقاً خذها من login (SharedPreferences)
+  int userId = 1;
 
   @override
   void initState() {
@@ -64,20 +64,20 @@ class _NotesScreenState extends State<NotesScreen> {
               children: [
                 TextField(
                   controller: titleController,
-                  decoration: const InputDecoration(labelText: "Title"),
+                  decoration:  InputDecoration(labelText: "Title"),
                 ),
                 const SizedBox(height: 10),
                 TextField(
                   controller: contentController,
                   maxLines: 5,
-                  decoration: const InputDecoration(labelText: "Content"),
+                  decoration:  InputDecoration(labelText: "Content"),
                 ),
               ],
             ),
           ),
           actions: [
             TextButton(
-              child: const Text("Cancel"),
+              child:  Text("Cancel"),
               onPressed: () => Navigator.pop(context),
             ),
             ElevatedButton(
@@ -119,7 +119,7 @@ class _NotesScreenState extends State<NotesScreen> {
     try {
       await api.deleteNote(id);
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Deleted ✅")),
+         SnackBar(content: Text("Deleted ✅")),
       );
       _loadNotes();
     } catch (e) {
@@ -133,58 +133,58 @@ class _NotesScreenState extends State<NotesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Notes"),
+        title:  Text("Notes"),
         centerTitle: true,
         backgroundColor: Colors.green,
         actions: [
           IconButton(
-            icon: const Icon(Icons.refresh),
+            icon:  Icon(Icons.refresh),
             onPressed: _loadNotes,
           ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.green,
-        child: const Icon(Icons.add),
+        child:  Icon(Icons.add),
         onPressed: () => _showNoteDialog(),
       ),
       body: isLoading
-          ? const Center(child: CircularProgressIndicator())
+          ?  Center(child: CircularProgressIndicator())
           : error != null
           ? Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(error!, style: const TextStyle(color: Colors.red)),
-            const SizedBox(height: 12),
+            Text(error!, style:  TextStyle(color: Colors.red)),
+             SizedBox(height: 12),
             ElevatedButton(
               onPressed: _loadNotes,
-              child: const Text("Retry"),
+              child:  Text("Retry"),
             )
           ],
         ),
       )
           : notes.isEmpty
-          ? const Center(child: Text("No Notes Found"))
+          ?  Center(child: Text("No Notes Found"))
           : RefreshIndicator(
         onRefresh: _loadNotes,
         child: ListView.builder(
-          padding: const EdgeInsets.all(12),
+          padding:  EdgeInsets.all(12),
           itemCount: notes.length,
           itemBuilder: (context, index) {
             final item = notes[index];
             return Card(
               elevation: 3,
-              margin: const EdgeInsets.symmetric(vertical: 8),
+              margin:  EdgeInsets.symmetric(vertical: 8),
               child: ListTile(
                 title: Text(
                   item['title'] ?? "",
-                  style: const TextStyle(fontWeight: FontWeight.bold),
+                  style:  TextStyle(fontWeight: FontWeight.bold),
                 ),
                 subtitle: Text(item['content'] ?? ""),
                 onTap: () => _showNoteDialog(note: item),
                 trailing: IconButton(
-                  icon: const Icon(Icons.delete, color: Colors.red),
+                  icon:  Icon(Icons.delete, color: Colors.red),
                   onPressed: () => _deleteNote(item['id']),
                 ),
               ),

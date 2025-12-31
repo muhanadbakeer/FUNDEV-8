@@ -45,7 +45,7 @@ class _RecipesExplorePageState extends State<RecipesExplorePage> {
           elevation: 2,
           centerTitle: true,
           title: Text(
-            "DIV Nutrition".tr(), // ✅ DIV Nutrition
+            "DIV Nutrition".tr(),
             style: TextStyle(fontWeight: FontWeight.w800),
           ),
           actions: [
@@ -596,18 +596,6 @@ class _RecipeItem {
 
 class _RecipeData {
   static List<_RecipeItem> buildExplore() {
-    List<String> imgs = [
-      "https://images.unsplash.com/photo-1617196034796-73c8f7b32b79?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1524594152303-9fd13543fe6e?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=1200&q=80"
-    ];
 
     List<String> titles = [
       "Shirataki Stir-Fry Noodles",
@@ -671,17 +659,7 @@ class _RecipeData {
     for (int i = 0; i < titles.length; i++) {
       int minutes = 10 + (i % 25);
       bool pro = (i % 7 == 0);
-      String img = imgs[i % imgs.length];
-      String finalImg = "$img&sig=${i + 1}";
 
-      list.add(
-        _RecipeItem(
-          title: titles[i],
-          minutes: minutes,
-          imageUrl: finalImg,
-          isPro: pro,
-        ),
-      );
     }
     return list;
   }

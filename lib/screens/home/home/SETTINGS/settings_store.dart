@@ -21,7 +21,8 @@ class SettingsStore {
   static const String defaultDiet = "Low Carb";
   static const String defaultSkill = "Beginner";
   static const int defaultMealsPerDay = 3;
-  static const String defaultUnits = "Metric"; // Metric / Imperial
+  static const String defaultUnits = "Metric";
+
 
   static Future<int> getCaloriesGoal() async {
     final sp = await SharedPreferences.getInstance();
@@ -42,7 +43,11 @@ class SettingsStore {
     };
   }
 
-  static Future<void> setMacros({required int p, required int c, required int f}) async {
+  static Future<void> setMacros({
+    required int p,
+    required int c,
+    required int f,
+  }) async {
     final sp = await SharedPreferences.getInstance();
     await sp.setInt(_kMacroP, p);
     await sp.setInt(_kMacroC, c);
@@ -127,5 +132,53 @@ class SettingsStore {
   static Future<void> setMealPriorities(List<String> v) async {
     final sp = await SharedPreferences.getInstance();
     await sp.setStringList(_kMealPriorities, v);
+  }
+
+  static Future<void> saveBoolean(String key, bool value) async {
+    final sp = await SharedPreferences.getInstance();
+    await sp.setBool(key, value);
+  }
+
+  static Future<void> saveBoolian(String key, bool value) async {
+    return saveBoolean(key, value);
+  }
+
+  static Future<bool> getBoolean(String key, {bool defaultValue = false}) async {
+    final sp = await SharedPreferences.getInstance();
+    return sp.getBool(key) ?? defaultValue;
+  }
+
+  static Future<bool> getBoolian(String key, {bool defaultValue = false}) async {
+    return getBoolean(key, defaultValue: defaultValue);
+  }
+
+  static Future<void> saveString(String key, String value) async {
+    final sp = await SharedPreferences.getInstance();
+    await sp.setString(key, value);
+  }
+
+  static Future<String?> getString(String key) async {
+    final sp = await SharedPreferences.getInstance();
+    return sp.getString(key);
+  }
+
+  static Future<void> saveInt(String key, int value) async {
+    final sp = await SharedPreferences.getInstance();
+    await sp.setInt(key, value);
+  }
+
+  static Future<int?> getInt(String key) async {
+    final sp = await SharedPreferences.getInstance();
+    return sp.getInt(key);
+  }
+
+  static Future<void> removeKey(String key) async {
+    final sp = await SharedPreferences.getInstance();
+    await sp.remove(key);
+  }
+
+  static Future<void> clearAll() async {
+    final sp = await SharedPreferences.getInstance();
+    await sp.clear();
   }
 }
