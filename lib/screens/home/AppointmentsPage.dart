@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:div/core/uite/db_helper.dart';
+import 'package:div/screens/home/api_home/appointments_api.dart';
 
 class AppointmentsPage extends StatefulWidget {
-  AppointmentsPage({super.key});
+  const AppointmentsPage({super.key});
 
   @override
   State<AppointmentsPage> createState() => _AppointmentsPageState();
 }
 
 class _AppointmentsPageState extends State<AppointmentsPage> {
+  final String userId = "1"; // مؤقت – من Auth لاحقاً
+
   List<Map<String, dynamic>> appointments = [];
   bool isLoading = true;
 
@@ -20,12 +22,17 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
   }
 
   Future<void> _loadAppointments() async {
-    final data = await NotesDatabase().getAllAppointments();
-    if (!mounted) return;
-    setState(() {
-      appointments = data;
-      isLoading = false;
-    });
+    try {
+      final data = await AppointmentsApi.getAll(userId);
+      if (!mounted) return;
+      setState(() {
+        appointments = data;
+        isLoading = false;
+      });
+    } catch (_) {
+      if (!mounted) return;
+      setState(() => isLoading = false);
+    }
   }
 
   void _showAddAppointmentDialog(BuildContext context) {
@@ -88,13 +95,15 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
                   return;
                 }
 
-                await NotesDatabase().insertAppointment({
-                  'title': titleController.text,
-                  'date': dateController.text,
-                  'time': timeController.text,
-                  'note': noteController.text,
-                });
+                await AppointmentsApi.create(
+                  userId: userId,
+                  title: titleController.text,
+                  date: dateController.text,
+                  time: timeController.text,
+                  note: noteController.text,
+                );
 
+                if (!mounted) return;
                 Navigator.pop(context);
                 _loadAppointments();
 
@@ -113,7 +122,7 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
   }
 
   Future<void> _deleteAppointment(int id) async {
-    await NotesDatabase().deleteAppointment(id);
+    await AppointmentsApi.delete(id);
     _loadAppointments();
   }
 
@@ -130,41 +139,40 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
             onPressed: () {
               final lang = context.locale.languageCode;
               if (lang == "en") {
-                context.setLocale(Locale("ar"));
+                context.setLocale(const Locale("ar"));
               } else {
-                context.setLocale(Locale("en"));
+                context.setLocale(const Locale("en"));
               }
             },
-            icon: Icon(Icons.language),
+            icon: const Icon(Icons.language),
             tooltip: "Change language",
           ),
         ],
       ),
       body: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           children: [
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
                 "Upcoming sessions".tr(),
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
                 ),
               ),
             ),
-            SizedBox(height: 12),
-
+            const SizedBox(height: 12),
 
             Expanded(
               child: isLoading
-                  ? Center(child: CircularProgressIndicator())
+                  ? const Center(child: CircularProgressIndicator())
                   : appointments.isEmpty
                   ? Center(
                 child: Text(
                   "No appointments yet".tr(),
-                  style: TextStyle(fontSize: 16),
+                  style: const TextStyle(fontSize: 16),
                 ),
               )
                   : ListView.builder(
@@ -173,25 +181,19 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
                   final item = appointments[index];
                   return Card(
                     child: ListTile(
-                      leading: Icon(Icons.calendar_today),
-                      title: Text(
-                        "${item['date']} • ${item['time']}",
-                      ),
+                      leading: const Icon(Icons.calendar_today),
+                      title: Text("${item['date']} • ${item['time']}"),
                       subtitle: Text(
-                        item['title'] +
-                            (item['note'] != null &&
-                                item['note'].toString().isNotEmpty
+                        (item['title'] ?? "").toString() +
+                            ((item['note'] != null &&
+                                item['note'].toString().isNotEmpty)
                                 ? "\n${item['note']}"
                                 : ""),
                       ),
                       isThreeLine: true,
                       trailing: IconButton(
-                        icon: Icon(
-                          Icons.delete,
-                          color: Colors.red,
-                        ),
-                        onPressed: () =>
-                            _deleteAppointment(item['id'] as int),
+                        icon: const Icon(Icons.delete, color: Colors.red),
+                        onPressed: () => _deleteAppointment(item['id'] as int),
                       ),
                     ),
                   );
@@ -199,15 +201,13 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
               ),
             ),
 
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
 
             SizedBox(
               width: double.infinity,
               child: ElevatedButton.icon(
-                onPressed: () {
-                  _showAddAppointmentDialog(context);
-                },
-                icon: Icon(Icons.add),
+                onPressed: () => _showAddAppointmentDialog(context),
+                icon: const Icon(Icons.add),
                 label: Text("Book new appointment".tr()),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green,
@@ -221,4 +221,3 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
     );
   }
 }
-

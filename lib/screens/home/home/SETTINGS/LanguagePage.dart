@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:div/screens/home/api_home/language_api.dart';
 
 class LanguagePage extends StatefulWidget {
   const LanguagePage({super.key});
@@ -11,6 +12,9 @@ class LanguagePage extends StatefulWidget {
 class _LanguagePageState extends State<LanguagePage> {
   Locale? selectedLocale;
   bool _loadedOnce = false;
+  bool _loadingServer = true;
+
+  final String userId = "1"; // مؤقت – من Auth لاحقاً
 
   final List<_LangItem> languages = [
     _LangItem('العربية', 'ar', '🇸🇦'),
@@ -34,10 +38,24 @@ class _LanguagePageState extends State<LanguagePage> {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    // ✅ أول مرة فقط: خذ اللغة الحالية من EasyLocalization
     if (!_loadedOnce) {
       selectedLocale = context.locale;
       _loadedOnce = true;
+      _loadFromServer(); // ✅ جديد
+    }
+  }
+
+  Future<void> _loadFromServer() async {
+    try {
+      final code = await LanguageApi.getLanguage(userId);
+      if (mounted) {
+        setState(() {
+          selectedLocale = Locale(code);
+          _loadingServer = false;
+        });
+      }
+    } catch (_) {
+      if (mounted) setState(() => _loadingServer = false);
     }
   }
 
@@ -51,7 +69,9 @@ class _LanguagePageState extends State<LanguagePage> {
         foregroundColor: Colors.white,
         title: Text('language.title'.tr()),
       ),
-      body: Column(
+      body: _loadingServer
+          ? const Center(child: CircularProgressIndicator())
+          : Column(
         children: [
           Expanded(
             child: ListView.builder(
@@ -70,26 +90,33 @@ class _LanguagePageState extends State<LanguagePage> {
                   },
                   child: Container(
                     margin: const EdgeInsets.only(bottom: 12),
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 18),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(14),
                       border: Border.all(
-                        color: isSelected ? Colors.green : Colors.grey.shade300,
+                        color: isSelected
+                            ? Colors.green
+                            : Colors.grey.shade300,
                         width: 1.5,
                       ),
                     ),
                     child: Row(
                       children: [
-                        Text(item.flag, style: const TextStyle(fontSize: 22)),
+                        Text(item.flag,
+                            style: const TextStyle(fontSize: 22)),
                         const SizedBox(width: 14),
                         Expanded(
                           child: Text(
                             item.name,
-                            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                            style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600),
                           ),
                         ),
                         if (isSelected)
-                          const Icon(Icons.check_circle, color: Colors.green),
+                          const Icon(Icons.check_circle,
+                              color: Colors.green),
                       ],
                     ),
                   ),
@@ -105,16 +132,27 @@ class _LanguagePageState extends State<LanguagePage> {
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14)),
                 ),
                 onPressed: () async {
                   final chosen = selectedLocale ?? context.locale;
+
+                  // ✅ 1) تغيّر لغة التطبيق فوراً
                   await context.setLocale(chosen);
+
+                  // ✅ 2) تحفظ على السيرفر/DB
+                  await LanguageApi.saveLanguage(
+                    userId,
+                    chosen.languageCode,
+                  );
+
                   if (mounted) Navigator.pop(context);
                 },
                 child: Text(
                   'apply'.tr(),
-                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ),
             ),

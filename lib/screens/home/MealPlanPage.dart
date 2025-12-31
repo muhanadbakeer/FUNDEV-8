@@ -1,43 +1,90 @@
 import 'package:flutter/material.dart';
+import 'package:div/screens/home/api_home/meal_plan_api.dart';
 
 class MealPlanIntroPage extends StatefulWidget {
-  MealPlanIntroPage({super.key});
+  const MealPlanIntroPage({super.key});
 
   @override
   State<MealPlanIntroPage> createState() => _MealPlanIntroPageState();
 }
 
 class _MealPlanIntroPageState extends State<MealPlanIntroPage> {
-  Color green = Colors.green;
+  final Color green = Colors.green;
+
+  final String userId = "1"; // مؤقت لحد ما تربطه Auth
+
+  bool creating = false;
+  MealPlanDto? currentPlan;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCurrent();
+  }
+
+  Future<void> _loadCurrent() async {
+    try {
+      final plan = await MealPlanApi.getCurrent(userId);
+      if (!mounted) return;
+      setState(() => currentPlan = plan);
+    } catch (_) {
+      // خليها ساكتة أو اعرض رسالة
+    }
+  }
+
+  Future<void> _createMealPlan() async {
+    setState(() => creating = true);
+
+    try {
+      final plan = await MealPlanApi.create(userId);
+      if (!mounted) return;
+
+      setState(() {
+        currentPlan = plan;
+        creating = false;
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Meal plan created ✅")),
+      );
+
+      // TODO: إذا بدك تفتح صفحة تفاصيل البلان:
+      // Navigator.push(context, MaterialPageRoute(builder: (_) => MealPlanDetailsPage(plan: plan)));
+
+    } catch (e) {
+      if (!mounted) return;
+      setState(() => creating = false);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error: $e")),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF6F7F8),
+      backgroundColor: const Color(0xFFF6F7F8),
 
       appBar: AppBar(
         backgroundColor: green,
         foregroundColor: Colors.white,
         elevation: 2,
         centerTitle: true,
-        title: Text(
+        title: const Text(
           "DIV للتغذية",
           style: TextStyle(fontWeight: FontWeight.w800),
         ),
         actions: [
           IconButton(
             tooltip: "Notifications",
-            onPressed: () {
-              // TODO: link later
-            },
-            icon: Icon(Icons.notifications_none),
+            onPressed: () {},
+            icon: const Icon(Icons.notifications_none),
           ),
           IconButton(
             tooltip: "Profile",
-            onPressed: () {
-              // TODO: link later
-            },
-            icon: Icon(Icons.person_outline),
+            onPressed: () {},
+            icon: const Icon(Icons.person_outline),
           ),
         ],
       ),
@@ -48,7 +95,7 @@ class _MealPlanIntroPageState extends State<MealPlanIntroPage> {
             children: [
               Container(
                 width: double.infinity,
-                padding: EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(color: green),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,8 +105,8 @@ class _MealPlanIntroPageState extends State<MealPlanIntroPage> {
                       backgroundColor: Colors.white,
                       child: Icon(Icons.restaurant, color: green, size: 28),
                     ),
-                    SizedBox(height: 10),
-                    Text(
+                    const SizedBox(height: 10),
+                    const Text(
                       "DIV للتغذية",
                       style: TextStyle(
                         color: Colors.white,
@@ -67,11 +114,8 @@ class _MealPlanIntroPageState extends State<MealPlanIntroPage> {
                         fontWeight: FontWeight.w800,
                       ),
                     ),
-                    SizedBox(height: 2),
-                    Text(
-                      "Quick navigation",
-                      style: TextStyle(color: Color(0xCCFFFFFF)),
-                    ),
+                    const SizedBox(height: 2),
+                    const Text("Quick navigation", style: TextStyle(color: Color(0xCCFFFFFF))),
                   ],
                 ),
               ),
@@ -79,55 +123,29 @@ class _MealPlanIntroPageState extends State<MealPlanIntroPage> {
                 child: ListView(
                   padding: EdgeInsets.zero,
                   children: [
-                    _drawerItem(
-                      icon: Icons.settings,
-                      title: "Settings",
-                      onTap: () {
-                        Navigator.pop(context);
-                        onOpenSettings();
-                      },
-                    ),
-                    _drawerItem(
-                      icon: Icons.shopping_cart_outlined,
-                      title: "Purchases",
-                      onTap: () {
-                        Navigator.pop(context);
-                        onOpenPurchases();
-                      },
-                    ),
-                    _drawerItem(
-                      icon: Icons.list_alt,
-                      title: "History",
-                      onTap: () {
-                        Navigator.pop(context);
-                        onOpenHistory();
-                      },
-                    ),
-                    _drawerItem(
-                      icon: Icons.grid_view_rounded,
-                      title: "Meal Plan",
-                      onTap: () {
-                        Navigator.pop(context);
-                        // you are here
-                      },
-                    ),
-                    _drawerItem(
-                      icon: Icons.restaurant,
-                      title: "Recipes",
-                      onTap: () {
-                        Navigator.pop(context);
-                        onOpenRecipes();
-                      },
-                    ),
-                    Divider(height: 24),
-                    _drawerItem(
-                      icon: Icons.logout,
-                      title: "Logout",
-                      onTap: () {
-                        Navigator.pop(context);
-                        // TODO: logout
-                      },
-                    ),
+                    _drawerItem(icon: Icons.settings, title: "Settings", onTap: () {
+                      Navigator.pop(context);
+                      onOpenSettings();
+                    }),
+                    _drawerItem(icon: Icons.shopping_cart_outlined, title: "Purchases", onTap: () {
+                      Navigator.pop(context);
+                      onOpenPurchases();
+                    }),
+                    _drawerItem(icon: Icons.list_alt, title: "History", onTap: () {
+                      Navigator.pop(context);
+                      onOpenHistory();
+                    }),
+                    _drawerItem(icon: Icons.grid_view_rounded, title: "Meal Plan", onTap: () {
+                      Navigator.pop(context);
+                    }),
+                    _drawerItem(icon: Icons.restaurant, title: "Recipes", onTap: () {
+                      Navigator.pop(context);
+                      onOpenRecipes();
+                    }),
+                    const Divider(height: 24),
+                    _drawerItem(icon: Icons.logout, title: "Logout", onTap: () {
+                      Navigator.pop(context);
+                    }),
                   ],
                 ),
               ),
@@ -140,13 +158,13 @@ class _MealPlanIntroPageState extends State<MealPlanIntroPage> {
         child: LayoutBuilder(
           builder: (context, constraints) {
             return SingleChildScrollView(
-              padding: EdgeInsets.fromLTRB(18, 18, 18, 18),
+              padding: const EdgeInsets.fromLTRB(18, 18, 18, 18),
               child: ConstrainedBox(
                 constraints: BoxConstraints(minHeight: constraints.maxHeight),
                 child: IntrinsicHeight(
                   child: Column(
                     children: [
-                      Text(
+                      const Text(
                         "Meal Plan",
                         textAlign: TextAlign.center,
                         style: TextStyle(
@@ -155,60 +173,90 @@ class _MealPlanIntroPageState extends State<MealPlanIntroPage> {
                           color: Colors.black87,
                         ),
                       ),
-                      SizedBox(height: 6),
-                      Text(
+                      const SizedBox(height: 6),
+                      const Text(
                         "Get a balanced meal schedule that matches your goals and taste.",
                         textAlign: TextAlign.center,
                         style: TextStyle(fontSize: 14, color: Colors.black54),
                       ),
 
-                      SizedBox(height: 24),
+                      const SizedBox(height: 18),
 
-                      _ClipboardIllustration(green: Colors.green),
+                      if (currentPlan != null) ...[
+                        Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.all(14),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(14),
+                            border: Border.all(color: Colors.black12),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                currentPlan!.title,
+                                style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 16),
+                              ),
+                              const SizedBox(height: 6),
+                              Text(
+                                currentPlan!.description.isEmpty
+                                    ? "You already have a plan."
+                                    : currentPlan!.description,
+                                style: const TextStyle(color: Colors.black54),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 18),
+                      ],
 
-                      SizedBox(height: 22),
+                      _ClipboardIllustration(green: green),
+
+                      const SizedBox(height: 22),
 
                       _featureRow(
                         text: "Breakfast, lunch, and dinner meals",
                         icon: Icons.assignment_outlined,
                       ),
-                      SizedBox(height: 14),
+                      const SizedBox(height: 14),
                       _featureRow(
                         text: "Designed for your goals and preferences",
                         icon: Icons.star_border,
                       ),
-                      SizedBox(height: 14),
+                      const SizedBox(height: 14),
                       _featureRow(
                         text: "Balanced protein, fats, carbs, and fiber",
                         icon: Icons.pie_chart_outline,
                       ),
 
-                      Spacer(),
+                      const Spacer(),
 
-                      SizedBox(height: 14),
+                      const SizedBox(height: 14),
 
                       SizedBox(
                         width: double.infinity,
                         height: 54,
                         child: ElevatedButton.icon(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xFF8FD06D),
+                            backgroundColor: const Color(0xFF8FD06D),
                             foregroundColor: Colors.white,
                             elevation: 0,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(16),
                             ),
                           ),
-                          onPressed: () {
-                            // TODO: create meal plan
-                          },
-                          icon: Icon(Icons.add, size: 22),
+                          onPressed: creating ? null : _createMealPlan,
+                          icon: creating
+                              ? const SizedBox(
+                            width: 18,
+                            height: 18,
+                            child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                          )
+                              : const Icon(Icons.add, size: 22),
                           label: Text(
-                            "Create Meal Plan",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w800,
-                            ),
+                            creating ? "Creating..." : "Create Meal Plan",
+                            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
                           ),
                         ),
                       ),
@@ -220,7 +268,6 @@ class _MealPlanIntroPageState extends State<MealPlanIntroPage> {
           },
         ),
       ),
-
     );
   }
 
@@ -231,39 +278,24 @@ class _MealPlanIntroPageState extends State<MealPlanIntroPage> {
           child: Text(
             text,
             textAlign: TextAlign.right,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.w600,
               color: Colors.black87,
             ),
           ),
         ),
-        SizedBox(width: 12),
+        const SizedBox(width: 12),
         Icon(icon, color: green, size: 28),
       ],
     );
   }
 
-  // ===== Navigation hooks (connect your pages here) =====
-  void onCreateMealPlan() {
-    // Navigator.push(context, MaterialPageRoute(builder: (_) => CreateMealPlanPage()));
-  }
-
-  void onOpenSettings() {
-    // Navigator.push(context, MaterialPageRoute(builder: (_) => SettingsPage()));
-  }
-
-  void onOpenPurchases() {
-    // Navigator.push(context, MaterialPageRoute(builder: (_) => PurchasesPage()));
-  }
-
-  void onOpenHistory() {
-    // Navigator.push(context, MaterialPageRoute(builder: (_) => HistoryPage()));
-  }
-
-  void onOpenRecipes() {
-    // Navigator.push(context, MaterialPageRoute(builder: (_) => RecipesExplorePage()));
-  }
+  // ===== Navigation hooks =====
+  void onOpenSettings() {}
+  void onOpenPurchases() {}
+  void onOpenHistory() {}
+  void onOpenRecipes() {}
 }
 
 Widget _drawerItem({
@@ -273,14 +305,14 @@ Widget _drawerItem({
 }) {
   return ListTile(
     leading: Icon(icon, color: Colors.green),
-    title: Text(title, style: TextStyle(fontWeight: FontWeight.w600)),
+    title: Text(title, style: const TextStyle(fontWeight: FontWeight.w600)),
     onTap: onTap,
   );
 }
 
 /// Simple illustration (no asset needed)
 class _ClipboardIllustration extends StatelessWidget {
-  _ClipboardIllustration({required this.green});
+  const _ClipboardIllustration({required this.green});
 
   final Color green;
 
@@ -298,7 +330,7 @@ class _ClipboardIllustration extends StatelessWidget {
               color: Colors.white,
               borderRadius: BorderRadius.circular(18),
               border: Border.all(color: Colors.black12),
-              boxShadow: [
+              boxShadow: const [
                 BoxShadow(
                   blurRadius: 18,
                   offset: Offset(0, 10),
@@ -313,7 +345,7 @@ class _ClipboardIllustration extends StatelessWidget {
               width: 70,
               height: 24,
               decoration: BoxDecoration(
-                color: Color(0xFFFFD36E),
+                color: const Color(0xFFFFD36E),
                 borderRadius: BorderRadius.circular(8),
               ),
             ),
@@ -330,17 +362,15 @@ class _ClipboardIllustration extends StatelessWidget {
               ),
             ),
           ),
-
-          // Left icons & lines mimic
           Positioned(
             top: 86,
             left: 48,
             child: Column(
               children: [
                 Icon(Icons.local_cafe, color: green, size: 18),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 Icon(Icons.ramen_dining, color: green, size: 18),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 Icon(Icons.restaurant, color: green, size: 18),
               ],
             ),
@@ -351,9 +381,9 @@ class _ClipboardIllustration extends StatelessWidget {
             child: Column(
               children: [
                 _line(),
-                SizedBox(height: 18),
+                const SizedBox(height: 18),
                 _line(),
-                SizedBox(height: 18),
+                const SizedBox(height: 18),
                 _line(),
               ],
             ),
@@ -368,7 +398,7 @@ class _ClipboardIllustration extends StatelessWidget {
       width: 60,
       height: 6,
       decoration: BoxDecoration(
-        color: Color(0xFFBFE6B2),
+        color: const Color(0xFFBFE6B2),
         borderRadius: BorderRadius.circular(10),
       ),
     );

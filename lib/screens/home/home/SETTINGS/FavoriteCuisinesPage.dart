@@ -1,9 +1,9 @@
-import 'package:div/screens/home/home/SETTINGS/settings_store.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:div/screens/home/api_home/favorite_cuisines_api.dart';
 
 class FavoriteCuisinesPage extends StatefulWidget {
-  FavoriteCuisinesPage({super.key});
+  const FavoriteCuisinesPage({super.key});
 
   @override
   State<FavoriteCuisinesPage> createState() => _FavoriteCuisinesPageState();
@@ -11,6 +11,8 @@ class FavoriteCuisinesPage extends StatefulWidget {
 
 class _FavoriteCuisinesPageState extends State<FavoriteCuisinesPage> {
   bool loading = true;
+
+  final String userId = "1"; // مؤقت – من Auth لاحقًا
 
   final List<String> options = [
     "Middle Eastern",
@@ -33,13 +35,15 @@ class _FavoriteCuisinesPageState extends State<FavoriteCuisinesPage> {
   }
 
   Future<void> _init() async {
-    final v = await SettingsStore.getCuisines();
-    selected = v.toSet();
+    try {
+      final v = await FavoriteCuisinesApi.getCuisines(userId);
+      selected = v.toSet();
+    } catch (_) {}
     setState(() => loading = false);
   }
 
   Future<void> _save() async {
-    await SettingsStore.setCuisines(selected.toList());
+    await FavoriteCuisinesApi.saveCuisines(userId, selected.toList());
     Navigator.pop(context);
   }
 
@@ -53,11 +57,11 @@ class _FavoriteCuisinesPageState extends State<FavoriteCuisinesPage> {
         foregroundColor: Colors.white,
       ),
       body: loading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : Column(
         children: [
           Padding(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             child: Wrap(
               spacing: 10,
               runSpacing: 10,
@@ -79,15 +83,19 @@ class _FavoriteCuisinesPageState extends State<FavoriteCuisinesPage> {
               }).toList(),
             ),
           ),
-          Spacer(),
+          const Spacer(),
           Padding(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             child: SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green),
                 onPressed: _save,
-                child: Text("common.save".tr(), style: TextStyle(color: Colors.white)),
+                child: Text(
+                  "common.save".tr(),
+                  style: const TextStyle(color: Colors.white),
+                ),
               ),
             ),
           ),

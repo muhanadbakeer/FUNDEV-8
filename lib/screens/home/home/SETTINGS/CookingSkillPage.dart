@@ -1,9 +1,9 @@
-import 'package:div/screens/home/home/SETTINGS/settings_store.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:div/screens/home/api_home/cooking_skill_api.dart';
 
 class CookingSkillPage extends StatefulWidget {
-  CookingSkillPage({super.key});
+  const CookingSkillPage({super.key});
 
   @override
   State<CookingSkillPage> createState() => _CookingSkillPageState();
@@ -13,6 +13,7 @@ class _CookingSkillPageState extends State<CookingSkillPage> {
   bool loading = true;
   String selected = "Beginner";
 
+  final String userId = "1"; 
   final List<String> options = ["Beginner", "Intermediate", "Advanced"];
 
   @override
@@ -22,12 +23,14 @@ class _CookingSkillPageState extends State<CookingSkillPage> {
   }
 
   Future<void> _init() async {
-    selected = await SettingsStore.getCookingSkill();
+    try {
+      selected = await CookingSkillApi.getSkill(userId);
+    } catch (_) {}
     setState(() => loading = false);
   }
 
   Future<void> _save() async {
-    await SettingsStore.setCookingSkill(selected);
+    await CookingSkillApi.saveSkill(userId, selected);
     Navigator.pop(context);
   }
 
@@ -41,7 +44,7 @@ class _CookingSkillPageState extends State<CookingSkillPage> {
         foregroundColor: Colors.white,
       ),
       body: loading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : Column(
         children: [
           ...options.map((x) => RadioListTile<String>(
@@ -50,15 +53,19 @@ class _CookingSkillPageState extends State<CookingSkillPage> {
             onChanged: (v) => setState(() => selected = v ?? selected),
             title: Text(x),
           )),
-          Spacer(),
+          const Spacer(),
           Padding(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             child: SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green),
                 onPressed: _save,
-                child: Text("common.save".tr(), style: TextStyle(color: Colors.white)),
+                child: Text(
+                  "common.save".tr(),
+                  style: const TextStyle(color: Colors.white),
+                ),
               ),
             ),
           ),

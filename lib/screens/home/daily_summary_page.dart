@@ -6,8 +6,51 @@ import 'package:div/screens/home/CaloriesPage.dart';
 import 'MealPlanPage.dart';
 import 'WorkoutPage.dart';
 
-class DailySummaryPage extends StatelessWidget {
-  DailySummaryPage({super.key});
+import 'package:div/screens/home/api_home/daily_summary_api.dart';
+
+class DailySummaryPage extends StatefulWidget {
+  const DailySummaryPage({super.key});
+
+  @override
+  State<DailySummaryPage> createState() => _DailySummaryPageState();
+}
+
+class _DailySummaryPageState extends State<DailySummaryPage> {
+  final String userId = "1"; // مؤقت – من Auth لاحقاً
+
+  bool loading = true;
+
+  double currentWeight = 78;
+  double goalWeight = 70;
+
+  int caloriesConsumed = 1200;
+  int caloriesGoal = 1800;
+
+  @override
+  void initState() {
+    super.initState();
+    _load();
+  }
+
+  Future<void> _load() async {
+    try {
+      final data = await DailySummaryApi.getToday(userId);
+
+      final w = Map<String, dynamic>.from(data["weight"]);
+      final c = Map<String, dynamic>.from(data["calories"]);
+
+      currentWeight = (w["current"] as num).toDouble();
+      goalWeight = (w["goal"] as num).toDouble();
+
+      caloriesConsumed = (c["consumed"] as num).toInt();
+      caloriesGoal = (c["goal"] as num).toInt();
+    } catch (_) {
+      // خلي default values
+    }
+
+    if (!mounted) return;
+    setState(() => loading = false);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,27 +66,30 @@ class DailySummaryPage extends StatelessWidget {
             onPressed: () {
               final lang = context.locale.languageCode;
               if (lang == "en") {
-                context.setLocale(Locale("ar"));
+                context.setLocale(const Locale("ar"));
               } else {
-                context.setLocale(Locale("en"));
+                context.setLocale(const Locale("en"));
               }
             },
-            icon: Icon(Icons.language),
+            icon: const Icon(Icons.language),
           ),
         ],
       ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
+      body: loading
+          ? const Center(child: CircularProgressIndicator())
+          : Padding(
+        padding: const EdgeInsets.all(16.0),
         child: ListView(
           children: [
             Text(
               "Overview".tr(),
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
               ),
             ),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
+
             InkWell(
               borderRadius: BorderRadius.circular(12),
               onTap: () {
@@ -56,15 +102,13 @@ class DailySummaryPage extends StatelessWidget {
               },
               child: Card(
                 child: ListTile(
-                  leading: Icon(
-                    Icons.monitor_weight,
-                    color: Colors.green,
-                  ),
+                  leading: const Icon(Icons.monitor_weight, color: Colors.green),
                   title: Text("Weight".tr()),
-                  subtitle: Text("Weight: 78 kg • Goal: 70 kg".tr()),
+                  subtitle: Text("Weight: $currentWeight kg • Goal: $goalWeight kg".tr()),
                 ),
               ),
             ),
+
             InkWell(
               borderRadius: BorderRadius.circular(12),
               onTap: () {
@@ -77,15 +121,13 @@ class DailySummaryPage extends StatelessWidget {
               },
               child: Card(
                 child: ListTile(
-                  leading: Icon(
-                    Icons.local_fire_department,
-                    color: Colors.green,
-                  ),
+                  leading: const Icon(Icons.local_fire_department, color: Colors.green),
                   title: Text("Calories".tr()),
-                  subtitle: Text("Calories: 1200 / 1800 kcal".tr()),
+                  subtitle: Text("Calories: $caloriesConsumed / $caloriesGoal kcal".tr()),
                 ),
               ),
             ),
+
             InkWell(
               borderRadius: BorderRadius.circular(12),
               onTap: () {
@@ -98,10 +140,7 @@ class DailySummaryPage extends StatelessWidget {
               },
               child: Card(
                 child: ListTile(
-                  leading: Icon(
-                    Icons.restaurant_menu,
-                    color: Colors.green,
-                  ),
+                  leading: const Icon(Icons.restaurant_menu, color: Colors.green),
                   title: Text("Meal plan".tr()),
                   subtitle: Text("Today's meals".tr()),
                 ),
@@ -120,20 +159,15 @@ class DailySummaryPage extends StatelessWidget {
               },
               child: Card(
                 child: ListTile(
-                  leading: Icon(
-                    Icons.directions_run,
-                    color: Colors.green,
-                  ),
+                  leading: const Icon(Icons.directions_run, color: Colors.green),
                   title: Text("Workout".tr()),
                   subtitle: Text("Today's workout".tr()),
                 ),
               ),
             ),
-
           ],
         ),
       ),
     );
   }
 }
-

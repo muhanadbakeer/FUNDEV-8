@@ -1,9 +1,9 @@
-import 'package:div/screens/home/home/SETTINGS/settings_store.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:div/screens/home/api_home/macros_goal_api.dart';
 
 class MacrosGoalPage extends StatefulWidget {
-  MacrosGoalPage({super.key});
+  const MacrosGoalPage({super.key});
 
   @override
   State<MacrosGoalPage> createState() => _MacrosGoalPageState();
@@ -13,6 +13,8 @@ class _MacrosGoalPageState extends State<MacrosGoalPage> {
   int p = 25, c = 55, f = 20;
   bool loading = true;
 
+  final String userId = "1"; // مؤقت – من Auth لاحقاً
+
   @override
   void initState() {
     super.initState();
@@ -20,23 +22,30 @@ class _MacrosGoalPageState extends State<MacrosGoalPage> {
   }
 
   Future<void> _init() async {
-    final m = await SettingsStore.getMacros();
-    setState(() {
-      p = m["p"]!;
-      c = m["c"]!;
-      f = m["f"]!;
-      loading = false;
-    });
+    try {
+      final m = await MacrosGoalApi.getMacros(userId);
+      setState(() {
+        p = m["p"]!;
+        c = m["c"]!;
+        f = m["f"]!;
+        loading = false;
+      });
+    } catch (_) {
+      setState(() => loading = false);
+    }
   }
 
   bool _valid() => (p + c + f) == 100;
 
   Future<void> _save() async {
     if (!_valid()) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("settings.macrosMust100".tr())));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("settings.macrosMust100".tr())),
+      );
       return;
     }
-    await SettingsStore.setMacros(p: p, c: c, f: f);
+
+    await MacrosGoalApi.saveMacros(userId: userId, p: p, c: c, f: f);
     Navigator.pop(context);
   }
 
@@ -50,25 +59,34 @@ class _MacrosGoalPageState extends State<MacrosGoalPage> {
         foregroundColor: Colors.white,
       ),
       body: loading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             _sliderRow("Protein", p, (v) => setState(() => p = v)),
             _sliderRow("Carbs", c, (v) => setState(() => c = v)),
             _sliderRow("Fat", f, (v) => setState(() => f = v)),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Text(
-              _valid() ? "Total: 100%" : "Total: ${p + c + f}% (must be 100%)",
-              style: TextStyle(fontWeight: FontWeight.w700, color: _valid() ? Colors.green : Colors.red),
+              _valid()
+                  ? "Total: 100%"
+                  : "Total: ${p + c + f}% (must be 100%)",
+              style: TextStyle(
+                fontWeight: FontWeight.w700,
+                color: _valid() ? Colors.green : Colors.red,
+              ),
             ),
-            SizedBox(height: 14),
+            const SizedBox(height: 14),
             ElevatedButton(
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+              style:
+              ElevatedButton.styleFrom(backgroundColor: Colors.green),
               onPressed: _save,
-              child: Text("common.save".tr(), style: TextStyle(color: Colors.white)),
+              child: Text(
+                "common.save".tr(),
+                style: const TextStyle(color: Colors.white),
+              ),
             ),
           ],
         ),
@@ -82,8 +100,16 @@ class _MacrosGoalPageState extends State<MacrosGoalPage> {
       children: [
         Row(
           children: [
-            Expanded(child: Text(title, style: TextStyle(fontWeight: FontWeight.w800))),
-            Text("$value%", style: TextStyle(fontWeight: FontWeight.w800)),
+            Expanded(
+              child: Text(
+                title,
+                style: const TextStyle(fontWeight: FontWeight.w800),
+              ),
+            ),
+            Text(
+              "$value%",
+              style: const TextStyle(fontWeight: FontWeight.w800),
+            ),
           ],
         ),
         Slider(

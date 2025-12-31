@@ -21,7 +21,7 @@ class _banner_adsState extends State<banner_ads> {
 
   void _loadRewardedAd() {
     RewardedAd.load(
-      adUnitId: "ca-app-pub-3940256099942544/5224354917", //  Test Rewarded
+      adUnitId: "ca-app-pub-3940256099942544/5224354917",
       request: const AdRequest(),
       rewardedAdLoadCallback: RewardedAdLoadCallback(
         onAdLoaded: (ad) {

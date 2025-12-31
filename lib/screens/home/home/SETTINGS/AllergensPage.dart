@@ -1,9 +1,9 @@
-import 'package:div/screens/home/home/SETTINGS/settings_store.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:div/screens/home/api_home/allergens_api.dart';
 
 class AllergensPage extends StatefulWidget {
-  AllergensPage({super.key});
+  const AllergensPage({super.key});
 
   @override
   State<AllergensPage> createState() => _AllergensPageState();
@@ -11,6 +11,9 @@ class AllergensPage extends StatefulWidget {
 
 class _AllergensPageState extends State<AllergensPage> {
   bool loading = true;
+
+  final String userId = "1"; // مؤقت – من Auth لاحقاً
+
   final List<String> options = [
     "Peanuts",
     "Milk",
@@ -28,17 +31,19 @@ class _AllergensPageState extends State<AllergensPage> {
   @override
   void initState() {
     super.initState();
-    _init();
+    _load();
   }
 
-  Future<void> _init() async {
-    final v = await SettingsStore.getAllergens();
-    selected = v.toSet();
+  Future<void> _load() async {
+    try {
+      final data = await AllergensApi.getAllergens(userId);
+      selected = data.toSet();
+    } catch (_) {}
     setState(() => loading = false);
   }
 
   Future<void> _save() async {
-    await SettingsStore.setAllergens(selected.toList());
+    await AllergensApi.saveAllergens(userId, selected.toList());
     Navigator.pop(context);
   }
 
@@ -52,11 +57,11 @@ class _AllergensPageState extends State<AllergensPage> {
         foregroundColor: Colors.white,
       ),
       body: loading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : Column(
         children: [
           Padding(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             child: Wrap(
               spacing: 10,
               runSpacing: 10,
@@ -67,26 +72,27 @@ class _AllergensPageState extends State<AllergensPage> {
                   selected: on,
                   onSelected: (v) {
                     setState(() {
-                      if (v) {
-                        selected.add(x);
-                      } else {
-                        selected.remove(x);
-                      }
+                      v ? selected.add(x) : selected.remove(x);
                     });
                   },
                 );
               }).toList(),
             ),
           ),
-          Spacer(),
+          const Spacer(),
           Padding(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             child: SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green,
+                ),
                 onPressed: _save,
-                child: Text("common.save".tr(), style: TextStyle(color: Colors.white)),
+                child: Text(
+                  "common.save".tr(),
+                  style: const TextStyle(color: Colors.white),
+                ),
               ),
             ),
           ),

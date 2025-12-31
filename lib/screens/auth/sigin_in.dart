@@ -48,10 +48,10 @@ class _FirstState extends State<First> {
       );
 
       if (res.statusCode == 200) {
-        // ✅ نجاح: احفظ remember + خزّن userId لو رجع من API
-        await SettingsStore.saveBoolian("isRemember", isChecked);
 
-        // لو API برجع userId
+        await SettingsStore.saveBoolean("isRemember", isChecked);
+
+
         final data = jsonDecode(res.body);
         if (data is Map && data["id"] != null) {
           await SettingsStore.saveInt("userId", data["id"]);
@@ -63,7 +63,7 @@ class _FirstState extends State<First> {
           MaterialPageRoute(builder: (_) => RecipesExplorePage()),
         );
       } else {
-        // ❌ فشل login
+
         if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Login failed".tr())),
@@ -100,30 +100,30 @@ class _FirstState extends State<First> {
         foregroundColor: Colors.green,
         title: Text(
           "WELCOME TO DIV".tr(),
-          style: const TextStyle(fontWeight: FontWeight.w700),
+          style:  TextStyle(fontWeight: FontWeight.w700),
         ),
         actions: [
           IconButton(
             onPressed: () {
               final lang = context.locale.languageCode;
               if (lang == "en") {
-                context.setLocale(const Locale("ar"));
+                context.setLocale( Locale("ar"));
               } else {
-                context.setLocale(const Locale("en"));
+                context.setLocale( Locale("en"));
               }
             },
-            icon: const Icon(Icons.language),
+            icon:  Icon(Icons.language),
           ),
         ],
       ),
       body: Center(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          padding:  EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Card(
             color: Colors.white,
             elevation: 5,
             child: Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding:  EdgeInsets.all(20.0),
               child: SizedBox(
                 width: width * 0.9,
                 child: Column(
@@ -143,7 +143,7 @@ class _FirstState extends State<First> {
                           end: Alignment.bottomRight,
                         ),
                       ),
-                      child: const Icon(
+                      child:  Icon(
                         Icons.spa,
                         color: Colors.white,
                         size: 40,
@@ -152,7 +152,7 @@ class _FirstState extends State<First> {
                     SizedBox(height: height * 0.02),
                     Text(
                       "DIV Nutrition".tr(),
-                      style: const TextStyle(
+                      style:  TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.w700,
                       ),
@@ -174,10 +174,10 @@ class _FirstState extends State<First> {
                       decoration: InputDecoration(
                         labelText: "Email".tr(),
                         hintText: "Enter your email".tr(),
-                        prefixIcon: const Icon(Icons.email_outlined),
+                        prefixIcon:  Icon(Icons.email_outlined),
                         filled: true,
                         fillColor: Colors.grey.shade50,
-                        contentPadding: const EdgeInsets.symmetric(
+                        contentPadding:  EdgeInsets.symmetric(
                           vertical: 14,
                           horizontal: 16,
                         ),
@@ -185,7 +185,7 @@ class _FirstState extends State<First> {
                           borderRadius: BorderRadius.circular(30),
                           borderSide: BorderSide(color: Colors.grey.shade300),
                         ),
-                        focusedBorder: const OutlineInputBorder(
+                        focusedBorder:  OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(30)),
                           borderSide: BorderSide(color: Colors.green, width: 1.5),
                         ),
@@ -200,10 +200,10 @@ class _FirstState extends State<First> {
                       decoration: InputDecoration(
                         labelText: "Password".tr(),
                         hintText: "Enter your password".tr(),
-                        prefixIcon: const Icon(Icons.lock_outline),
+                        prefixIcon:  Icon(Icons.lock_outline),
                         filled: true,
                         fillColor: Colors.grey.shade50,
-                        contentPadding: const EdgeInsets.symmetric(
+                        contentPadding:  EdgeInsets.symmetric(
                           vertical: 14,
                           horizontal: 16,
                         ),
@@ -211,7 +211,7 @@ class _FirstState extends State<First> {
                           borderRadius: BorderRadius.circular(30),
                           borderSide: BorderSide(color: Colors.grey.shade300),
                         ),
-                        focusedBorder: const OutlineInputBorder(
+                        focusedBorder:  OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(30)),
                           borderSide: BorderSide(color: Colors.green, width: 1.5),
                         ),
@@ -243,21 +243,21 @@ class _FirstState extends State<First> {
                         onPressed: loading ? null : _login,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.green,
-                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          padding:  EdgeInsets.symmetric(vertical: 14),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
                           ),
                           elevation: 3,
                         ),
                         child: loading
-                            ? const SizedBox(
+                            ?  SizedBox(
                           height: 22,
                           width: 22,
                           child: CircularProgressIndicator(strokeWidth: 2),
                         )
                             : Text(
                           "Login".tr(),
-                          style: const TextStyle(
+                          style:  TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
                             color: Colors.white,
@@ -275,7 +275,7 @@ class _FirstState extends State<First> {
                           "Don't have an account?".tr(),
                           style: TextStyle(color: Colors.grey.shade600),
                         ),
-                        const SizedBox(width: 4),
+                         SizedBox(width: 4),
                         GestureDetector(
                           onTap: () {
                             Navigator.push(
@@ -285,7 +285,7 @@ class _FirstState extends State<First> {
                           },
                           child: Text(
                             "Sign up".tr(),
-                            style: const TextStyle(
+                            style:  TextStyle(
                               color: Colors.green,
                               fontWeight: FontWeight.w700,
                             ),

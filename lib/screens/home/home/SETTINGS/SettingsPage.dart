@@ -4,7 +4,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'InfoPage.dart';
 import 'LanguagePage.dart';
 import 'MacrosGoalPage.dart';
-import 'settings_store.dart';
 import 'CalorieGoalPage.dart';
 import 'DietPreferencePage.dart';
 import 'AllergensPage.dart';
@@ -15,8 +14,20 @@ import 'UnitsPage.dart';
 import 'MealSchedulePage.dart';
 import 'MealPrioritiesPage.dart';
 
+// ✅ APIs
+import 'package:div/screens/home/api_home/calorie_goal_api.dart';
+import 'package:div/screens/home/api_home/macros_goal_api.dart';
+import 'package:div/screens/home/api_home/diet_preference_api.dart';
+import 'package:div/screens/home/api_home/allergens_api.dart';
+import 'package:div/screens/home/api_home/favorite_cuisines_api.dart';
+import 'package:div/screens/home/api_home/cooking_skill_api.dart';
+import 'package:div/screens/home/api_home/meals_per_day_api.dart';
+import 'package:div/screens/home/api_home/meal_schedule_api.dart';
+import 'package:div/screens/home/api_home/meal_priorities_api.dart';
+import 'package:div/screens/home/api_home/units_api.dart';
+
 class SettingsPage extends StatefulWidget {
-  SettingsPage({super.key, this.embedded = false});
+  const SettingsPage({super.key, this.embedded = false});
   final bool embedded;
 
   @override
@@ -25,6 +36,8 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   bool loading = true;
+
+  final String userId = "1"; // مؤقت – من Auth لاحقاً
 
   String accountPlan = "Free";
 
@@ -46,41 +59,48 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Future<void> _loadData() async {
-    final cal = await SettingsStore.getCaloriesGoal();
-    final macros = await SettingsStore.getMacros();
-    final diet = await SettingsStore.getDietPreference();
-    final all = await SettingsStore.getAllergens();
-    final cui = await SettingsStore.getCuisines();
-    final skill = await SettingsStore.getCookingSkill();
-    final mpd = await SettingsStore.getMealsPerDay();
-    final u = await SettingsStore.getUnits();
-    final schedule = await SettingsStore.getMealSchedule();
-    final pr = await SettingsStore.getMealPriorities();
+    if (mounted) setState(() => loading = true);
 
-    if (!mounted) return;
+    try {
+      final cal = await CalorieGoalApi.getGoal(userId);
+      final macros = await MacrosGoalApi.getMacros(userId);
+      final diet = await DietPreferenceApi.getPreference(userId);
+      final all = await AllergensApi.getAllergens(userId);
+      final cui = await FavoriteCuisinesApi.getCuisines(userId);
+      final skill = await CookingSkillApi.getSkill(userId);
+      final mpd = await MealsPerDayApi.getMeals(userId);
+      final u = await UnitsApi.getUnits(userId);
+      final schedule = await MealScheduleApi.getSchedule(userId);
+      final pr = await MealPrioritiesApi.getPriorities(userId);
 
-    setState(() {
-      caloriesGoal = cal;
-      macrosGoal = "${macros["p"]}%, ${macros["c"]}%, ${macros["f"]}%";
-      dietPreference = diet;
-      allergensCount = "${all.length}";
-      cuisinesCount = "${cui.length}";
-      cookingSkill = skill;
-      mealsPerDay = mpd;
-      units = u;
-      mealSchedule = schedule;
-      mealPriorities = pr.join(", ");
-      loading = false;
-    });
+      if (!mounted) return;
+
+      setState(() {
+        caloriesGoal = cal;
+        macrosGoal = "${macros["p"]}%, ${macros["c"]}%, ${macros["f"]}%";
+        dietPreference = diet;
+        allergensCount = "${all.length}";
+        cuisinesCount = "${cui.length}";
+        cookingSkill = skill;
+        mealsPerDay = mpd;
+        units = u;
+        mealSchedule = schedule;
+        mealPriorities = pr.join(", ");
+        loading = false;
+      });
+    } catch (_) {
+      if (!mounted) return;
+      setState(() => loading = false);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    Widget body = loading
-        ? Center(child: CircularProgressIndicator())
+    final body = loading
+        ? const Center(child: CircularProgressIndicator())
         : SafeArea(
       child: ListView(
-        padding: EdgeInsets.fromLTRB(0, 8, 0, 24),
+        padding: const EdgeInsets.fromLTRB(0, 8, 0, 24),
         children: [
           _headerTitle(),
 
@@ -123,7 +143,7 @@ class _SettingsPageState extends State<SettingsPage> {
             showDivider: false,
           ),
 
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
 
           _sectionTitle("settings.nutrition".tr()),
           _settingsTile(
@@ -133,7 +153,7 @@ class _SettingsPageState extends State<SettingsPage> {
             onTap: () async {
               await Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => CalorieGoalPage()),
+                MaterialPageRoute(builder: (_) => const CalorieGoalPage()),
               );
               _loadData();
             },
@@ -145,7 +165,7 @@ class _SettingsPageState extends State<SettingsPage> {
             onTap: () async {
               await Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => MacrosGoalPage()),
+                MaterialPageRoute(builder: (_) => const MacrosGoalPage()),
               );
               _loadData();
             },
@@ -157,7 +177,7 @@ class _SettingsPageState extends State<SettingsPage> {
             onTap: () async {
               await Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => DietPreferencePage()),
+                MaterialPageRoute(builder: (_) => const DietPreferencePage()),
               );
               _loadData();
             },
@@ -169,7 +189,7 @@ class _SettingsPageState extends State<SettingsPage> {
             onTap: () async {
               await Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => AllergensPage()),
+                MaterialPageRoute(builder: (_) => const AllergensPage()),
               );
               _loadData();
             },
@@ -181,7 +201,7 @@ class _SettingsPageState extends State<SettingsPage> {
             onTap: () async {
               await Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => FavoriteCuisinesPage()),
+                MaterialPageRoute(builder: (_) => const FavoriteCuisinesPage()),
               );
               _loadData();
             },
@@ -193,14 +213,14 @@ class _SettingsPageState extends State<SettingsPage> {
             onTap: () async {
               await Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => CookingSkillPage()),
+                MaterialPageRoute(builder: (_) => const CookingSkillPage()),
               );
               _loadData();
             },
             showDivider: false,
           ),
 
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
 
           _sectionTitle("settings.mealPlan".tr()),
           _settingsTile(
@@ -210,7 +230,7 @@ class _SettingsPageState extends State<SettingsPage> {
             onTap: () async {
               await Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => MealsPerDayPage()),
+                MaterialPageRoute(builder: (_) => const MealsPerDayPage()),
               );
               _loadData();
             },
@@ -222,7 +242,7 @@ class _SettingsPageState extends State<SettingsPage> {
             onTap: () async {
               await Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => MealSchedulePage()),
+                MaterialPageRoute(builder: (_) => const MealSchedulePage()),
               );
               _loadData();
             },
@@ -234,14 +254,14 @@ class _SettingsPageState extends State<SettingsPage> {
             onTap: () async {
               await Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => MealPrioritiesPage()),
+                MaterialPageRoute(builder: (_) => const MealPrioritiesPage()),
               );
               _loadData();
             },
             showDivider: false,
           ),
 
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
 
           _sectionTitle("settings.general".tr()),
           _settingsTile(
@@ -264,14 +284,14 @@ class _SettingsPageState extends State<SettingsPage> {
             onTap: () async {
               await Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => UnitsPage()),
+                MaterialPageRoute(builder: (_) => const UnitsPage()),
               );
               _loadData();
             },
             showDivider: false,
           ),
 
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
 
           _sectionTitle("settings.support".tr()),
           _settingsTile(
@@ -312,7 +332,7 @@ class _SettingsPageState extends State<SettingsPage> {
             showDivider: false,
           ),
 
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
 
           _sectionTitle("settings.access".tr()),
           _settingsTile(
@@ -351,19 +371,22 @@ class _SettingsPageState extends State<SettingsPage> {
         centerTitle: true,
         title: Text(
           "settings.title".tr(),
-          style: TextStyle(fontWeight: FontWeight.w800),
+          style: const TextStyle(fontWeight: FontWeight.w800),
         ),
         actions: [
           Container(
-            margin: EdgeInsets.only(right: 12),
-            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+            margin: const EdgeInsets.only(right: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
             decoration: BoxDecoration(
               color: Colors.white.withOpacity(0.18),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Text(
               accountPlan,
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800),
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w800,
+              ),
             ),
           )
         ],
@@ -376,18 +399,19 @@ class _SettingsPageState extends State<SettingsPage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (_) => InfoPage(title: title, description: desc),
+        builder: (_) => InfoPage(infoKey: title),
       ),
+
     );
   }
 
   Widget _headerTitle() {
     return Padding(
-      padding: EdgeInsets.fromLTRB(16, 10, 16, 6),
+      padding: const EdgeInsets.fromLTRB(16, 10, 16, 6),
       child: Text(
         "settings.title".tr(),
         textAlign: TextAlign.right,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 30,
           fontWeight: FontWeight.w900,
           color: Colors.black87,
@@ -398,11 +422,11 @@ class _SettingsPageState extends State<SettingsPage> {
 
   Widget _sectionTitle(String text) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(16, 18, 16, 8),
+      padding: const EdgeInsets.fromLTRB(16, 18, 16, 8),
       child: Text(
         text,
         textAlign: TextAlign.right,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w900,
           color: Colors.black54,
@@ -425,18 +449,18 @@ class _SettingsPageState extends State<SettingsPage> {
           child: InkWell(
             onTap: onTap,
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
               child: Row(
                 children: [
-                  Icon(Icons.chevron_left, color: Colors.black54),
-                  SizedBox(width: 10),
+                  const Icon(Icons.chevron_left, color: Colors.black54),
+                  const SizedBox(width: 10),
                   if (trailingText != null)
                     Expanded(
                       child: Text(
                         trailingText,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 14,
                           color: Colors.black54,
                           fontWeight: FontWeight.w600,
@@ -444,21 +468,21 @@ class _SettingsPageState extends State<SettingsPage> {
                       ),
                     )
                   else
-                    Expanded(child: SizedBox()),
-                  SizedBox(width: 10),
+                    const Expanded(child: SizedBox()),
+                  const SizedBox(width: 10),
                   Expanded(
                     flex: 2,
                     child: Text(
                       title,
                       textAlign: TextAlign.right,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 16,
                         color: Colors.black87,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
                   ),
-                  SizedBox(width: 12),
+                  const SizedBox(width: 12),
                   Icon(leading, color: Colors.black87),
                 ],
               ),

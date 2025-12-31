@@ -1,10 +1,9 @@
-import 'package:div/screens/home/home/SETTINGS/settings_store.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
-
+import 'package:div/screens/home/api_home/units_api.dart';
 
 class UnitsPage extends StatefulWidget {
-  UnitsPage({super.key});
+  const UnitsPage({super.key});
 
   @override
   State<UnitsPage> createState() => _UnitsPageState();
@@ -15,6 +14,8 @@ class _UnitsPageState extends State<UnitsPage> {
   String selected = "Metric";
   final options = ["Metric", "Imperial"];
 
+  final String userId = "1"; // مؤقت – من Auth لاحقاً
+
   @override
   void initState() {
     super.initState();
@@ -22,12 +23,14 @@ class _UnitsPageState extends State<UnitsPage> {
   }
 
   Future<void> _init() async {
-    selected = await SettingsStore.getUnits();
+    try {
+      selected = await UnitsApi.getUnits(userId);
+    } catch (_) {}
     setState(() => loading = false);
   }
 
   Future<void> _save() async {
-    await SettingsStore.setUnits(selected);
+    await UnitsApi.saveUnits(userId, selected);
     Navigator.pop(context);
   }
 
@@ -41,7 +44,7 @@ class _UnitsPageState extends State<UnitsPage> {
         foregroundColor: Colors.white,
       ),
       body: loading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : Column(
         children: [
           ...options.map((x) => RadioListTile<String>(
@@ -50,15 +53,19 @@ class _UnitsPageState extends State<UnitsPage> {
             onChanged: (v) => setState(() => selected = v ?? selected),
             title: Text(x),
           )),
-          Spacer(),
+          const Spacer(),
           Padding(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             child: SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green),
                 onPressed: _save,
-                child: Text("common.save".tr(), style: TextStyle(color: Colors.white)),
+                child: Text(
+                  "common.save".tr(),
+                  style: const TextStyle(color: Colors.white),
+                ),
               ),
             ),
           ),

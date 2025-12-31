@@ -10,7 +10,7 @@ class LoginCubit extends Cubit<loginstate> {
   void login({required String email, required String password}) async {
     emit(OnStartLoginStats());
     try{
-      final url = Uri.parse("");
+      final url = Uri.parse("http://10.0.2.2:5172");
       final response = await http.post(
           url,
           headers: {"Accept": "application/json"},

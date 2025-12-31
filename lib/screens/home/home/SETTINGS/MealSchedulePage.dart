@@ -1,9 +1,9 @@
-import 'package:div/screens/home/home/SETTINGS/settings_store.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:div/screens/home/api_home/meal_schedule_api.dart';
 
 class MealSchedulePage extends StatefulWidget {
-  MealSchedulePage({super.key});
+  const MealSchedulePage({super.key});
 
   @override
   State<MealSchedulePage> createState() => _MealSchedulePageState();
@@ -12,6 +12,8 @@ class MealSchedulePage extends StatefulWidget {
 class _MealSchedulePageState extends State<MealSchedulePage> {
   bool loading = true;
   String selected = "Default";
+
+  final String userId = "1"; // مؤقت – من Auth لاحقاً
   final options = ["Default", "Early", "Late", "Flexible"];
 
   @override
@@ -21,12 +23,14 @@ class _MealSchedulePageState extends State<MealSchedulePage> {
   }
 
   Future<void> _init() async {
-    selected = await SettingsStore.getMealSchedule();
+    try {
+      selected = await MealScheduleApi.getSchedule(userId);
+    } catch (_) {}
     setState(() => loading = false);
   }
 
   Future<void> _save() async {
-    await SettingsStore.setMealSchedule(selected);
+    await MealScheduleApi.saveSchedule(userId, selected);
     Navigator.pop(context);
   }
 
@@ -40,24 +44,30 @@ class _MealSchedulePageState extends State<MealSchedulePage> {
         foregroundColor: Colors.white,
       ),
       body: loading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : Column(
         children: [
-          ...options.map((x) => RadioListTile<String>(
-            value: x,
-            groupValue: selected,
-            onChanged: (v) => setState(() => selected = v ?? selected),
-            title: Text(x),
-          )),
-          Spacer(),
+          ...options.map(
+                (x) => RadioListTile<String>(
+              value: x,
+              groupValue: selected,
+              onChanged: (v) => setState(() => selected = v ?? selected),
+              title: Text(x),
+            ),
+          ),
+          const Spacer(),
           Padding(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             child: SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green),
                 onPressed: _save,
-                child: Text("common.save".tr(), style: TextStyle(color: Colors.white)),
+                child: Text(
+                  "common.save".tr(),
+                  style: const TextStyle(color: Colors.white),
+                ),
               ),
             ),
           ),

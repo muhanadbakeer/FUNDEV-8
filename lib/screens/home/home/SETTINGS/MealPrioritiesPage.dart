@@ -1,9 +1,9 @@
-import 'package:div/screens/home/home/SETTINGS/settings_store.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:div/screens/home/api_home/meal_priorities_api.dart';
 
 class MealPrioritiesPage extends StatefulWidget {
-  MealPrioritiesPage({super.key});
+  const MealPrioritiesPage({super.key});
 
   @override
   State<MealPrioritiesPage> createState() => _MealPrioritiesPageState();
@@ -11,6 +11,8 @@ class MealPrioritiesPage extends StatefulWidget {
 
 class _MealPrioritiesPageState extends State<MealPrioritiesPage> {
   bool loading = true;
+
+  final String userId = "1"; // مؤقت – من Auth لاحقاً
 
   final options = ["Balanced", "High Protein", "Low Carb", "Quick Meals", "Budget"];
   Set<String> selected = {"Balanced"};
@@ -22,14 +24,17 @@ class _MealPrioritiesPageState extends State<MealPrioritiesPage> {
   }
 
   Future<void> _init() async {
-    final v = await SettingsStore.getMealPriorities();
-    selected = v.toSet();
+    try {
+      final v = await MealPrioritiesApi.getPriorities(userId);
+      selected = v.toSet();
+    } catch (_) {}
     setState(() => loading = false);
   }
 
   Future<void> _save() async {
     if (selected.isEmpty) selected.add("Balanced");
-    await SettingsStore.setMealPriorities(selected.toList());
+
+    await MealPrioritiesApi.savePriorities(userId, selected.toList());
     Navigator.pop(context);
   }
 
@@ -43,11 +48,11 @@ class _MealPrioritiesPageState extends State<MealPrioritiesPage> {
         foregroundColor: Colors.white,
       ),
       body: loading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : Column(
         children: [
           Padding(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             child: Wrap(
               spacing: 10,
               runSpacing: 10,
@@ -69,15 +74,18 @@ class _MealPrioritiesPageState extends State<MealPrioritiesPage> {
               }).toList(),
             ),
           ),
-          Spacer(),
+          const Spacer(),
           Padding(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             child: SizedBox(
               width: double.infinity,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
                 onPressed: _save,
-                child: Text("common.save".tr(), style: TextStyle(color: Colors.white)),
+                child: Text(
+                  "common.save".tr(),
+                  style: const TextStyle(color: Colors.white),
+                ),
               ),
             ),
           ),

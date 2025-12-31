@@ -1,10 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:div/screens/home/api_home/info_api.dart';
 
-class InfoPage extends StatelessWidget {
-  InfoPage({super.key, required this.title, required this.description});
+class InfoPage extends StatefulWidget {
+  const InfoPage({super.key, required this.infoKey});
 
-  final String title;
-  final String description;
+  final String infoKey;
+
+  @override
+  State<InfoPage> createState() => _InfoPageState();
+}
+
+class _InfoPageState extends State<InfoPage> {
+  bool loading = true;
+  String title = "";
+  String description = "";
+
+  @override
+  void initState() {
+    super.initState();
+    _load();
+  }
+
+  Future<void> _load() async {
+    try {
+      final data = await InfoApi.getInfo(widget.infoKey);
+      title = data["title"] ?? "";
+      description = data["description"] ?? "";
+    } catch (_) {
+      title = "Error";
+      description = "Failed to load info";
+    }
+    setState(() => loading = false);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,9 +42,14 @@ class InfoPage extends StatelessWidget {
         backgroundColor: Colors.green,
         foregroundColor: Colors.white,
       ),
-      body: Padding(
-        padding: EdgeInsets.all(16),
-        child: Text(description, style: TextStyle(fontSize: 16)),
+      body: loading
+          ? const Center(child: CircularProgressIndicator())
+          : Padding(
+        padding: const EdgeInsets.all(16),
+        child: Text(
+          description,
+          style: const TextStyle(fontSize: 16),
+        ),
       ),
     );
   }

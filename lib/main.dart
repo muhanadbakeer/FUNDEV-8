@@ -1,13 +1,9 @@
+import 'package:div/screens/auth/SplashView.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import '../auth/SplashView.dart';
-import '../home/home page.dart';
-import '../login/cubit/cubit1.dart';
-
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
@@ -50,12 +46,7 @@ Future<void> main() async {
       ],
       path: 'assets/translations',
       fallbackLocale: Locale('en'),
-      child: MultiBlocProvider(
-        providers: [
-          BlocProvider<LoginCubit>(create: (context) => LoginCubit()),
-        ],
-        child: MyApp(),
-      ),
+      child: MyApp(),
     ),
   );
 }

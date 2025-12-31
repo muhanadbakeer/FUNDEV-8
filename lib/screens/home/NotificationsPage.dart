@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:div/screens/home/api_home/notifications_api.dart';
 
 class NotificationsPage extends StatefulWidget {
   const NotificationsPage({super.key});
@@ -9,6 +10,10 @@ class NotificationsPage extends StatefulWidget {
 }
 
 class _NotificationsPageState extends State<NotificationsPage> {
+  final String userId = "1"; // مؤقت - من Auth لاحقاً
+
+  bool loading = true;
+
   bool pushEnabled = true;
   bool mealReminders = true;
   bool workoutReminders = false;
@@ -16,6 +21,61 @@ class _NotificationsPageState extends State<NotificationsPage> {
   bool weeklyReport = true;
   bool sound = true;
   bool vibration = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _load();
+  }
+
+  Future<void> _load() async {
+    setState(() => loading = true);
+    try {
+      final dto = await NotificationsApi.getSettings(userId);
+
+      if (!mounted) return;
+      setState(() {
+        pushEnabled = dto.pushEnabled;
+        mealReminders = dto.mealReminders;
+        workoutReminders = dto.workoutReminders;
+        waterReminders = dto.waterReminders;
+        weeklyReport = dto.weeklyReport;
+        sound = dto.sound;
+        vibration = dto.vibration;
+        loading = false;
+      });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() => loading = false);
+      _showMsg("Failed to load".tr());
+    }
+  }
+
+  Future<void> _save() async {
+    try {
+      final dto = NotificationSettingsDto(
+        userId: userId,
+        pushEnabled: pushEnabled,
+        mealReminders: mealReminders,
+        workoutReminders: workoutReminders,
+        waterReminders: waterReminders,
+        weeklyReport: weeklyReport,
+        sound: sound,
+        vibration: vibration,
+      );
+
+      await NotificationsApi.saveSettings(dto);
+      if (!mounted) return;
+      _showMsg("common.saved".tr());
+    } catch (e) {
+      if (!mounted) return;
+      _showMsg("Failed to save".tr());
+    }
+  }
+
+  void _showMsg(String msg) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +86,17 @@ class _NotificationsPageState extends State<NotificationsPage> {
         foregroundColor: Colors.white,
         title: Text("notifications.title".tr()),
         centerTitle: true,
+        actions: [
+          IconButton(
+            tooltip: "common.save".tr(),
+            onPressed: loading ? null : _save,
+            icon: const Icon(Icons.save_outlined),
+          ),
+        ],
       ),
-      body: ListView(
+      body: loading
+          ? const Center(child: CircularProgressIndicator())
+          : ListView(
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
         children: [
           _sectionTitle("notifications.general".tr()),
@@ -35,7 +104,21 @@ class _NotificationsPageState extends State<NotificationsPage> {
             title: "notifications.push".tr(),
             subtitle: "notifications.pushDesc".tr(),
             value: pushEnabled,
-            onChanged: (v) => setState(() => pushEnabled = v),
+            onChanged: (v) {
+              setState(() {
+                pushEnabled = v;
+
+                if (!pushEnabled) {
+                  // اختياري: تطفي باقي التذكيرات لما push يتسكر
+                  mealReminders = false;
+                  workoutReminders = false;
+                  waterReminders = false;
+                  weeklyReport = false;
+                  sound = false;
+                  vibration = false;
+                }
+              });
+            },
           ),
           const SizedBox(height: 10),
 
@@ -82,6 +165,20 @@ class _NotificationsPageState extends State<NotificationsPage> {
             value: vibration,
             onChanged: pushEnabled ? (v) => setState(() => vibration = v) : null,
           ),
+
+          const SizedBox(height: 12),
+
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+              onPressed: _save,
+              child: Text(
+                "common.save".tr(),
+                style: const TextStyle(color: Colors.white),
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -121,15 +218,9 @@ class _NotificationsPageState extends State<NotificationsPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  title,
-                  style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800),
-                ),
+                Text(title, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800)),
                 const SizedBox(height: 4),
-                Text(
-                  subtitle,
-                  style: TextStyle(fontSize: 12, color: Colors.grey.shade700),
-                ),
+                Text(subtitle, style: TextStyle(fontSize: 12, color: Colors.grey.shade700)),
               ],
             ),
           ),

@@ -1,9 +1,9 @@
-import 'package:div/screens/home/home/SETTINGS/settings_store.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:div/screens/home/api_home/diet_preference_api.dart';
 
 class DietPreferencePage extends StatefulWidget {
-  DietPreferencePage({super.key});
+  const DietPreferencePage({super.key});
 
   @override
   State<DietPreferencePage> createState() => _DietPreferencePageState();
@@ -12,6 +12,8 @@ class DietPreferencePage extends StatefulWidget {
 class _DietPreferencePageState extends State<DietPreferencePage> {
   bool loading = true;
   String selected = "Low Carb";
+
+  final String userId = "1"; // مؤقت – من Auth لاحقًا
 
   final List<String> options = [
     "Balanced",
@@ -30,12 +32,14 @@ class _DietPreferencePageState extends State<DietPreferencePage> {
   }
 
   Future<void> _init() async {
-    selected = await SettingsStore.getDietPreference();
+    try {
+      selected = await DietPreferenceApi.getPreference(userId);
+    } catch (_) {}
     setState(() => loading = false);
   }
 
   Future<void> _save() async {
-    await SettingsStore.setDietPreference(selected);
+    await DietPreferenceApi.savePreference(userId, selected);
     Navigator.pop(context);
   }
 
@@ -49,7 +53,7 @@ class _DietPreferencePageState extends State<DietPreferencePage> {
         foregroundColor: Colors.white,
       ),
       body: loading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : Column(
         children: [
           Expanded(
@@ -60,20 +64,25 @@ class _DietPreferencePageState extends State<DietPreferencePage> {
                 return RadioListTile<String>(
                   value: v,
                   groupValue: selected,
-                  onChanged: (x) => setState(() => selected = x ?? selected),
+                  onChanged: (x) =>
+                      setState(() => selected = x ?? selected),
                   title: Text(v),
                 );
               },
             ),
           ),
           Padding(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             child: SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green),
                 onPressed: _save,
-                child: Text("common.save".tr(), style: TextStyle(color: Colors.white)),
+                child: Text(
+                  "common.save".tr(),
+                  style: const TextStyle(color: Colors.white),
+                ),
               ),
             ),
           ),
