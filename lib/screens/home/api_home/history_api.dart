@@ -6,7 +6,7 @@ class HistoryApi {
 
   static Future<Map<String, dynamic>> getDay({
     required String userId,
-    required String date, // YYYY-MM-DD
+    required String date,
   }) async {
     final uri = Uri.parse("$baseUrl/$userId?date=$date");
     final res = await http.get(uri);

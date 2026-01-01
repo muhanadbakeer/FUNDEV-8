@@ -14,7 +14,7 @@ class _LanguagePageState extends State<LanguagePage> {
   bool _loadedOnce = false;
   bool _loadingServer = true;
 
-  final String userId = "1"; // مؤقت – من Auth لاحقاً
+  final String userId = "1";
 
   final List<_LangItem> languages = [
     _LangItem('العربية', 'ar', '🇸🇦'),
@@ -41,7 +41,7 @@ class _LanguagePageState extends State<LanguagePage> {
     if (!_loadedOnce) {
       selectedLocale = context.locale;
       _loadedOnce = true;
-      _loadFromServer(); // ✅ جديد
+      _loadFromServer();
     }
   }
 
@@ -70,12 +70,12 @@ class _LanguagePageState extends State<LanguagePage> {
         title: Text('language.title'.tr()),
       ),
       body: _loadingServer
-          ? const Center(child: CircularProgressIndicator())
+          ?  Center(child: CircularProgressIndicator())
           : Column(
         children: [
           Expanded(
             child: ListView.builder(
-              padding: const EdgeInsets.all(16),
+              padding:  EdgeInsets.all(16),
               itemCount: languages.length,
               itemBuilder: (context, i) {
                 final item = languages[i];
@@ -89,8 +89,8 @@ class _LanguagePageState extends State<LanguagePage> {
                     });
                   },
                   child: Container(
-                    margin: const EdgeInsets.only(bottom: 12),
-                    padding: const EdgeInsets.symmetric(
+                    margin:  EdgeInsets.only(bottom: 12),
+                    padding:  EdgeInsets.symmetric(
                         horizontal: 16, vertical: 18),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(14),
@@ -104,18 +104,18 @@ class _LanguagePageState extends State<LanguagePage> {
                     child: Row(
                       children: [
                         Text(item.flag,
-                            style: const TextStyle(fontSize: 22)),
-                        const SizedBox(width: 14),
+                            style:  TextStyle(fontSize: 22)),
+                         SizedBox(width: 14),
                         Expanded(
                           child: Text(
                             item.name,
-                            style: const TextStyle(
+                            style:  TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600),
                           ),
                         ),
                         if (isSelected)
-                          const Icon(Icons.check_circle,
+                           Icon(Icons.check_circle,
                               color: Colors.green),
                       ],
                     ),
@@ -125,7 +125,7 @@ class _LanguagePageState extends State<LanguagePage> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(16),
+            padding:  EdgeInsets.all(16),
             child: SizedBox(
               width: double.infinity,
               height: 52,
@@ -138,10 +138,8 @@ class _LanguagePageState extends State<LanguagePage> {
                 onPressed: () async {
                   final chosen = selectedLocale ?? context.locale;
 
-                  // ✅ 1) تغيّر لغة التطبيق فوراً
                   await context.setLocale(chosen);
 
-                  // ✅ 2) تحفظ على السيرفر/DB
                   await LanguageApi.saveLanguage(
                     userId,
                     chosen.languageCode,
@@ -151,7 +149,7 @@ class _LanguagePageState extends State<LanguagePage> {
                 },
                 child: Text(
                   'apply'.tr(),
-                  style: const TextStyle(
+                  style:  TextStyle(
                       fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ),

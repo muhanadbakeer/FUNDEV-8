@@ -13,7 +13,7 @@ class _MealSchedulePageState extends State<MealSchedulePage> {
   bool loading = true;
   String selected = "Default";
 
-  final String userId = "1"; // مؤقت – من Auth لاحقاً
+  final String userId = "1";
   final options = ["Default", "Early", "Late", "Flexible"];
 
   @override
@@ -44,7 +44,7 @@ class _MealSchedulePageState extends State<MealSchedulePage> {
         foregroundColor: Colors.white,
       ),
       body: loading
-          ? const Center(child: CircularProgressIndicator())
+          ?  Center(child: CircularProgressIndicator())
           : Column(
         children: [
           ...options.map(
@@ -55,9 +55,9 @@ class _MealSchedulePageState extends State<MealSchedulePage> {
               title: Text(x),
             ),
           ),
-          const Spacer(),
+           Spacer(),
           Padding(
-            padding: const EdgeInsets.all(16),
+            padding:  EdgeInsets.all(16),
             child: SizedBox(
               width: double.infinity,
               child: ElevatedButton(
@@ -66,7 +66,7 @@ class _MealSchedulePageState extends State<MealSchedulePage> {
                 onPressed: _save,
                 child: Text(
                   "common.save".tr(),
-                  style: const TextStyle(color: Colors.white),
+                  style:  TextStyle(color: Colors.white),
                 ),
               ),
             ),

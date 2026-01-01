@@ -16,7 +16,7 @@ class DailySummaryPage extends StatefulWidget {
 }
 
 class _DailySummaryPageState extends State<DailySummaryPage> {
-  final String userId = "1"; // مؤقت – من Auth لاحقاً
+  final String userId = "1";
 
   bool loading = true;
 
@@ -45,7 +45,7 @@ class _DailySummaryPageState extends State<DailySummaryPage> {
       caloriesConsumed = (c["consumed"] as num).toInt();
       caloriesGoal = (c["goal"] as num).toInt();
     } catch (_) {
-      // خلي default values
+
     }
 
     if (!mounted) return;
@@ -66,29 +66,29 @@ class _DailySummaryPageState extends State<DailySummaryPage> {
             onPressed: () {
               final lang = context.locale.languageCode;
               if (lang == "en") {
-                context.setLocale(const Locale("ar"));
+                context.setLocale( Locale("ar"));
               } else {
-                context.setLocale(const Locale("en"));
+                context.setLocale( Locale("en"));
               }
             },
-            icon: const Icon(Icons.language),
+            icon:  Icon(Icons.language),
           ),
         ],
       ),
       body: loading
-          ? const Center(child: CircularProgressIndicator())
+          ?  Center(child: CircularProgressIndicator())
           : Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding:  EdgeInsets.all(16.0),
         child: ListView(
           children: [
             Text(
               "Overview".tr(),
-              style: const TextStyle(
+              style:  TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
               ),
             ),
-            const SizedBox(height: 12),
+             SizedBox(height: 12),
 
             InkWell(
               borderRadius: BorderRadius.circular(12),
@@ -102,7 +102,7 @@ class _DailySummaryPageState extends State<DailySummaryPage> {
               },
               child: Card(
                 child: ListTile(
-                  leading: const Icon(Icons.monitor_weight, color: Colors.green),
+                  leading:  Icon(Icons.monitor_weight, color: Colors.green),
                   title: Text("Weight".tr()),
                   subtitle: Text("Weight: $currentWeight kg • Goal: $goalWeight kg".tr()),
                 ),
@@ -121,7 +121,7 @@ class _DailySummaryPageState extends State<DailySummaryPage> {
               },
               child: Card(
                 child: ListTile(
-                  leading: const Icon(Icons.local_fire_department, color: Colors.green),
+                  leading:  Icon(Icons.local_fire_department, color: Colors.green),
                   title: Text("Calories".tr()),
                   subtitle: Text("Calories: $caloriesConsumed / $caloriesGoal kcal".tr()),
                 ),
@@ -140,7 +140,7 @@ class _DailySummaryPageState extends State<DailySummaryPage> {
               },
               child: Card(
                 child: ListTile(
-                  leading: const Icon(Icons.restaurant_menu, color: Colors.green),
+                  leading:  Icon(Icons.restaurant_menu, color: Colors.green),
                   title: Text("Meal plan".tr()),
                   subtitle: Text("Today's meals".tr()),
                 ),
@@ -159,7 +159,7 @@ class _DailySummaryPageState extends State<DailySummaryPage> {
               },
               child: Card(
                 child: ListTile(
-                  leading: const Icon(Icons.directions_run, color: Colors.green),
+                  leading:  Icon(Icons.directions_run, color: Colors.green),
                   title: Text("Workout".tr()),
                   subtitle: Text("Today's workout".tr()),
                 ),

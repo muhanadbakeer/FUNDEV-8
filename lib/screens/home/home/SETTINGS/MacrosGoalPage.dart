@@ -13,7 +13,7 @@ class _MacrosGoalPageState extends State<MacrosGoalPage> {
   int p = 25, c = 55, f = 20;
   bool loading = true;
 
-  final String userId = "1"; // مؤقت – من Auth لاحقاً
+  final String userId = "1";
 
   @override
   void initState() {
@@ -59,16 +59,16 @@ class _MacrosGoalPageState extends State<MacrosGoalPage> {
         foregroundColor: Colors.white,
       ),
       body: loading
-          ? const Center(child: CircularProgressIndicator())
+          ?  Center(child: CircularProgressIndicator())
           : Padding(
-        padding: const EdgeInsets.all(16),
+        padding:  EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             _sliderRow("Protein", p, (v) => setState(() => p = v)),
             _sliderRow("Carbs", c, (v) => setState(() => c = v)),
             _sliderRow("Fat", f, (v) => setState(() => f = v)),
-            const SizedBox(height: 10),
+             SizedBox(height: 10),
             Text(
               _valid()
                   ? "Total: 100%"
@@ -78,14 +78,14 @@ class _MacrosGoalPageState extends State<MacrosGoalPage> {
                 color: _valid() ? Colors.green : Colors.red,
               ),
             ),
-            const SizedBox(height: 14),
+             SizedBox(height: 14),
             ElevatedButton(
               style:
               ElevatedButton.styleFrom(backgroundColor: Colors.green),
               onPressed: _save,
               child: Text(
                 "common.save".tr(),
-                style: const TextStyle(color: Colors.white),
+                style:  TextStyle(color: Colors.white),
               ),
             ),
           ],
@@ -103,12 +103,12 @@ class _MacrosGoalPageState extends State<MacrosGoalPage> {
             Expanded(
               child: Text(
                 title,
-                style: const TextStyle(fontWeight: FontWeight.w800),
+                style:  TextStyle(fontWeight: FontWeight.w800),
               ),
             ),
             Text(
               "$value%",
-              style: const TextStyle(fontWeight: FontWeight.w800),
+              style:  TextStyle(fontWeight: FontWeight.w800),
             ),
           ],
         ),

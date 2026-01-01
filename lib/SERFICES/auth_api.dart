@@ -8,21 +8,25 @@ class AuthApi {
       Dio(
         BaseOptions(
           baseUrl: "http://10.0.2.2:5172",
-          connectTimeout: const Duration(seconds: 15),
-          receiveTimeout: const Duration(seconds: 15),
-          headers: {"Content-Type": "application/json"},
+          connectTimeout: Duration(seconds: 15),
+          receiveTimeout: Duration(seconds: 15),
+          headers: {
+            "Content-Type": "application/json",
+          },
+          // مهم عشان ما يرمي Exception مباشرة
+          validateStatus: (status) => status != null && status < 500,
         ),
       );
 
   Future<Map<String, dynamic>> register({
-    required String name,
+    required String fullName,
     required String email,
     required String password,
   }) async {
     final res = await _dio.post(
       "/api/auth/register",
       data: {
-        "username": name,
+        "fullName": fullName,
         "email": email,
         "password": password,
       },
@@ -30,4 +34,5 @@ class AuthApi {
 
     return Map<String, dynamic>.from(res.data);
   }
+
 }

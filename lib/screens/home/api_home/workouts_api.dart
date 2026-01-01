@@ -50,7 +50,7 @@ class WorkoutDayDto {
 }
 
 class WorkoutsApi {
-  static const String _baseUrl = "http://10.0.2.2:5000/api";
+  static const String _baseUrl = "http://10.0.2.2:5172/api";
 
   static Future<WorkoutDayDto> getDay({
     required String userId,

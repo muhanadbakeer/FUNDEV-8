@@ -13,7 +13,7 @@ class _CalorieGoalPageState extends State<CalorieGoalPage> {
   final TextEditingController c = TextEditingController();
   bool loading = true;
 
-  final String userId = "1"; // مؤقت – من Auth لاحقًا
+  final String userId = "1";
 
   @override
   void initState() {
@@ -52,9 +52,9 @@ class _CalorieGoalPageState extends State<CalorieGoalPage> {
         foregroundColor: Colors.white,
       ),
       body: loading
-          ? const Center(child: CircularProgressIndicator())
+          ?  Center(child: CircularProgressIndicator())
           : Padding(
-        padding: const EdgeInsets.all(16),
+        padding:  EdgeInsets.all(16),
         child: Column(
           children: [
             TextField(
@@ -62,10 +62,10 @@ class _CalorieGoalPageState extends State<CalorieGoalPage> {
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
                 labelText: "settings.calorieGoal".tr(),
-                border: const OutlineInputBorder(),
+                border:  OutlineInputBorder(),
               ),
             ),
-            const SizedBox(height: 14),
+             SizedBox(height: 14),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
@@ -74,7 +74,7 @@ class _CalorieGoalPageState extends State<CalorieGoalPage> {
                 onPressed: _save,
                 child: Text(
                   "common.save".tr(),
-                  style: const TextStyle(color: Colors.white),
+                  style:  TextStyle(color: Colors.white),
                 ),
               ),
             ),

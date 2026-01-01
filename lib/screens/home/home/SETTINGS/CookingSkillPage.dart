@@ -44,7 +44,7 @@ class _CookingSkillPageState extends State<CookingSkillPage> {
         foregroundColor: Colors.white,
       ),
       body: loading
-          ? const Center(child: CircularProgressIndicator())
+          ?  Center(child: CircularProgressIndicator())
           : Column(
         children: [
           ...options.map((x) => RadioListTile<String>(
@@ -53,9 +53,9 @@ class _CookingSkillPageState extends State<CookingSkillPage> {
             onChanged: (v) => setState(() => selected = v ?? selected),
             title: Text(x),
           )),
-          const Spacer(),
+           Spacer(),
           Padding(
-            padding: const EdgeInsets.all(16),
+            padding:  EdgeInsets.all(16),
             child: SizedBox(
               width: double.infinity,
               child: ElevatedButton(
@@ -64,7 +64,7 @@ class _CookingSkillPageState extends State<CookingSkillPage> {
                 onPressed: _save,
                 child: Text(
                   "common.save".tr(),
-                  style: const TextStyle(color: Colors.white),
+                  style:  TextStyle(color: Colors.white),
                 ),
               ),
             ),

@@ -10,7 +10,7 @@ class ProgressPage extends StatefulWidget {
 }
 
 class _ProgressPageState extends State<ProgressPage> {
-  final String userId = "1"; // مؤقت
+  final String userId = "1";
 
   bool loading = true;
   ProgressSummaryDto? summary;
@@ -44,7 +44,7 @@ class _ProgressPageState extends State<ProgressPage> {
   String _weightText() {
     final s = summary;
     if (s == null) return "--";
-    final change = s.weightChangeKg; // current - start
+    final change = s.weightChangeKg;
     final sign = change > 0 ? "+" : "";
     return "${sign}${change.toStringAsFixed(1)} kg in ${s.periodDays} days";
   }
@@ -69,58 +69,58 @@ class _ProgressPageState extends State<ProgressPage> {
             onPressed: () {
               final lang = context.locale.languageCode;
               if (lang == "en") {
-                context.setLocale(const Locale("ar"));
+                context.setLocale( Locale("ar"));
               } else {
-                context.setLocale(const Locale("en"));
+                context.setLocale( Locale("en"));
               }
             },
-            icon: const Icon(Icons.language),
+            icon:  Icon(Icons.language),
             tooltip: "Change language",
           ),
           IconButton(
             onPressed: _load,
-            icon: const Icon(Icons.refresh),
+            icon:  Icon(Icons.refresh),
           ),
         ],
       ),
       body: loading
-          ? const Center(child: CircularProgressIndicator())
+          ?  Center(child: CircularProgressIndicator())
           : Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding:  EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               "Overview".tr(),
-              style: const TextStyle(
+              style:  TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
               ),
             ),
-            const SizedBox(height: 12),
+             SizedBox(height: 12),
             Card(
               child: ListTile(
-                leading: const Icon(Icons.monitor_weight),
+                leading:  Icon(Icons.monitor_weight),
                 title: Text("Weight change".tr()),
                 subtitle: Text(_weightText()),
               ),
             ),
             Card(
               child: ListTile(
-                leading: const Icon(Icons.local_fire_department),
+                leading:  Icon(Icons.local_fire_department),
                 title: Text("Average calories".tr()),
                 subtitle: Text(_avgCaloriesText()),
               ),
             ),
-            const SizedBox(height: 16),
+             SizedBox(height: 16),
             Text(
               "Notes".tr(),
-              style: const TextStyle(
+              style:  TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
               ),
             ),
-            const SizedBox(height: 8),
+             SizedBox(height: 8),
             Expanded(
               child: Center(
                 child: Text(

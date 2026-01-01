@@ -1,13 +1,8 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:image_picker/image_picker.dart';
-
-// عندك بالمشروع
 import 'CaloriesPage.dart';
-
-// ✅ API
 import 'package:div/screens/home/api_home/history_api.dart';
 
 class HistoryPage extends StatefulWidget {
@@ -22,18 +17,15 @@ class HistoryPage extends StatefulWidget {
 class _HistoryPageState extends State<HistoryPage> {
   Color green = Colors.green;
 
-  // ✅ userId مؤقت
   final String userId = "1";
 
   DateTime selectedDate = DateTime.now();
 
-  // Targets (من API)
   int proteinTarget = 158;
   int fatTarget = 154;
   int carbsTarget = 126;
   int caloriesTarget = 2525;
 
-  // Consumed (من API)
   int proteinConsumed = 0;
   int fatConsumed = 0;
   int carbsConsumed = 0;
@@ -45,10 +37,8 @@ class _HistoryPageState extends State<HistoryPage> {
 
   final ImagePicker picker = ImagePicker();
 
-  /// صور مختارة (من الكاميرا/المعرض) - للعرض فقط
   final List<File> images = [];
 
-  // ===== Fallback ترجمة: لو الترجمة مش شغالة أو key مش موجود ما يطلع key =====
   String t(String key, String fallback, {List<String>? args}) {
     String v = key.tr(args: args);
     if (v == key) return fallback;
@@ -93,7 +83,7 @@ class _HistoryPageState extends State<HistoryPage> {
       remainingCalories = caloriesTarget - caloriesConsumed;
       if (remainingCalories < 0) remainingCalories = 0;
     } catch (_) {
-      // خلي القيم الافتراضية (بدون ما نكسر الصفحة)
+
       remainingCalories = caloriesTarget - caloriesConsumed;
       if (remainingCalories < 0) remainingCalories = 0;
     }
@@ -117,15 +107,14 @@ class _HistoryPageState extends State<HistoryPage> {
   Widget build(BuildContext context) {
     Widget pageBody = SafeArea(
       child: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 22),
+        padding:  EdgeInsets.fromLTRB(16, 16, 16, 22),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // ===== Header row (calendar active + title) =====
             Row(
               children: [
                 IconButton(
-                  icon: const Icon(
+                  icon:  Icon(
                     Icons.calendar_month_outlined,
                     size: 26,
                     color: Colors.black87,
@@ -134,12 +123,12 @@ class _HistoryPageState extends State<HistoryPage> {
                     _openDatePicker(context);
                   },
                 ),
-                const SizedBox(width: 6),
+                 SizedBox(width: 6),
                 Expanded(
                   child: Text(
                     t("history.title", "History"),
                     textAlign: TextAlign.right,
-                    style: const TextStyle(
+                    style:  TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.w900,
                       color: Colors.black87,
@@ -149,7 +138,7 @@ class _HistoryPageState extends State<HistoryPage> {
               ],
             ),
 
-            const SizedBox(height: 10),
+             SizedBox(height: 10),
 
             _WeekStrip(
               selected: selectedDate,
@@ -159,9 +148,7 @@ class _HistoryPageState extends State<HistoryPage> {
               },
             ),
 
-            const SizedBox(height: 14),
-
-            // ===== Cards: Macros + Calories =====
+             SizedBox(height: 14),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -174,14 +161,14 @@ class _HistoryPageState extends State<HistoryPage> {
                         valueText: "$proteinConsumed / $proteinTarget g",
                         progress: _progress(proteinConsumed, proteinTarget),
                       ),
-                      const SizedBox(height: 12),
+                       SizedBox(height: 12),
                       _MacroCard(
                         title: t("history.fat", "Fat"),
                         icon: Icons.water_drop_outlined,
                         valueText: "$fatConsumed / $fatTarget g",
                         progress: _progress(fatConsumed, fatTarget),
                       ),
-                      const SizedBox(height: 12),
+                       SizedBox(height: 12),
                       _MacroCard(
                         title: t("history.carbs", "Carbs"),
                         icon: Icons.grain_outlined,
@@ -191,7 +178,7 @@ class _HistoryPageState extends State<HistoryPage> {
                     ],
                   ),
                 ),
-                const SizedBox(width: 12),
+                 SizedBox(width: 12),
                 SizedBox(
                   width: 150,
                   child: _CaloriesCard(
@@ -203,9 +190,8 @@ class _HistoryPageState extends State<HistoryPage> {
               ],
             ),
 
-            const SizedBox(height: 16),
+             SizedBox(height: 16),
 
-            // ===== FIX overflow: Wrap بدل Row =====
             Wrap(
               alignment: WrapAlignment.spaceBetween,
               runSpacing: 6,
@@ -216,48 +202,48 @@ class _HistoryPageState extends State<HistoryPage> {
                     "$caloriesConsumed kcal",
                     args: ["$caloriesConsumed"],
                   ),
-                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
+                  style:  TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
                 ),
                 Text(
                   t("history.consumedFood", "Consumed Food"),
-                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
+                  style:  TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
                 ),
               ],
             ),
 
-            const SizedBox(height: 6),
+             SizedBox(height: 6),
 
             Padding(
-              padding: const EdgeInsets.only(top: 26, bottom: 18),
+              padding:  EdgeInsets.only(top: 26, bottom: 18),
               child: Column(
                 children: [
                   Text(
                     t("history.emptyTitle", "You haven't logged anything yet!"),
                     textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w900),
+                    style:  TextStyle(fontSize: 18, fontWeight: FontWeight.w900),
                   ),
-                  const SizedBox(height: 8),
+                   SizedBox(height: 8),
                   Text(
                     t(
                       "history.emptyDesc",
                       "Start tracking today's meals using photos, text,\nor manual macro entry",
                     ),
                     textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 14, color: Colors.black54, height: 1.4),
+                    style:  TextStyle(fontSize: 14, color: Colors.black54, height: 1.4),
                   ),
                 ],
               ),
             ),
 
-            const SizedBox(height: 8),
+             SizedBox(height: 8),
 
             Container(
               height: 170,
               alignment: Alignment.center,
-              child: const Text("🥑", style: TextStyle(fontSize: 110)),
+              child: const Text("", style: TextStyle(fontSize: 110)),
             ),
 
-            const SizedBox(height: 80),
+             SizedBox(height: 80),
           ],
         ),
       ),
@@ -266,7 +252,7 @@ class _HistoryPageState extends State<HistoryPage> {
     if (widget.embedded) {
       return Container(
         color: Colors.grey.shade100,
-        child: loading ? const Center(child: CircularProgressIndicator()) : pageBody,
+        child: loading ?  Center(child: CircularProgressIndicator()) : pageBody,
       );
     }
 
@@ -280,18 +266,18 @@ class _HistoryPageState extends State<HistoryPage> {
         centerTitle: true,
         title: Text(
           t("app.name", "DIV Nutrition"),
-          style: const TextStyle(fontWeight: FontWeight.w800),
+          style:  TextStyle(fontWeight: FontWeight.w800),
         ),
         actions: [
           IconButton(
             tooltip: t("common.notifications", "Notifications"),
             onPressed: () {},
-            icon: const Icon(Icons.notifications_none),
+            icon:  Icon(Icons.notifications_none),
           ),
           IconButton(
             tooltip: t("common.profile", "Profile"),
             onPressed: () {},
-            icon: const Icon(Icons.person_outline),
+            icon:  Icon(Icons.person_outline),
           ),
         ],
       ),
@@ -307,22 +293,18 @@ class _HistoryPageState extends State<HistoryPage> {
         t: t,
       ),
 
-      // ===== FAB + (opens meals sheet) =====
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.blueGrey.shade900,
         onPressed: () {
           _showPickMealTypeSheet(context);
         },
-        child: const Icon(Icons.add, color: Colors.white),
+        child:  Icon(Icons.add, color: Colors.white),
       ),
 
-      body: loading ? const Center(child: CircularProgressIndicator()) : pageBody,
+      body: loading ?  Center(child: CircularProgressIndicator()) : pageBody,
     );
   }
 
-  // =========================
-  // Calendar icon action
-  // =========================
   Future<void> _openDatePicker(BuildContext context) async {
     DateTime? picked = await showDatePicker(
       context: context,
@@ -342,9 +324,6 @@ class _HistoryPageState extends State<HistoryPage> {
     }
   }
 
-  // =========================
-  // BottomSheet #1 (Meal type)
-  // =========================
   void _showPickMealTypeSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -354,12 +333,12 @@ class _HistoryPageState extends State<HistoryPage> {
       builder: (ctx) {
         return SafeArea(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(12, 0, 12, 18),
+            padding:  EdgeInsets.fromLTRB(12, 0, 12, 18),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
-                  padding: const EdgeInsets.fromLTRB(14, 10, 14, 16),
+                  padding:  EdgeInsets.fromLTRB(14, 10, 14, 16),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(22),
@@ -368,15 +347,15 @@ class _HistoryPageState extends State<HistoryPage> {
                     children: [
                       Row(
                         children: [
-                          const Expanded(child: SizedBox()),
+                           Expanded(child: SizedBox()),
                           IconButton(
                             onPressed: () => Navigator.pop(ctx),
-                            icon: const Icon(Icons.close),
+                            icon:  Icon(Icons.close),
                             tooltip: t("common.close", "Close"),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 6),
+                       SizedBox(height: 6),
                       Row(
                         children: [
                           Expanded(
@@ -389,7 +368,7 @@ class _HistoryPageState extends State<HistoryPage> {
                               },
                             ),
                           ),
-                          const SizedBox(width: 12),
+                           SizedBox(width: 12),
                           Expanded(
                             child: _mealChoiceButton(
                               text: t("meals.lunch", "Lunch"),
@@ -402,7 +381,7 @@ class _HistoryPageState extends State<HistoryPage> {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 12),
+                       SizedBox(height: 12),
                       Row(
                         children: [
                           Expanded(
@@ -415,7 +394,7 @@ class _HistoryPageState extends State<HistoryPage> {
                               },
                             ),
                           ),
-                          const SizedBox(width: 12),
+                           SizedBox(width: 12),
                           Expanded(
                             child: _mealChoiceButton(
                               text: t("meals.dinner", "Dinner"),
@@ -452,7 +431,7 @@ class _HistoryPageState extends State<HistoryPage> {
         borderRadius: BorderRadius.circular(16),
         child: Container(
           height: 70,
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding:  EdgeInsets.symmetric(horizontal: 16),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
             border: Border.all(color: Colors.grey.shade300),
@@ -465,7 +444,7 @@ class _HistoryPageState extends State<HistoryPage> {
                   text,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                  style:  TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
                 ),
               ),
               Icon(icon, color: Colors.black87),
@@ -476,9 +455,6 @@ class _HistoryPageState extends State<HistoryPage> {
     );
   }
 
-  // =========================
-  // BottomSheet #2 (Log meal)
-  // =========================
   void _showAddMealMethodSheet(BuildContext context, String mealType) {
     showModalBottomSheet(
       context: context,
@@ -488,15 +464,14 @@ class _HistoryPageState extends State<HistoryPage> {
       builder: (ctx) {
         return SafeArea(
           child: Container(
-            padding: const EdgeInsets.fromLTRB(16, 10, 16, 24),
-            decoration: const BoxDecoration(
+            padding:  EdgeInsets.fromLTRB(16, 10, 16, 24),
+            decoration:  BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // Handle
                 Container(
                   width: 40,
                   height: 4,
@@ -505,26 +480,26 @@ class _HistoryPageState extends State<HistoryPage> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                const SizedBox(height: 16),
+                 SizedBox(height: 16),
 
                 Row(
                   children: [
                     IconButton(
                       onPressed: () => Navigator.pop(ctx),
-                      icon: const Icon(Icons.close),
+                      icon:  Icon(Icons.close),
                     ),
                     Expanded(
                       child: Text(
                         t("addMeal.title", "Log Meal"),
                         textAlign: TextAlign.center,
-                        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
+                        style:  TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
                       ),
                     ),
-                    const SizedBox(width: 48),
+                     SizedBox(width: 48),
                   ],
                 ),
 
-                const SizedBox(height: 18),
+                 SizedBox(height: 18),
 
                 Row(
                   children: [
@@ -539,7 +514,7 @@ class _HistoryPageState extends State<HistoryPage> {
                         },
                       ),
                     ),
-                    const SizedBox(width: 12),
+                     SizedBox(width: 12),
                     Expanded(
                       child: _methodCard(
                         color: Colors.amber.shade50,
@@ -551,7 +526,7 @@ class _HistoryPageState extends State<HistoryPage> {
                         },
                       ),
                     ),
-                    const SizedBox(width: 12),
+                     SizedBox(width: 12),
                     Expanded(
                       child: _methodCard(
                         color: Colors.green.shade50,
@@ -566,17 +541,15 @@ class _HistoryPageState extends State<HistoryPage> {
                   ],
                 ),
 
-                const SizedBox(height: 18),
-
-                const Divider(),
-
+                 SizedBox(height: 18),
+                 Divider(),
                 ListTile(
-                  leading: const Icon(Icons.edit_outlined),
+                  leading:  Icon(Icons.edit_outlined),
                   title: Text(
                     t("addMeal.manual", "Manual macro entry"),
-                    style: const TextStyle(fontWeight: FontWeight.w700),
+                    style:  TextStyle(fontWeight: FontWeight.w700),
                   ),
-                  trailing: const Icon(Icons.chevron_right),
+                  trailing:  Icon(Icons.chevron_right),
                   onTap: () {
                     Navigator.pop(ctx);
                     _openManualEntry(mealType);
@@ -604,23 +577,19 @@ class _HistoryPageState extends State<HistoryPage> {
         borderRadius: BorderRadius.circular(18),
         child: Container(
           height: 110,
-          padding: const EdgeInsets.all(12),
+          padding:  EdgeInsets.all(12),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(icon, size: 32, color: Colors.black87),
-              const SizedBox(height: 10),
-              Text(text, style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 14)),
+               SizedBox(height: 10),
+              Text(text, style:  TextStyle(fontWeight: FontWeight.w700, fontSize: 14)),
             ],
           ),
         ),
       ),
     );
   }
-
-  // =========================
-  // Camera / Gallery using image_picker
-  // =========================
   Future<void> _pickFromCamera() async {
     try {
       final XFile? picked = await picker.pickImage(source: ImageSource.camera);
@@ -674,10 +643,6 @@ class _HistoryPageState extends State<HistoryPage> {
       SnackBar(content: Text(msg)),
     );
   }
-
-  // =========================
-  // Hooks (ربط الصفحات)
-  // =========================
   void _openTextInput(String mealType) {
     _showMsg("Text pressed ($mealType)");
   }
@@ -689,14 +654,11 @@ class _HistoryPageState extends State<HistoryPage> {
     );
   }
 
-  // ===== Drawer hooks (اختياري) =====
   void onOpenSettings() {}
   void onOpenPurchases() {}
   void onOpenMealPlan() {}
   void onOpenRecipes() {}
 }
-
-// ===================== Preview Page =====================
 
 class MealImagesPreviewPage extends StatelessWidget {
   const MealImagesPreviewPage({
@@ -714,7 +676,7 @@ class MealImagesPreviewPage extends StatelessWidget {
     showDialog(
       context: context,
       builder: (_) => Dialog(
-        insetPadding: const EdgeInsets.all(12),
+        insetPadding:  EdgeInsets.all(12),
         child: InteractiveViewer(
           child: Image.file(file, fit: BoxFit.contain),
         ),
@@ -732,12 +694,12 @@ class MealImagesPreviewPage extends StatelessWidget {
         centerTitle: true,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(12),
+        padding:  EdgeInsets.all(12),
         child: images.isEmpty
-            ? const Center(child: Text("No Images Selected"))
+            ?  Center(child: Text("No Images Selected"))
             : GridView.builder(
           itemCount: images.length,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 3,
             crossAxisSpacing: 8,
             mainAxisSpacing: 8,
@@ -761,12 +723,12 @@ class MealImagesPreviewPage extends StatelessWidget {
                   child: InkWell(
                     onTap: () => onRemove(index),
                     child: Container(
-                      padding: const EdgeInsets.all(4),
+                      padding:  EdgeInsets.all(4),
                       decoration: BoxDecoration(
                         color: Colors.black54,
                         borderRadius: BorderRadius.circular(999),
                       ),
-                      child: const Icon(Icons.close, size: 16, color: Colors.white),
+                      child:  Icon(Icons.close, size: 16, color: Colors.white),
                     ),
                   ),
                 ),
@@ -778,8 +740,6 @@ class MealImagesPreviewPage extends StatelessWidget {
     );
   }
 }
-
-// ================= Drawer =================
 
 class _MainDrawer extends StatelessWidget {
   const _MainDrawer({
@@ -812,23 +772,23 @@ class _MainDrawer extends StatelessWidget {
           children: [
             Container(
               width: double.infinity,
-              padding: const EdgeInsets.all(16),
-              decoration: const BoxDecoration(color: Colors.green),
+              padding:  EdgeInsets.all(16),
+              decoration:  BoxDecoration(color: Colors.green),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const CircleAvatar(
+                   CircleAvatar(
                     radius: 26,
                     backgroundColor: Colors.white,
                     child: Icon(Icons.restaurant, color: Colors.green, size: 28),
                   ),
-                  const SizedBox(height: 10),
+                   SizedBox(height: 10),
                   Text(
                     title,
-                    style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w800),
+                    style:  TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w800),
                   ),
-                  const SizedBox(height: 2),
-                  Text(subtitle, style: const TextStyle(color: Colors.white70)),
+                   SizedBox(height: 2),
+                  Text(subtitle, style:  TextStyle(color: Colors.white70)),
                 ],
               ),
             ),
@@ -868,13 +828,11 @@ class _MainDrawer extends StatelessWidget {
   static Widget _drawerItem(IconData icon, String title, VoidCallback onTap) {
     return ListTile(
       leading: Icon(icon, color: Colors.green),
-      title: Text(title, style: const TextStyle(fontWeight: FontWeight.w600)),
+      title: Text(title, style:  TextStyle(fontWeight: FontWeight.w600)),
       onTap: onTap,
     );
   }
 }
-
-// ================= Week strip =================
 
 class _WeekStrip extends StatelessWidget {
   const _WeekStrip({required this.selected, required this.onSelect});
@@ -905,9 +863,9 @@ class _WeekStrip extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
             border: Border.all(color: Colors.black12),
           ),
-          child: const Icon(Icons.calendar_today_outlined, color: Colors.black87, size: 20),
+          child:  Icon(Icons.calendar_today_outlined, color: Colors.black87, size: 20),
         ),
-        const SizedBox(width: 10),
+         SizedBox(width: 10),
         Expanded(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -920,8 +878,8 @@ class _WeekStrip extends StatelessWidget {
                 onTap: () => onSelect(d),
                 child: Column(
                   children: [
-                    Text(labels[i], style: const TextStyle(color: Colors.black45, fontSize: 12)),
-                    const SizedBox(height: 8),
+                    Text(labels[i], style:  TextStyle(color: Colors.black45, fontSize: 12)),
+                     SizedBox(height: 8),
                     Container(
                       width: 34,
                       height: 34,
@@ -950,8 +908,6 @@ class _WeekStrip extends StatelessWidget {
   }
 }
 
-// ================= Cards =================
-
 class _MacroCard extends StatelessWidget {
   const _MacroCard({
     required this.title,
@@ -968,7 +924,7 @@ class _MacroCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
+      padding:  EdgeInsets.fromLTRB(14, 12, 14, 12),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
@@ -983,23 +939,23 @@ class _MacroCard extends StatelessWidget {
                   valueText,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 16),
+                  style:  TextStyle(fontWeight: FontWeight.w900, fontSize: 16),
                 ),
               ),
-              const SizedBox(width: 10),
+               SizedBox(width: 10),
               Flexible(
                 child: Text(
                   title,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
+                  style:  TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
                 ),
               ),
-              const SizedBox(width: 8),
+               SizedBox(width: 8),
               Icon(icon, color: Colors.black54),
             ],
           ),
-          const SizedBox(height: 10),
+           SizedBox(height: 10),
           ClipRRect(
             borderRadius: BorderRadius.circular(999),
             child: LinearProgressIndicator(
@@ -1030,7 +986,7 @@ class _CaloriesCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 224,
-      padding: const EdgeInsets.all(14),
+      padding:  EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
@@ -1052,16 +1008,16 @@ class _CaloriesCard extends StatelessWidget {
                   backgroundColor: Colors.grey.shade200,
                 ),
               ),
-              const Icon(Icons.local_fire_department_outlined, size: 28, color: Colors.black87),
+               Icon(Icons.local_fire_department_outlined, size: 28, color: Colors.black87),
             ],
           ),
-          const SizedBox(height: 14),
-          Text("$remaining", style: const TextStyle(fontSize: 30, fontWeight: FontWeight.w900)),
-          const SizedBox(height: 6),
+           SizedBox(height: 14),
+          Text("$remaining", style:  TextStyle(fontSize: 30, fontWeight: FontWeight.w900)),
+           SizedBox(height: 6),
           Text(
             title,
             textAlign: TextAlign.center,
-            style: const TextStyle(color: Colors.black54, height: 1.3),
+            style:  TextStyle(color: Colors.black54, height: 1.3),
           ),
         ],
       ),

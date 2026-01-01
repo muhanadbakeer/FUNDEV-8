@@ -1,7 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsStore {
-  // ✅ Generic helpers فقط
+
 
   static Future<void> saveBoolean(String key, bool value) async {
     final sp = await SharedPreferences.getInstance();

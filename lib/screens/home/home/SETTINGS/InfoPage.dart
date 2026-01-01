@@ -43,12 +43,12 @@ class _InfoPageState extends State<InfoPage> {
         foregroundColor: Colors.white,
       ),
       body: loading
-          ? const Center(child: CircularProgressIndicator())
+          ?  Center(child: CircularProgressIndicator())
           : Padding(
-        padding: const EdgeInsets.all(16),
+        padding:  EdgeInsets.all(16),
         child: Text(
           description,
-          style: const TextStyle(fontSize: 16),
+          style:  TextStyle(fontSize: 16),
         ),
       ),
     );

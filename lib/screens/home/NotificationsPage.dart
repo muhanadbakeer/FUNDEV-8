@@ -10,7 +10,7 @@ class NotificationsPage extends StatefulWidget {
 }
 
 class _NotificationsPageState extends State<NotificationsPage> {
-  final String userId = "1"; // مؤقت - من Auth لاحقاً
+  final String userId = "1";
 
   bool loading = true;
 
@@ -90,14 +90,14 @@ class _NotificationsPageState extends State<NotificationsPage> {
           IconButton(
             tooltip: "common.save".tr(),
             onPressed: loading ? null : _save,
-            icon: const Icon(Icons.save_outlined),
+            icon:  Icon(Icons.save_outlined),
           ),
         ],
       ),
       body: loading
-          ? const Center(child: CircularProgressIndicator())
+          ?  Center(child: CircularProgressIndicator())
           : ListView(
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
+        padding:  EdgeInsets.fromLTRB(16, 16, 16, 24),
         children: [
           _sectionTitle("notifications.general".tr()),
           _cardSwitch(
@@ -109,7 +109,6 @@ class _NotificationsPageState extends State<NotificationsPage> {
                 pushEnabled = v;
 
                 if (!pushEnabled) {
-                  // اختياري: تطفي باقي التذكيرات لما push يتسكر
                   mealReminders = false;
                   workoutReminders = false;
                   waterReminders = false;
@@ -120,7 +119,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
               });
             },
           ),
-          const SizedBox(height: 10),
+           SizedBox(height: 10),
 
           _sectionTitle("notifications.reminders".tr()),
           _cardSwitch(
@@ -141,7 +140,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
             value: waterReminders,
             onChanged: pushEnabled ? (v) => setState(() => waterReminders = v) : null,
           ),
-          const SizedBox(height: 10),
+           SizedBox(height: 10),
 
           _sectionTitle("notifications.reports".tr()),
           _cardSwitch(
@@ -150,7 +149,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
             value: weeklyReport,
             onChanged: pushEnabled ? (v) => setState(() => weeklyReport = v) : null,
           ),
-          const SizedBox(height: 10),
+           SizedBox(height: 10),
 
           _sectionTitle("notifications.behavior".tr()),
           _cardSwitch(
@@ -166,7 +165,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
             onChanged: pushEnabled ? (v) => setState(() => vibration = v) : null,
           ),
 
-          const SizedBox(height: 12),
+           SizedBox(height: 12),
 
           SizedBox(
             width: double.infinity,
@@ -175,7 +174,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
               onPressed: _save,
               child: Text(
                 "common.save".tr(),
-                style: const TextStyle(color: Colors.white),
+                style:  TextStyle(color: Colors.white),
               ),
             ),
           ),
@@ -186,10 +185,10 @@ class _NotificationsPageState extends State<NotificationsPage> {
 
   Widget _sectionTitle(String text) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 10, top: 4),
+      padding:  EdgeInsets.only(bottom: 10, top: 4),
       child: Text(
         text,
-        style: const TextStyle(
+        style:  TextStyle(
           fontSize: 13,
           fontWeight: FontWeight.w900,
           color: Colors.black54,
@@ -205,8 +204,8 @@ class _NotificationsPageState extends State<NotificationsPage> {
     required ValueChanged<bool>? onChanged,
   }) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 10),
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+      margin:  EdgeInsets.only(bottom: 10),
+      padding:  EdgeInsets.symmetric(horizontal: 14, vertical: 12),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(14),
@@ -218,8 +217,8 @@ class _NotificationsPageState extends State<NotificationsPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800)),
-                const SizedBox(height: 4),
+                Text(title, style:  TextStyle(fontSize: 15, fontWeight: FontWeight.w800)),
+                 SizedBox(height: 4),
                 Text(subtitle, style: TextStyle(fontSize: 12, color: Colors.grey.shade700)),
               ],
             ),

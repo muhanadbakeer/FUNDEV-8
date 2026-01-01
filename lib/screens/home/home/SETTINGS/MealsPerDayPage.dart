@@ -13,7 +13,7 @@ class _MealsPerDayPageState extends State<MealsPerDayPage> {
   bool loading = true;
   int meals = 3;
 
-  final String userId = "1"; // مؤقت – من Auth لاحقاً
+  final String userId = "1";
 
   @override
   void initState() {
@@ -43,9 +43,9 @@ class _MealsPerDayPageState extends State<MealsPerDayPage> {
         foregroundColor: Colors.white,
       ),
       body: loading
-          ? const Center(child: CircularProgressIndicator())
+          ?  Center(child: CircularProgressIndicator())
           : Padding(
-        padding: const EdgeInsets.all(16),
+        padding:  EdgeInsets.all(16),
         child: Column(
           children: [
             Row(
@@ -53,7 +53,7 @@ class _MealsPerDayPageState extends State<MealsPerDayPage> {
                 Expanded(
                   child: Text(
                     "Meals per day",
-                    style: const TextStyle(
+                    style:  TextStyle(
                       fontWeight: FontWeight.w800,
                       fontSize: 18,
                     ),
@@ -62,11 +62,11 @@ class _MealsPerDayPageState extends State<MealsPerDayPage> {
                 IconButton(
                   onPressed:
                   meals > 1 ? () => setState(() => meals--) : null,
-                  icon: const Icon(Icons.remove_circle_outline),
+                  icon:  Icon(Icons.remove_circle_outline),
                 ),
                 Text(
                   "$meals",
-                  style: const TextStyle(
+                  style:  TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w900,
                   ),
@@ -74,11 +74,11 @@ class _MealsPerDayPageState extends State<MealsPerDayPage> {
                 IconButton(
                   onPressed:
                   meals < 8 ? () => setState(() => meals++) : null,
-                  icon: const Icon(Icons.add_circle_outline),
+                  icon:  Icon(Icons.add_circle_outline),
                 ),
               ],
             ),
-            const Spacer(),
+             Spacer(),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
@@ -87,7 +87,7 @@ class _MealsPerDayPageState extends State<MealsPerDayPage> {
                 onPressed: _save,
                 child: Text(
                   "common.save".tr(),
-                  style: const TextStyle(color: Colors.white),
+                  style:  TextStyle(color: Colors.white),
                 ),
               ),
             ),

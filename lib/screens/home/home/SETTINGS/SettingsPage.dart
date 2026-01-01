@@ -14,7 +14,7 @@ import 'UnitsPage.dart';
 import 'MealSchedulePage.dart';
 import 'MealPrioritiesPage.dart';
 
-// ✅ APIs
+
 import 'package:div/screens/home/api_home/calorie_goal_api.dart';
 import 'package:div/screens/home/api_home/macros_goal_api.dart';
 import 'package:div/screens/home/api_home/diet_preference_api.dart';
@@ -25,6 +25,7 @@ import 'package:div/screens/home/api_home/meals_per_day_api.dart';
 import 'package:div/screens/home/api_home/meal_schedule_api.dart';
 import 'package:div/screens/home/api_home/meal_priorities_api.dart';
 import 'package:div/screens/home/api_home/units_api.dart';
+
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key, this.embedded = false});
@@ -37,7 +38,7 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   bool loading = true;
 
-  final String userId = "1"; // مؤقت – من Auth لاحقاً
+  final String userId = "1";
 
   String accountPlan = "Free";
 
@@ -97,10 +98,10 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     final body = loading
-        ? const Center(child: CircularProgressIndicator())
+        ?  Center(child: CircularProgressIndicator())
         : SafeArea(
       child: ListView(
-        padding: const EdgeInsets.fromLTRB(0, 8, 0, 24),
+        padding:  EdgeInsets.fromLTRB(0, 8, 0, 24),
         children: [
           _headerTitle(),
 
@@ -143,7 +144,7 @@ class _SettingsPageState extends State<SettingsPage> {
             showDivider: false,
           ),
 
-          const SizedBox(height: 8),
+           SizedBox(height: 8),
 
           _sectionTitle("settings.nutrition".tr()),
           _settingsTile(
@@ -153,7 +154,7 @@ class _SettingsPageState extends State<SettingsPage> {
             onTap: () async {
               await Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => const CalorieGoalPage()),
+                MaterialPageRoute(builder: (_) =>  CalorieGoalPage()),
               );
               _loadData();
             },
@@ -165,7 +166,7 @@ class _SettingsPageState extends State<SettingsPage> {
             onTap: () async {
               await Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => const MacrosGoalPage()),
+                MaterialPageRoute(builder: (_) =>  MacrosGoalPage()),
               );
               _loadData();
             },
@@ -177,7 +178,7 @@ class _SettingsPageState extends State<SettingsPage> {
             onTap: () async {
               await Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => const DietPreferencePage()),
+                MaterialPageRoute(builder: (_) =>  DietPreferencePage()),
               );
               _loadData();
             },
@@ -189,7 +190,7 @@ class _SettingsPageState extends State<SettingsPage> {
             onTap: () async {
               await Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => const AllergensPage()),
+                MaterialPageRoute(builder: (_) =>  AllergensPage()),
               );
               _loadData();
             },
@@ -201,7 +202,7 @@ class _SettingsPageState extends State<SettingsPage> {
             onTap: () async {
               await Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => const FavoriteCuisinesPage()),
+                MaterialPageRoute(builder: (_) =>  FavoriteCuisinesPage()),
               );
               _loadData();
             },
@@ -213,14 +214,14 @@ class _SettingsPageState extends State<SettingsPage> {
             onTap: () async {
               await Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => const CookingSkillPage()),
+                MaterialPageRoute(builder: (_) =>  CookingSkillPage()),
               );
               _loadData();
             },
             showDivider: false,
           ),
 
-          const SizedBox(height: 8),
+           SizedBox(height: 8),
 
           _sectionTitle("settings.mealPlan".tr()),
           _settingsTile(
@@ -230,7 +231,7 @@ class _SettingsPageState extends State<SettingsPage> {
             onTap: () async {
               await Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => const MealsPerDayPage()),
+                MaterialPageRoute(builder: (_) =>  MealsPerDayPage()),
               );
               _loadData();
             },
@@ -242,7 +243,7 @@ class _SettingsPageState extends State<SettingsPage> {
             onTap: () async {
               await Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => const MealSchedulePage()),
+                MaterialPageRoute(builder: (_) =>  MealSchedulePage()),
               );
               _loadData();
             },
@@ -254,14 +255,14 @@ class _SettingsPageState extends State<SettingsPage> {
             onTap: () async {
               await Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => const MealPrioritiesPage()),
+                MaterialPageRoute(builder: (_) =>  MealPrioritiesPage()),
               );
               _loadData();
             },
             showDivider: false,
           ),
 
-          const SizedBox(height: 8),
+           SizedBox(height: 8),
 
           _sectionTitle("settings.general".tr()),
           _settingsTile(
@@ -272,7 +273,7 @@ class _SettingsPageState extends State<SettingsPage> {
             onTap: () async {
               await Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => const LanguagePage()),
+                MaterialPageRoute(builder: (_) =>  LanguagePage()),
               );
               if (mounted) setState(() {});
             },
@@ -284,14 +285,14 @@ class _SettingsPageState extends State<SettingsPage> {
             onTap: () async {
               await Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => const UnitsPage()),
+                MaterialPageRoute(builder: (_) =>  UnitsPage()),
               );
               _loadData();
             },
             showDivider: false,
           ),
 
-          const SizedBox(height: 8),
+           SizedBox(height: 8),
 
           _sectionTitle("settings.support".tr()),
           _settingsTile(
@@ -332,7 +333,7 @@ class _SettingsPageState extends State<SettingsPage> {
             showDivider: false,
           ),
 
-          const SizedBox(height: 8),
+           SizedBox(height: 8),
 
           _sectionTitle("settings.access".tr()),
           _settingsTile(
@@ -371,19 +372,19 @@ class _SettingsPageState extends State<SettingsPage> {
         centerTitle: true,
         title: Text(
           "settings.title".tr(),
-          style: const TextStyle(fontWeight: FontWeight.w800),
+          style:  TextStyle(fontWeight: FontWeight.w800),
         ),
         actions: [
           Container(
-            margin: const EdgeInsets.only(right: 12),
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+            margin:  EdgeInsets.only(right: 12),
+            padding:  EdgeInsets.symmetric(horizontal: 10, vertical: 6),
             decoration: BoxDecoration(
               color: Colors.white.withOpacity(0.18),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Text(
               accountPlan,
-              style: const TextStyle(
+              style:  TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.w800,
               ),
@@ -407,11 +408,11 @@ class _SettingsPageState extends State<SettingsPage> {
 
   Widget _headerTitle() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 10, 16, 6),
+      padding:  EdgeInsets.fromLTRB(16, 10, 16, 6),
       child: Text(
         "settings.title".tr(),
         textAlign: TextAlign.right,
-        style: const TextStyle(
+        style:  TextStyle(
           fontSize: 30,
           fontWeight: FontWeight.w900,
           color: Colors.black87,
@@ -422,11 +423,11 @@ class _SettingsPageState extends State<SettingsPage> {
 
   Widget _sectionTitle(String text) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 18, 16, 8),
+      padding:  EdgeInsets.fromLTRB(16, 18, 16, 8),
       child: Text(
         text,
         textAlign: TextAlign.right,
-        style: const TextStyle(
+        style:  TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w900,
           color: Colors.black54,
@@ -449,18 +450,18 @@ class _SettingsPageState extends State<SettingsPage> {
           child: InkWell(
             onTap: onTap,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+              padding:  EdgeInsets.symmetric(horizontal: 16, vertical: 14),
               child: Row(
                 children: [
-                  const Icon(Icons.chevron_left, color: Colors.black54),
-                  const SizedBox(width: 10),
+                   Icon(Icons.chevron_left, color: Colors.black54),
+                   SizedBox(width: 10),
                   if (trailingText != null)
                     Expanded(
                       child: Text(
                         trailingText,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
+                        style:  TextStyle(
                           fontSize: 14,
                           color: Colors.black54,
                           fontWeight: FontWeight.w600,
@@ -468,21 +469,21 @@ class _SettingsPageState extends State<SettingsPage> {
                       ),
                     )
                   else
-                    const Expanded(child: SizedBox()),
-                  const SizedBox(width: 10),
+                     Expanded(child: SizedBox()),
+                   SizedBox(width: 10),
                   Expanded(
                     flex: 2,
                     child: Text(
                       title,
                       textAlign: TextAlign.right,
-                      style: const TextStyle(
+                      style:  TextStyle(
                         fontSize: 16,
                         color: Colors.black87,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
                   ),
-                  const SizedBox(width: 12),
+                   SizedBox(width: 12),
                   Icon(leading, color: Colors.black87),
                 ],
               ),

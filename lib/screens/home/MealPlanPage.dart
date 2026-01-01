@@ -11,7 +11,7 @@ class MealPlanIntroPage extends StatefulWidget {
 class _MealPlanIntroPageState extends State<MealPlanIntroPage> {
   final Color green = Colors.green;
 
-  final String userId = "1"; // مؤقت لحد ما تربطه Auth
+  final String userId = "1";
 
   bool creating = false;
   MealPlanDto? currentPlan;
@@ -28,7 +28,7 @@ class _MealPlanIntroPageState extends State<MealPlanIntroPage> {
       if (!mounted) return;
       setState(() => currentPlan = plan);
     } catch (_) {
-      // خليها ساكتة أو اعرض رسالة
+
     }
   }
 
@@ -48,7 +48,6 @@ class _MealPlanIntroPageState extends State<MealPlanIntroPage> {
         const SnackBar(content: Text("Meal plan created ✅")),
       );
 
-      // TODO: إذا بدك تفتح صفحة تفاصيل البلان:
       // Navigator.push(context, MaterialPageRoute(builder: (_) => MealPlanDetailsPage(plan: plan)));
 
     } catch (e) {
@@ -64,38 +63,37 @@ class _MealPlanIntroPageState extends State<MealPlanIntroPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF6F7F8),
+      backgroundColor:  Colors.greenAccent,
 
       appBar: AppBar(
         backgroundColor: green,
         foregroundColor: Colors.white,
         elevation: 2,
         centerTitle: true,
-        title: const Text(
-          "DIV للتغذية",
+        title:  Text(
+          "DIV Nutrition",
           style: TextStyle(fontWeight: FontWeight.w800),
         ),
         actions: [
           IconButton(
             tooltip: "Notifications",
             onPressed: () {},
-            icon: const Icon(Icons.notifications_none),
+            icon:  Icon(Icons.notifications_none),
           ),
           IconButton(
             tooltip: "Profile",
             onPressed: () {},
-            icon: const Icon(Icons.person_outline),
+            icon:  Icon(Icons.person_outline),
           ),
         ],
       ),
-
       drawer: Drawer(
         child: SafeArea(
           child: Column(
             children: [
               Container(
                 width: double.infinity,
-                padding: const EdgeInsets.all(16),
+                padding:  EdgeInsets.all(16),
                 decoration: BoxDecoration(color: green),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -105,17 +103,17 @@ class _MealPlanIntroPageState extends State<MealPlanIntroPage> {
                       backgroundColor: Colors.white,
                       child: Icon(Icons.restaurant, color: green, size: 28),
                     ),
-                    const SizedBox(height: 10),
-                    const Text(
-                      "DIV للتغذية",
+                     SizedBox(height: 10),
+                     Text(
+                      "DIV Nutrition",
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 18,
                         fontWeight: FontWeight.w800,
                       ),
                     ),
-                    const SizedBox(height: 2),
-                    const Text("Quick navigation", style: TextStyle(color: Color(0xCCFFFFFF))),
+                     SizedBox(height: 2),
+                     Text("Quick navigation", style: TextStyle(color: Colors.greenAccent)),
                   ],
                 ),
               ),
@@ -142,7 +140,7 @@ class _MealPlanIntroPageState extends State<MealPlanIntroPage> {
                       Navigator.pop(context);
                       onOpenRecipes();
                     }),
-                    const Divider(height: 24),
+                     Divider(height: 24),
                     _drawerItem(icon: Icons.logout, title: "Logout", onTap: () {
                       Navigator.pop(context);
                     }),
@@ -158,13 +156,13 @@ class _MealPlanIntroPageState extends State<MealPlanIntroPage> {
         child: LayoutBuilder(
           builder: (context, constraints) {
             return SingleChildScrollView(
-              padding: const EdgeInsets.fromLTRB(18, 18, 18, 18),
+              padding:  EdgeInsets.fromLTRB(18, 18, 18, 18),
               child: ConstrainedBox(
                 constraints: BoxConstraints(minHeight: constraints.maxHeight),
                 child: IntrinsicHeight(
                   child: Column(
                     children: [
-                      const Text(
+                       Text(
                         "Meal Plan",
                         textAlign: TextAlign.center,
                         style: TextStyle(
@@ -173,19 +171,19 @@ class _MealPlanIntroPageState extends State<MealPlanIntroPage> {
                           color: Colors.black87,
                         ),
                       ),
-                      const SizedBox(height: 6),
-                      const Text(
+                       SizedBox(height: 6),
+                       Text(
                         "Get a balanced meal schedule that matches your goals and taste.",
                         textAlign: TextAlign.center,
                         style: TextStyle(fontSize: 14, color: Colors.black54),
                       ),
 
-                      const SizedBox(height: 18),
+                       SizedBox(height: 18),
 
                       if (currentPlan != null) ...[
                         Container(
                           width: double.infinity,
-                          padding: const EdgeInsets.all(14),
+                          padding:  EdgeInsets.all(14),
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(14),
@@ -196,50 +194,48 @@ class _MealPlanIntroPageState extends State<MealPlanIntroPage> {
                             children: [
                               Text(
                                 currentPlan!.title,
-                                style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 16),
+                                style:  TextStyle(fontWeight: FontWeight.w900, fontSize: 16),
                               ),
-                              const SizedBox(height: 6),
+                               SizedBox(height: 6),
                               Text(
                                 currentPlan!.description.isEmpty
                                     ? "You already have a plan."
                                     : currentPlan!.description,
-                                style: const TextStyle(color: Colors.black54),
+                                style:  TextStyle(color: Colors.black54),
                               ),
                             ],
                           ),
                         ),
-                        const SizedBox(height: 18),
+                         SizedBox(height: 18),
                       ],
 
                       _ClipboardIllustration(green: green),
 
-                      const SizedBox(height: 22),
+                       SizedBox(height: 22),
 
                       _featureRow(
                         text: "Breakfast, lunch, and dinner meals",
                         icon: Icons.assignment_outlined,
                       ),
-                      const SizedBox(height: 14),
+                       SizedBox(height: 14),
                       _featureRow(
                         text: "Designed for your goals and preferences",
                         icon: Icons.star_border,
                       ),
-                      const SizedBox(height: 14),
+                       SizedBox(height: 14),
                       _featureRow(
                         text: "Balanced protein, fats, carbs, and fiber",
                         icon: Icons.pie_chart_outline,
                       ),
-
-                      const Spacer(),
-
-                      const SizedBox(height: 14),
+                       Spacer(),
+                       SizedBox(height: 14),
 
                       SizedBox(
                         width: double.infinity,
                         height: 54,
                         child: ElevatedButton.icon(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFF8FD06D),
+                            backgroundColor:  Colors.green,
                             foregroundColor: Colors.white,
                             elevation: 0,
                             shape: RoundedRectangleBorder(
@@ -248,15 +244,15 @@ class _MealPlanIntroPageState extends State<MealPlanIntroPage> {
                           ),
                           onPressed: creating ? null : _createMealPlan,
                           icon: creating
-                              ? const SizedBox(
+                              ?  SizedBox(
                             width: 18,
                             height: 18,
                             child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
                           )
-                              : const Icon(Icons.add, size: 22),
+                              :  Icon(Icons.add, size: 22),
                           label: Text(
                             creating ? "Creating..." : "Create Meal Plan",
-                            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
+                            style:  TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
                           ),
                         ),
                       ),
@@ -278,20 +274,18 @@ class _MealPlanIntroPageState extends State<MealPlanIntroPage> {
           child: Text(
             text,
             textAlign: TextAlign.right,
-            style: const TextStyle(
+            style:  TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.w600,
               color: Colors.black87,
             ),
           ),
         ),
-        const SizedBox(width: 12),
+         SizedBox(width: 12),
         Icon(icon, color: green, size: 28),
       ],
     );
   }
-
-  // ===== Navigation hooks =====
   void onOpenSettings() {}
   void onOpenPurchases() {}
   void onOpenHistory() {}
@@ -305,12 +299,11 @@ Widget _drawerItem({
 }) {
   return ListTile(
     leading: Icon(icon, color: Colors.green),
-    title: Text(title, style: const TextStyle(fontWeight: FontWeight.w600)),
+    title: Text(title, style:  TextStyle(fontWeight: FontWeight.w600)),
     onTap: onTap,
   );
 }
 
-/// Simple illustration (no asset needed)
 class _ClipboardIllustration extends StatelessWidget {
   const _ClipboardIllustration({required this.green});
 
@@ -330,11 +323,11 @@ class _ClipboardIllustration extends StatelessWidget {
               color: Colors.white,
               borderRadius: BorderRadius.circular(18),
               border: Border.all(color: Colors.black12),
-              boxShadow: const [
+              boxShadow:  [
                 BoxShadow(
                   blurRadius: 18,
                   offset: Offset(0, 10),
-                  color: Color(0x14000000),
+                  color: Colors.black,
                 ),
               ],
             ),
@@ -345,7 +338,7 @@ class _ClipboardIllustration extends StatelessWidget {
               width: 70,
               height: 24,
               decoration: BoxDecoration(
-                color: const Color(0xFFFFD36E),
+                color:  Colors.amber,
                 borderRadius: BorderRadius.circular(8),
               ),
             ),
@@ -368,9 +361,9 @@ class _ClipboardIllustration extends StatelessWidget {
             child: Column(
               children: [
                 Icon(Icons.local_cafe, color: green, size: 18),
-                const SizedBox(height: 16),
+                 SizedBox(height: 16),
                 Icon(Icons.ramen_dining, color: green, size: 18),
-                const SizedBox(height: 16),
+                 SizedBox(height: 16),
                 Icon(Icons.restaurant, color: green, size: 18),
               ],
             ),
@@ -381,9 +374,9 @@ class _ClipboardIllustration extends StatelessWidget {
             child: Column(
               children: [
                 _line(),
-                const SizedBox(height: 18),
+                 SizedBox(height: 18),
                 _line(),
-                const SizedBox(height: 18),
+                 SizedBox(height: 18),
                 _line(),
               ],
             ),
@@ -398,7 +391,7 @@ class _ClipboardIllustration extends StatelessWidget {
       width: 60,
       height: 6,
       decoration: BoxDecoration(
-        color: const Color(0xFFBFE6B2),
+        color:  Colors.lime,
         borderRadius: BorderRadius.circular(10),
       ),
     );

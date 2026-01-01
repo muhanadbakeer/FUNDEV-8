@@ -12,7 +12,7 @@ class AllergensPage extends StatefulWidget {
 class _AllergensPageState extends State<AllergensPage> {
   bool loading = true;
 
-  final String userId = "1"; // مؤقت – من Auth لاحقاً
+  final String userId = "1";
 
   final List<String> options = [
     "Peanuts",
@@ -50,6 +50,7 @@ class _AllergensPageState extends State<AllergensPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       backgroundColor: Colors.grey.shade100,
       appBar: AppBar(
         title: Text("settings.allergens".tr()),
@@ -57,11 +58,11 @@ class _AllergensPageState extends State<AllergensPage> {
         foregroundColor: Colors.white,
       ),
       body: loading
-          ? const Center(child: CircularProgressIndicator())
+          ?  Center(child: CircularProgressIndicator())
           : Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(16),
+            padding:  EdgeInsets.all(16),
             child: Wrap(
               spacing: 10,
               runSpacing: 10,
@@ -79,9 +80,9 @@ class _AllergensPageState extends State<AllergensPage> {
               }).toList(),
             ),
           ),
-          const Spacer(),
+           Spacer(),
           Padding(
-            padding: const EdgeInsets.all(16),
+            padding:  EdgeInsets.all(16),
             child: SizedBox(
               width: double.infinity,
               child: ElevatedButton(
@@ -91,7 +92,7 @@ class _AllergensPageState extends State<AllergensPage> {
                 onPressed: _save,
                 child: Text(
                   "common.save".tr(),
-                  style: const TextStyle(color: Colors.white),
+                  style:  TextStyle(color: Colors.white),
                 ),
               ),
             ),

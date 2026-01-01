@@ -28,9 +28,8 @@ class MealPlanDto {
 }
 
 class MealPlanApi {
-  static const String _baseUrl = "http://10.0.2.2:5172/api"; // عدّلها حسب ASP.NET
+  static const String _baseUrl = "http://10.0.2.2:5172/api";
 
-  /// GET current meal plan (if exists)
   static Future<MealPlanDto?> getCurrent(String userId) async {
     final res = await http.get(Uri.parse("$_baseUrl/mealplan/current/$userId"));
 
@@ -44,7 +43,6 @@ class MealPlanApi {
     return MealPlanDto.fromJson(data);
   }
 
-  /// POST create meal plan
   static Future<MealPlanDto> create(String userId) async {
     final res = await http.post(
       Uri.parse("$_baseUrl/mealplan/create"),

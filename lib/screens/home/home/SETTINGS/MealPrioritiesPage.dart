@@ -12,7 +12,7 @@ class MealPrioritiesPage extends StatefulWidget {
 class _MealPrioritiesPageState extends State<MealPrioritiesPage> {
   bool loading = true;
 
-  final String userId = "1"; // مؤقت – من Auth لاحقاً
+  final String userId = "1";
 
   final options = ["Balanced", "High Protein", "Low Carb", "Quick Meals", "Budget"];
   Set<String> selected = {"Balanced"};
@@ -48,11 +48,11 @@ class _MealPrioritiesPageState extends State<MealPrioritiesPage> {
         foregroundColor: Colors.white,
       ),
       body: loading
-          ? const Center(child: CircularProgressIndicator())
+          ?  Center(child: CircularProgressIndicator())
           : Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(16),
+            padding:  EdgeInsets.all(16),
             child: Wrap(
               spacing: 10,
               runSpacing: 10,
@@ -74,9 +74,9 @@ class _MealPrioritiesPageState extends State<MealPrioritiesPage> {
               }).toList(),
             ),
           ),
-          const Spacer(),
+           Spacer(),
           Padding(
-            padding: const EdgeInsets.all(16),
+            padding:  EdgeInsets.all(16),
             child: SizedBox(
               width: double.infinity,
               child: ElevatedButton(
@@ -84,7 +84,7 @@ class _MealPrioritiesPageState extends State<MealPrioritiesPage> {
                 onPressed: _save,
                 child: Text(
                   "common.save".tr(),
-                  style: const TextStyle(color: Colors.white),
+                  style:  TextStyle(color: Colors.white),
                 ),
               ),
             ),

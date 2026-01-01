@@ -1,4 +1,5 @@
 import 'package:div/screens/auth/SplashView.dart';
+import 'package:div/screens/home/home%20page.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -57,7 +58,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "DIV للتغذية",
+      title: "DIV Nutrition",
       debugShowCheckedModeBanner: false,
 
       localizationsDelegates: context.localizationDelegates,

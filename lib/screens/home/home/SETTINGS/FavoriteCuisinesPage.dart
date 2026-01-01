@@ -12,7 +12,7 @@ class FavoriteCuisinesPage extends StatefulWidget {
 class _FavoriteCuisinesPageState extends State<FavoriteCuisinesPage> {
   bool loading = true;
 
-  final String userId = "1"; // مؤقت – من Auth لاحقًا
+  final String userId = "1";
 
   final List<String> options = [
     "Middle Eastern",
@@ -57,11 +57,11 @@ class _FavoriteCuisinesPageState extends State<FavoriteCuisinesPage> {
         foregroundColor: Colors.white,
       ),
       body: loading
-          ? const Center(child: CircularProgressIndicator())
+          ?  Center(child: CircularProgressIndicator())
           : Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(16),
+            padding:  EdgeInsets.all(16),
             child: Wrap(
               spacing: 10,
               runSpacing: 10,
@@ -83,9 +83,9 @@ class _FavoriteCuisinesPageState extends State<FavoriteCuisinesPage> {
               }).toList(),
             ),
           ),
-          const Spacer(),
+           Spacer(),
           Padding(
-            padding: const EdgeInsets.all(16),
+            padding:  EdgeInsets.all(16),
             child: SizedBox(
               width: double.infinity,
               child: ElevatedButton(
@@ -94,7 +94,7 @@ class _FavoriteCuisinesPageState extends State<FavoriteCuisinesPage> {
                 onPressed: _save,
                 child: Text(
                   "common.save".tr(),
-                  style: const TextStyle(color: Colors.white),
+                  style:  TextStyle(color: Colors.white),
                 ),
               ),
             ),

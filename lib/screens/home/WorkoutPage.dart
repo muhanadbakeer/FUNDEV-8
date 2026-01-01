@@ -10,7 +10,7 @@ class WorkoutPage extends StatefulWidget {
 }
 
 class _WorkoutPageState extends State<WorkoutPage> {
-  final String userId = "1"; // مؤقت
+  final String userId = "1";
   bool loading = true;
 
   List<WorkoutItemDto> items = [];
@@ -89,30 +89,30 @@ class _WorkoutPageState extends State<WorkoutPage> {
             onPressed: () {
               final lang = context.locale.languageCode;
               if (lang == "en") {
-                context.setLocale(const Locale("ar"));
+                context.setLocale( Locale("ar"));
               } else {
-                context.setLocale(const Locale("en"));
+                context.setLocale( Locale("en"));
               }
             },
-            icon: const Icon(Icons.language),
+            icon:  Icon(Icons.language),
             tooltip: "Change language",
           ),
           IconButton(
             onPressed: _load,
-            icon: const Icon(Icons.refresh),
+            icon:  Icon(Icons.refresh),
           ),
         ],
       ),
       body: loading
-          ? const Center(child: CircularProgressIndicator())
+          ?  Center(child: CircularProgressIndicator())
           : ListView(
-        padding: const EdgeInsets.all(16),
+        padding:  EdgeInsets.all(16),
         children: [
           Text(
             "Today's workout".tr(),
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+            style:  TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
           ),
-          const SizedBox(height: 12),
+           SizedBox(height: 12),
 
           ...items.map(
                 (x) => Card(
@@ -124,12 +124,12 @@ class _WorkoutPageState extends State<WorkoutPage> {
             ),
           ),
 
-          const SizedBox(height: 16),
+           SizedBox(height: 16),
           Text(
             "Notes".tr(),
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+            style:  TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
           ),
-          const SizedBox(height: 8),
+           SizedBox(height: 8),
 
           TextField(
             controller: notes,
@@ -144,7 +144,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
             ),
           ),
 
-          const SizedBox(height: 14),
+           SizedBox(height: 14),
           SizedBox(
             width: double.infinity,
             height: 48,
@@ -152,7 +152,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
               style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
               onPressed: _save,
               child: Text("common.save".tr(),
-                  style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w800)),
+                  style:  TextStyle(color: Colors.white, fontWeight: FontWeight.w800)),
             ),
           )
         ],

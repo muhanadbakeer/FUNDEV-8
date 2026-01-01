@@ -10,7 +10,7 @@ class WeightPage extends StatefulWidget {
 }
 
 class _WeightPageState extends State<WeightPage> {
-  final String userId = "1"; // مؤقت
+  final String userId = "1";
 
   bool loading = true;
   WeightSummaryDto? summary;
@@ -40,11 +40,9 @@ class _WeightPageState extends State<WeightPage> {
       _msg("Failed to load".tr());
     }
   }
-
   void _msg(String text) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(text)));
   }
-
   String _prettyDate(DateTime dt) {
     final now = DateTime.now();
     final d0 = DateTime(now.year, now.month, now.day);
@@ -69,7 +67,7 @@ class _WeightPageState extends State<WeightPage> {
           key: formKey,
           child: TextFormField(
             controller: c,
-            keyboardType: const TextInputType.numberWithOptions(decimal: true),
+            keyboardType:  TextInputType.numberWithOptions(decimal: true),
             decoration: InputDecoration(
               labelText: "Weight (kg)".tr(),
               hintText: "78".tr(),
@@ -89,7 +87,7 @@ class _WeightPageState extends State<WeightPage> {
           ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
             onPressed: () => Navigator.pop(context, true),
-            child: Text("Save".tr(), style: const TextStyle(color: Colors.white)),
+            child: Text("Save".tr(), style:  TextStyle(color: Colors.white)),
           ),
         ],
       ),
@@ -125,61 +123,61 @@ class _WeightPageState extends State<WeightPage> {
             onPressed: () {
               final lang = context.locale.languageCode;
               if (lang == "en") {
-                context.setLocale(const Locale("ar"));
+                context.setLocale( Locale("ar"));
               } else {
-                context.setLocale(const Locale("en"));
+                context.setLocale( Locale("en"));
               }
             },
-            icon: const Icon(Icons.language),
+            icon:  Icon(Icons.language),
             tooltip: "Change language",
           ),
           IconButton(
             onPressed: _load,
-            icon: const Icon(Icons.refresh),
+            icon:  Icon(Icons.refresh),
           ),
         ],
       ),
       body: loading
-          ? const Center(child: CircularProgressIndicator())
+          ?  Center(child: CircularProgressIndicator())
           : Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding:  EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               "Current weight".tr(),
-              style: const TextStyle(
+              style:  TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
               ),
             ),
-            const SizedBox(height: 8),
+             SizedBox(height: 8),
             Text(
               current > 0 ? "${current.toStringAsFixed(1)} kg" : "--",
-              style: const TextStyle(
+              style:  TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.w800,
               ),
             ),
-            const SizedBox(height: 24),
+             SizedBox(height: 24),
             ElevatedButton.icon(
               onPressed: _openAddDialog,
-              icon: const Icon(Icons.add),
+              icon:  Icon(Icons.add),
               label: Text("Add new measurement".tr()),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green,
                 foregroundColor: Colors.white,
               ),
             ),
-            const SizedBox(height: 24),
+             SizedBox(height: 24),
             Text(
               "Weight history".tr(),
-              style: const TextStyle(
+              style:  TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
               ),
             ),
-            const SizedBox(height: 8),
+             SizedBox(height: 8),
             Expanded(
               child: history.isEmpty
                   ? Center(child: Text("No data".tr()))
@@ -188,7 +186,7 @@ class _WeightPageState extends State<WeightPage> {
                 itemBuilder: (context, index) {
                   final item = history[index];
                   return ListTile(
-                    leading: const Icon(Icons.monitor_weight),
+                    leading:  Icon(Icons.monitor_weight),
                     title: Text("${item.weightKg.toStringAsFixed(1)} kg"),
                     subtitle: Text(_prettyDate(item.createdAt)),
                   );

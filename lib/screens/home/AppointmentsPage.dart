@@ -10,7 +10,7 @@ class AppointmentsPage extends StatefulWidget {
 }
 
 class _AppointmentsPageState extends State<AppointmentsPage> {
-  final String userId = "1"; // مؤقت – من Auth لاحقاً
+  final String userId = "1";
 
   List<Map<String, dynamic>> appointments = [];
   bool isLoading = true;
@@ -139,40 +139,40 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
             onPressed: () {
               final lang = context.locale.languageCode;
               if (lang == "en") {
-                context.setLocale(const Locale("ar"));
+                context.setLocale( Locale("ar"));
               } else {
-                context.setLocale(const Locale("en"));
+                context.setLocale( Locale("en"));
               }
             },
-            icon: const Icon(Icons.language),
+            icon:  Icon(Icons.language),
             tooltip: "Change language",
           ),
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16),
+        padding:  EdgeInsets.all(16),
         child: Column(
           children: [
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
                 "Upcoming sessions".tr(),
-                style: const TextStyle(
+                style:  TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
                 ),
               ),
             ),
-            const SizedBox(height: 12),
+             SizedBox(height: 12),
 
             Expanded(
               child: isLoading
-                  ? const Center(child: CircularProgressIndicator())
+                  ?  Center(child: CircularProgressIndicator())
                   : appointments.isEmpty
                   ? Center(
                 child: Text(
                   "No appointments yet".tr(),
-                  style: const TextStyle(fontSize: 16),
+                  style:  TextStyle(fontSize: 16),
                 ),
               )
                   : ListView.builder(
@@ -181,7 +181,7 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
                   final item = appointments[index];
                   return Card(
                     child: ListTile(
-                      leading: const Icon(Icons.calendar_today),
+                      leading:  Icon(Icons.calendar_today),
                       title: Text("${item['date']} • ${item['time']}"),
                       subtitle: Text(
                         (item['title'] ?? "").toString() +
@@ -192,7 +192,7 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
                       ),
                       isThreeLine: true,
                       trailing: IconButton(
-                        icon: const Icon(Icons.delete, color: Colors.red),
+                        icon:  Icon(Icons.delete, color: Colors.red),
                         onPressed: () => _deleteAppointment(item['id'] as int),
                       ),
                     ),
@@ -201,13 +201,13 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
               ),
             ),
 
-            const SizedBox(height: 16),
+             SizedBox(height: 16),
 
             SizedBox(
               width: double.infinity,
               child: ElevatedButton.icon(
                 onPressed: () => _showAddAppointmentDialog(context),
-                icon: const Icon(Icons.add),
+                icon:  Icon(Icons.add),
                 label: Text("Book new appointment".tr()),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green,

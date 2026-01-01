@@ -28,9 +28,8 @@ class RecipeDto {
 }
 
 class RecipesApi {
-  // ✅ عدّلها حسب السيرفر عندك
-  // Emulator:
-  static const String baseUrl = "http://10.0.2.2:5000";
+
+  static const String baseUrl = "http://10.0.2.2:5172";
 
   static Future<List<RecipeDto>> getExplore({String? search}) async {
     final uri = Uri.parse("$baseUrl/api/recipes/explore")

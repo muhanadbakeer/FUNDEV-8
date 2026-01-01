@@ -11,7 +11,7 @@ class CaloriesPage extends StatefulWidget {
 }
 
 class _CaloriesPageState extends State<CaloriesPage> {
-  final String userId = "1"; // مؤقت – من Auth لاحقاً
+  final String userId = "1";
 
   bool loading = true;
 
@@ -56,34 +56,34 @@ class _CaloriesPageState extends State<CaloriesPage> {
             onPressed: () {
               String lang = context.locale.languageCode;
               if (lang == "en") {
-                context.setLocale(const Locale("ar"));
+                context.setLocale( Locale("ar"));
               } else {
-                context.setLocale(const Locale("en"));
+                context.setLocale( Locale("en"));
               }
             },
-            icon: const Icon(Icons.language),
+            icon:  Icon(Icons.language),
           ),
         ],
       ),
       body: loading
-          ? const Center(child: CircularProgressIndicator())
+          ?  Center(child: CircularProgressIndicator())
           : Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding:  EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               "This week's calories".tr(),
-              style: const TextStyle(
+              style:  TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
               ),
             ),
-            const SizedBox(height: 8),
+             SizedBox(height: 8),
             Card(
               elevation: 3,
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding:  EdgeInsets.all(16.0),
                 child: Row(
                   children: [
                     Container(
@@ -93,25 +93,25 @@ class _CaloriesPageState extends State<CaloriesPage> {
                         color: Colors.green.withOpacity(0.1),
                         shape: BoxShape.circle,
                       ),
-                      child: const Icon(
+                      child:  Icon(
                         Icons.local_fire_department,
                         color: Colors.green,
                         size: 32,
                       ),
                     ),
-                    const SizedBox(width: 16),
+                     SizedBox(width: 16),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             "Total calories".tr(),
-                            style: const TextStyle(
+                            style:  TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
-                          const SizedBox(height: 4),
+                           SizedBox(height: 4),
                           Text(
                             "$thisWeek kcal",
                             style: TextStyle(
@@ -120,7 +120,7 @@ class _CaloriesPageState extends State<CaloriesPage> {
                               color: Colors.green.shade700,
                             ),
                           ),
-                          const SizedBox(height: 4),
+                           SizedBox(height: 4),
                           Text(
                             "Average: $avg kcal / day".tr(),
                             style: TextStyle(
@@ -136,16 +136,16 @@ class _CaloriesPageState extends State<CaloriesPage> {
               ),
             ),
 
-            const SizedBox(height: 20),
+             SizedBox(height: 20),
 
             Text(
               "Weekly calories chart".tr(),
-              style: const TextStyle(
+              style:  TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
               ),
             ),
-            const SizedBox(height: 8),
+             SizedBox(height: 8),
 
             SizedBox(
               height: 220,
@@ -154,13 +154,13 @@ class _CaloriesPageState extends State<CaloriesPage> {
                   borderData: FlBorderData(show: false),
                   gridData: FlGridData(show: false),
                   titlesData: FlTitlesData(
-                    leftTitles: const AxisTitles(
+                    leftTitles:  AxisTitles(
                       sideTitles: SideTitles(showTitles: false),
                     ),
-                    topTitles: const AxisTitles(
+                    topTitles:  AxisTitles(
                       sideTitles: SideTitles(showTitles: false),
                     ),
-                    rightTitles: const AxisTitles(
+                    rightTitles:  AxisTitles(
                       sideTitles: SideTitles(showTitles: false),
                     ),
                     bottomTitles: AxisTitles(
@@ -170,7 +170,7 @@ class _CaloriesPageState extends State<CaloriesPage> {
                         getTitlesWidget: (value, meta) {
                           int index = value.toInt();
                           if (index < 0 || index >= weeklyCalories.length) {
-                            return const SizedBox();
+                            return  SizedBox();
                           }
                           final label = weeklyCalories[index]["label"].toString();
 
@@ -184,10 +184,10 @@ class _CaloriesPageState extends State<CaloriesPage> {
                           }
 
                           return Padding(
-                            padding: const EdgeInsets.only(top: 4.0),
+                            padding:  EdgeInsets.only(top: 4.0),
                             child: Text(
                               shortLabel.tr(),
-                              style: const TextStyle(
+                              style:  TextStyle(
                                 fontSize: 10,
                                 fontWeight: FontWeight.w500,
                               ),
@@ -202,16 +202,16 @@ class _CaloriesPageState extends State<CaloriesPage> {
               ),
             ),
 
-            const SizedBox(height: 20),
+             SizedBox(height: 20),
 
             Text(
               "Previous weeks".tr(),
-              style: const TextStyle(
+              style:  TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
               ),
             ),
-            const SizedBox(height: 8),
+             SizedBox(height: 8),
 
             Expanded(
               child: ListView.builder(
@@ -220,7 +220,7 @@ class _CaloriesPageState extends State<CaloriesPage> {
                   final item = weeklyCalories[index];
                   return Card(
                     child: ListTile(
-                      leading: const Icon(Icons.calendar_today, color: Colors.green),
+                      leading:  Icon(Icons.calendar_today, color: Colors.green),
                       title: Text(item["label"].toString().tr()),
                       subtitle: Text("${item["range"]} • ${item["kcal"]} kcal"),
                     ),

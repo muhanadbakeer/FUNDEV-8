@@ -9,7 +9,7 @@ class CookingSkillApi {
     final res = await http.get(Uri.parse("$baseUrl/$userId"));
 
     if (res.statusCode == 200) {
-      return res.body.replaceAll('"', ''); // لو رجع سترنغ مع quotes
+      return res.body.replaceAll('"', '');
     } else {
       throw Exception("Failed to load cooking skill");
     }
