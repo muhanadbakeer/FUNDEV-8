@@ -207,11 +207,9 @@
   "Cannot open phone app": "لا يمكن فتح تطبيق الاتصال",
   "WhatsApp not available": "واتساب غير متوفر",
   "Cannot open Google Maps": "لا يمكن فتح خرائط Google",
-
   "app": {
     "name": "DIV للتغذية"
   },
-
   "common": {
     "save": "حفظ",
     "apply": "تطبيق",
@@ -220,7 +218,6 @@
     "next": "التالي",
     "back": "رجوع"
   },
-
   "navigation": {
     "home": "الرئيسية",
     "history": "السجل",
@@ -230,7 +227,6 @@
     "favorites": "المفضلة",
     "ratings": "التقييمات"
   },
-
   "settings": {
     "title": "الإعدادات",
     "account": "الحساب",
@@ -238,7 +234,6 @@
     "restoreSubscription": "استعادة الاشتراك",
     "signIn": "تسجيل الدخول",
     "rateUs": "قيّمنا",
-
     "nutrition": "التغذية",
     "calorieGoal": "هدف السعرات الحرارية",
     "macrosGoal": "أهداف المغذيات الكبرى",
@@ -246,34 +241,28 @@
     "allergens": "المكروهات",
     "favoriteCuisines": "المطابخ المفضلة",
     "cookingSkill": "مهارات الطهي",
-
     "mealPlan": "خطة الوجبات",
     "mealsPerDay": "عدد الوجبات في اليوم",
     "mealSchedule": "جدول الوجبات",
     "mealPlanPriorities": "أولويات خطة الوجبات",
-
     "general": "عام",
     "language": "اللغة",
     "units": "الوحدات",
-
     "support": "الدعم",
     "privacyPolicy": "سياسة الخصوصية",
     "terms": "شروط الخدمة",
     "recommendationSource": "مصدر التوصيات",
     "contactUs": "اتصل بنا",
-
     "access": "الوصول",
     "deleteAccount": "حذف الحساب",
     "referralCode": "رمز الإحالة"
   },
-
   "language": {
     "title": "اللغة",
     "choose": "اختر لغتك",
     "arabic": "العربية",
     "english": "الإنجليزية"
   },
-
   "history": {
     "title": "السجل",
     "protein": "بروتين",
@@ -284,7 +273,6 @@
     "emptyTitle": "لم تقم بتسجيل أي شيء بعد",
     "emptyDesc": "ابدأ بتتبع وجباتك باستخدام الصور أو النص أو الإدخال اليدوي"
   },
-
   "addMeal": {
     "title": "تسجيل وجبة",
     "text": "نص",
@@ -292,12 +280,31 @@
     "gallery": "معرض",
     "manual": "تسجيل المغذيات الكبرى يدويًا"
   },
-
   "notifications": {
     "title": "الإشعارات",
-    "empty": "لا توجد إشعارات حالياً"
+    "empty": "لا توجد إشعارات حالياً",
+    "filters": {
+      "search": "بحث",
+      "clear": "مسح",
+      "view_all": "عرض الكل",
+      "meal_time": "وقت الوجبة",
+      "breakfast": "الإفطار",
+      "lunch": "الغداء",
+      "dinner": "العشاء",
+      "include_ingredients": "أدرج المكونات",
+      "cuisines": "المطابخ",
+      "diets": "الأنظمة الغذائية",
+      "exclude_ingredients": "استبعاد المكونات",
+      "cook_time": "مدة الطبخ",
+      "less_equal_minutes": "≤ {} دقيقة",
+      "medical_diets": "الأنظمة الغذائية الطبية",
+      "food_exclusions": "استثناءات الطعام",
+      "show_recipes": "عرض {} وصفات"
+    }
   }
 }
+
+
 
 
 

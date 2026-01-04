@@ -274,9 +274,28 @@
 
   "notifications": {
     "title": "Notifications",
-    "empty": "No notifications yet"
-  }
-}
+    "empty": "No notifications yet",
+    "filters": {
+      "search": "Search",
+      "clear": "Clear",
+      "view_all": "View all",
+      "meal_time": "Meal time",
+      "breakfast": "Breakfast",
+      "lunch": "Lunch",
+      "dinner": "Dinner",
+      "include_ingredients": "Include ingredients",
+      "cuisines": "Cuisines",
+      "diets": "Diets",
+      "exclude_ingredients": "Exclude ingredients",
+      "cook_time": "Cook time",
+      "less_equal_minutes": "≤ {} min",
+      "medical_diets": "Medical diets",
+      "food_exclusions": "Food exclusions",
+      "show_recipes": "Show {} recipes"}}}
+
+
+
+
 
 
 

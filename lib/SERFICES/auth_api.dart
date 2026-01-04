@@ -13,7 +13,6 @@ class AuthApi {
           headers: {
             "Content-Type": "application/json",
           },
-          // مهم عشان ما يرمي Exception مباشرة
           validateStatus: (status) => status != null && status < 500,
         ),
       );

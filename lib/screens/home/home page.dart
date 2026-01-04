@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
-
 import 'package:div/screens/auth/SplashView.dart';
 import 'package:div/screens/home/HistoryPage.dart';
 import 'package:div/screens/home/MealPlanPage.dart';
 import 'package:div/screens/home/NotificationsPage.dart';
 import 'package:div/screens/home/home/SETTINGS/SettingsPage.dart';
 import '../ profile/profile.dart';
+import '../../core/uite/recipe_filter.dart';
+import 'FiltersPage.dart';
 
-// ========================= API SERVICE =========================
 class RecipesApi {
   RecipesApi({
     required this.baseUrl,
@@ -24,10 +24,6 @@ class RecipesApi {
   Uri _u(String path) => Uri.parse('$baseUrl$path');
 
   Future<List<int>> getFavoriteIds(String userId) async {
-    // السيرفر عندك بيرجع list of recipes غالباً
-    // إحنا رح نتعامل معها بطريقتين:
-    // 1) إذا رجع List<int> => ids
-    // 2) إذا رجع List<Map> => ناخذ id من كل عنصر
     final res = await _client.get(_u('/api/recipes/favorites/$userId'));
     if (res.statusCode < 200 || res.statusCode >= 300) {
       throw Exception('Favorites GET failed: ${res.statusCode} ${res.body}');
@@ -65,7 +61,6 @@ class RecipesApi {
   }
 }
 
-// ========================= MODEL =========================
 class RecipeItem {
   RecipeItem({
     required this.id,
@@ -102,7 +97,6 @@ class RecipeItem {
   }
 }
 
-// ========================= STATE =========================
 class RecipesState {
   RecipesState({
     required this.loading,
@@ -163,7 +157,6 @@ class RecipesState {
   }
 }
 
-// ========================= CUBIT =========================
 class RecipesCubit extends Cubit<RecipesState> {
   RecipesCubit({
     required this.api,
@@ -175,10 +168,8 @@ class RecipesCubit extends Cubit<RecipesState> {
   void init() async {
     emit(state.copyWith(loading: true, error: null));
 
-    // build explore locally
     final explore = _RecipeData.buildExplore();
 
-    // fetch favorites from server
     try {
       final favIds = await api.getFavoriteIds(state.userId);
 
@@ -197,7 +188,6 @@ class RecipesCubit extends Cubit<RecipesState> {
         ratings: [],
       ));
     } catch (e) {
-      // إذا فشل السيرفر: نخلي الواجهة شغالة عادي بس بدون API
       emit(state.copyWith(
         loading: false,
         error: e.toString(),
@@ -231,7 +221,6 @@ class RecipesCubit extends Cubit<RecipesState> {
   List<RecipeItem> ratingsFiltered() => _applySearch(state.ratings);
 
   Future<void> toggleFavorite(RecipeItem item) async {
-    // optimistic update
     final newIsFav = !item.isFav;
 
     final newExplore = state.explore.map((r) {
@@ -247,7 +236,6 @@ class RecipesCubit extends Cubit<RecipesState> {
       error: null,
     ));
 
-    // call API
     try {
       if (newIsFav) {
         await api.addFavorite(state.userId, item.id);
@@ -255,7 +243,6 @@ class RecipesCubit extends Cubit<RecipesState> {
         await api.removeFavorite(state.userId, item.id);
       }
     } catch (e) {
-      // rollback لو فشل
       final rollbackExplore = state.explore.map((r) {
         if (r.id == item.id) return r.copyWith(isFav: !newIsFav);
         return r;
@@ -272,7 +259,6 @@ class RecipesCubit extends Cubit<RecipesState> {
   }
 }
 
-// ========================= UI PAGE =========================
 class RecipesExplorePage extends StatefulWidget {
   RecipesExplorePage({super.key});
 
@@ -291,10 +277,7 @@ class _RecipesExplorePageState extends State<RecipesExplorePage> {
 
   @override
   Widget build(BuildContext context) {
-    // غيّر userId حسب نظامك
     final userId = "1";
-
-    // غيّر baseUrl حسب جهازك
     final api = RecipesApi(baseUrl: "http://10.0.2.2:5172");
 
     return BlocProvider(
@@ -440,7 +423,6 @@ class _RecipesExplorePageState extends State<RecipesExplorePage> {
                         style: TextStyle(color: Colors.red.shade700, fontSize: 12),
                       ),
                     ),
-
                   Padding(
                     padding: EdgeInsets.fromLTRB(16, 14, 16, 12),
                     child: Row(
@@ -464,7 +446,17 @@ class _RecipesExplorePageState extends State<RecipesExplorePage> {
                         ),
                         SizedBox(width: 12),
                         InkWell(
-                          onTap: () => _openFilters(context, green, cubit),
+                          onTap: () async {
+                            await Navigator.push<RecipeFiltersSelection>(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => FiltersPage(
+                                  initial:  RecipeFiltersSelection(),
+                                  totalRecipesCount: 349,
+                                ),
+                              ),
+                            );
+                          },
                           borderRadius: BorderRadius.circular(14),
                           child: Stack(
                             clipBehavior: Clip.none,
@@ -506,7 +498,6 @@ class _RecipesExplorePageState extends State<RecipesExplorePage> {
                       ],
                     ),
                   ),
-
                   Expanded(
                     child: Stack(
                       children: [
@@ -537,7 +528,6 @@ class _RecipesExplorePageState extends State<RecipesExplorePage> {
                             ),
                           ],
                         ),
-
                         if (state.loading)
                           Positioned.fill(
                             child: Container(
@@ -556,7 +546,6 @@ class _RecipesExplorePageState extends State<RecipesExplorePage> {
       ),
     );
   }
-
   void _openFilters(BuildContext context, Color green, RecipesCubit cubit) {
     showModalBottomSheet(
       context: context,
@@ -595,18 +584,11 @@ class _RecipesExplorePageState extends State<RecipesExplorePage> {
                   TextButton(
                     onPressed: () {
                       cubit.clearFilters();
-                      Navigator.pop(context);
                     },
                     child: Text("Clear".tr(), style: TextStyle(color: green)),
                   )
                 ],
               ),
-              SizedBox(height: 8),
-              _filterTile(title: "Today".tr()),
-              _filterTile(title: "This week".tr()),
-              _filterTile(title: "This month".tr()),
-              _filterTile(title: "High protein".tr()),
-              _filterTile(title: "Low calories".tr()),
               SizedBox(height: 12),
               SizedBox(
                 width: double.infinity,
@@ -645,7 +627,6 @@ class _RecipesExplorePageState extends State<RecipesExplorePage> {
   }
 }
 
-// ========================= UI HELPERS =========================
 Widget _drawerItem({
   required IconData icon,
   required String title,
@@ -801,7 +782,6 @@ class _RecipeCard extends StatelessWidget {
                   ),
                 ),
               ),
-
               Positioned(
                 top: 10,
                 left: 10,
@@ -820,7 +800,6 @@ class _RecipeCard extends StatelessWidget {
                   ),
                 ),
               ),
-
               if (item.isPro)
                 Positioned(
                   top: 10,
@@ -837,7 +816,6 @@ class _RecipeCard extends StatelessWidget {
                     ),
                   ),
                 ),
-
               Positioned(
                 bottom: 44,
                 right: 10,
@@ -857,7 +835,6 @@ class _RecipeCard extends StatelessWidget {
                   ),
                 ),
               ),
-
               Positioned(
                 bottom: 10,
                 left: 10,
