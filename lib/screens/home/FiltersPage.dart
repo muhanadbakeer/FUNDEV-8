@@ -18,17 +18,23 @@ class FiltersPage extends StatefulWidget {
 
 class _FiltersPageState extends State<FiltersPage> {
   late RecipeFiltersSelection selection;
-  TextEditingController searchCtrl = TextEditingController();
+  final TextEditingController searchCtrl = TextEditingController();
+  final Color primaryColor = Colors.green;
+  final Color primaryDark = Colors.green.shade800;
+  final Color bg =  Color(0xFFF4F6F8);
+  final Color card = Colors.white;
+  final Color border =  Color(0xFFE6E8EB);
+  final Color textStrong = Color(0xFF111827);
+  final Color textSoft =  Color(0xFF6B7280);
+  final Color selectedFill =  Color(0xFFE8F5E9);
 
-  Color primaryColor = Colors.blueGrey;
-
-  List<_ChipItem> mealTimes = [
+  final List<_ChipItem> mealTimes = [
     _ChipItem(keyName: 'breakfast', labelKey: 'filters.breakfast', icon: Icons.wb_sunny_outlined),
     _ChipItem(keyName: 'lunch', labelKey: 'filters.lunch', icon: Icons.wb_sunny),
     _ChipItem(keyName: 'dinner', labelKey: 'filters.dinner', icon: Icons.nightlight_outlined),
   ];
 
-  List<_CircleItem> includeIngredients = [
+  final List<_CircleItem> includeIngredients = [
     _CircleItem(keyName: 'chickpeas', labelKey: 'filters.chickpeas', emoji: ''),
     _CircleItem(keyName: 'butter', labelKey: 'filters.butter', emoji: ''),
     _CircleItem(keyName: 'mushroom', labelKey: 'filters.mushroom', emoji: ''),
@@ -39,7 +45,7 @@ class _FiltersPageState extends State<FiltersPage> {
     _CircleItem(keyName: 'beet', labelKey: 'filters.beet', emoji: ''),
   ];
 
-  List<_FlagItem> cuisines = [
+  final List<_FlagItem> cuisines = [
     _FlagItem(keyName: 'chinese', labelKey: 'filters.chinese', emoji: '🇨🇳'),
     _FlagItem(keyName: 'american', labelKey: 'filters.american', emoji: '🇺🇸'),
     _FlagItem(keyName: 'asian', labelKey: 'filters.asian', emoji: '🇯🇵'),
@@ -48,7 +54,7 @@ class _FiltersPageState extends State<FiltersPage> {
     _FlagItem(keyName: 'indian', labelKey: 'filters.indian', emoji: '🇮🇳'),
   ];
 
-  List<_CircleItem> diets = [
+  final List<_CircleItem> diets = [
     _CircleItem(keyName: 'plant', labelKey: 'filters.plant', emoji: ''),
     _CircleItem(keyName: 'keto', labelKey: 'filters.keto', emoji: ''),
     _CircleItem(keyName: 'lowcarb', labelKey: 'filters.lowcarb', emoji: ''),
@@ -57,7 +63,7 @@ class _FiltersPageState extends State<FiltersPage> {
     _CircleItem(keyName: 'flex', labelKey: 'filters.flex', emoji: ''),
   ];
 
-  List<_CircleItem> excludeIngredients = [
+  final List<_CircleItem> excludeIngredients = [
     _CircleItem(keyName: 'ginger', labelKey: 'filters.ginger', emoji: ''),
     _CircleItem(keyName: 'egg', labelKey: 'filters.egg', emoji: ''),
     _CircleItem(keyName: 'beef', labelKey: 'filters.beef', emoji: ''),
@@ -68,9 +74,9 @@ class _FiltersPageState extends State<FiltersPage> {
     _CircleItem(keyName: 'tuna', labelKey: 'filters.tuna', emoji: ''),
   ];
 
-  List<int> cookTimes = [15, 30, 60];
+  final List<int> cookTimes = [15, 30, 60];
 
-  List<_IconTile> foodExclusions = [
+  final List<_IconTile> foodExclusions = [
     _IconTile(keyName: 'lactose_free', labelKey: 'filters.lactose_free', icon: Icons.local_drink_outlined),
     _IconTile(keyName: 'dairy_free', labelKey: 'filters.dairy_free', icon: Icons.water_drop_outlined),
     _IconTile(keyName: 'gluten_free', labelKey: 'filters.gluten_free', icon: Icons.grass_outlined),
@@ -79,7 +85,7 @@ class _FiltersPageState extends State<FiltersPage> {
     _IconTile(keyName: 'alcohol_free', labelKey: 'filters.alcohol_free', icon: Icons.wine_bar_outlined),
   ];
 
-  List<_IconTile> medicalDiets = [
+  final List<_IconTile> medicalDiets = [
     _IconTile(keyName: 'dash', labelKey: 'filters.dash', icon: Icons.favorite_outline),
     _IconTile(keyName: 'diabetes', labelKey: 'filters.diabetes', icon: Icons.bloodtype_outlined),
     _IconTile(keyName: 'low_fodmap', labelKey: 'filters.low_fodmap', icon: Icons.bubble_chart_outlined),
@@ -123,95 +129,50 @@ class _FiltersPageState extends State<FiltersPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade100,
+      backgroundColor: bg,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.white,
+        foregroundColor: textStrong,
         elevation: 0,
-        automaticallyImplyLeading: false,
-        titleSpacing: 16,
-        title: Row(
-          children: [
-            Stack(
-              clipBehavior: Clip.none,
-              children: [
-                Container(
-                  width: 52,
-                  height: 52,
-                  decoration: BoxDecoration(
-                    color: primaryColor,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Icon(Icons.tune, color: Colors.white),
-                ),
-                if (selection.selectedCount > 0)
-                  Positioned(
-                    top: -8,
-                    left: -8,
-                    child: Container(
-                      width: 26,
-                      height: 26,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: Colors.lightGreenAccent,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Text(
-                        "${selection.selectedCount}",
-                        style: TextStyle(fontWeight: FontWeight.w900, color: Colors.black),
-                      ),
-                    ),
-                  ),
-              ],
-            ),
-            SizedBox(width: 12),
-            Expanded(
-              child: Container(
-                height: 52,
-                decoration: BoxDecoration(
-                  color: Colors.green.shade50,
-                  borderRadius: BorderRadius.circular(18),
-                ),
-                child: TextField(
-                  controller: searchCtrl,
-                  onChanged: (_) => setState(() {}),
-                  decoration: InputDecoration(
-                    hintText: "filters.search".tr(),
-                    prefixIcon: Icon(Icons.search),
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(width: 10),
-            TextButton(
-              onPressed: _clearAll,
-              child: Text(
-                "filters.clear".tr(),
-                style: TextStyle(color: primaryColor, fontWeight: FontWeight.w800),
-              ),
-            ),
-            IconButton(
-              onPressed: () => Navigator.pop(context),
-              icon: Icon(Icons.arrow_forward_ios, color: Colors.black87),
-            ),
-          ],
+        centerTitle: true,
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon:  Icon(Icons.arrow_back_ios_new),
+          tooltip: "common.back".tr(),
         ),
+        title: Text(
+          "Filters".tr(),
+          style:  TextStyle(fontWeight: FontWeight.w900),
+        ),
+        actions: [
+          TextButton(
+            onPressed: _clearAll,
+            child: Text(
+              "filters.clear".tr(),
+              style: TextStyle(color: primaryDark, fontWeight: FontWeight.w900),
+            ),
+          ),
+           SizedBox(width: 6),
+        ],
       ),
       body: Stack(
         children: [
           ListView(
-            padding: EdgeInsets.fromLTRB(16, 8, 16, 120),
+            padding:  EdgeInsets.fromLTRB(16, 12, 16, 120),
             children: [
+              _topSearchBar(),
+
+              SizedBox(height: 16),
+
               _sectionTitle("filters.meal_time".tr()),
-              SizedBox(height: 10),
+               SizedBox(height: 10),
 
               Wrap(
                 spacing: 12,
                 runSpacing: 12,
                 children: mealTimes.map((m) {
                   final label = m.labelKey.tr();
-                  if (!_matchSearch(label)) return SizedBox();
+                  if (!_matchSearch(label)) return  SizedBox.shrink();
 
                   final selectedNow = selection.mealTimes.contains(m.keyName);
 
@@ -221,7 +182,6 @@ class _FiltersPageState extends State<FiltersPage> {
                       label: label,
                       icon: m.icon,
                       selected: selectedNow,
-                      borderColor: selectedNow ? primaryColor : Colors.black12,
                       onTap: () {
                         setState(() {
                           _toggleInSet(selection.mealTimes, m.keyName, (next) {
@@ -233,9 +193,7 @@ class _FiltersPageState extends State<FiltersPage> {
                   );
                 }).toList(),
               ),
-
-              SizedBox(height: 14),
-
+               SizedBox(height: 14),
               _cardSection(
                 title: "filters.include_ingredients".tr(),
                 child: _circleGrid(
@@ -248,9 +206,7 @@ class _FiltersPageState extends State<FiltersPage> {
                   }),
                 ),
               ),
-
-              SizedBox(height: 14),
-
+               SizedBox(height: 14),
               _cardSection(
                 title: "filters.cuisines".tr(),
                 child: _flagGrid(
@@ -263,9 +219,7 @@ class _FiltersPageState extends State<FiltersPage> {
                   }),
                 ),
               ),
-
-              SizedBox(height: 14),
-
+               SizedBox(height: 14),
               _cardSection(
                 title: "filters.diets".tr(),
                 child: _circleGrid(
@@ -278,9 +232,7 @@ class _FiltersPageState extends State<FiltersPage> {
                   }),
                 ),
               ),
-
-              SizedBox(height: 14),
-
+               SizedBox(height: 14),
               _cardSection(
                 title: "filters.exclude_ingredients".tr(),
                 child: _circleGrid(
@@ -293,11 +245,9 @@ class _FiltersPageState extends State<FiltersPage> {
                   }),
                 ),
               ),
-
-              SizedBox(height: 14),
-
+               SizedBox(height: 14),
               _sectionTitle("filters.cook_time".tr()),
-              SizedBox(height: 10),
+               SizedBox(height: 10),
 
               Wrap(
                 spacing: 12,
@@ -309,7 +259,6 @@ class _FiltersPageState extends State<FiltersPage> {
                     child: _timeTextChip(
                       label: "filters.less_equal_minutes".tr(args: ["$min"]),
                       selected: selectedNow,
-                      borderColor: selectedNow ? primaryColor : Colors.black12,
                       onTap: () {
                         setState(() {
                           selection = selection.copyWith(
@@ -323,7 +272,7 @@ class _FiltersPageState extends State<FiltersPage> {
                 }).toList(),
               ),
 
-              SizedBox(height: 14),
+               SizedBox(height: 14),
 
               _cardSection(
                 title: "filters.medical_diets".tr(),
@@ -338,7 +287,7 @@ class _FiltersPageState extends State<FiltersPage> {
                 ),
               ),
 
-              SizedBox(height: 14),
+               SizedBox(height: 14),
 
               _cardSection(
                 title: "filters.food_exclusions".tr(),
@@ -353,7 +302,7 @@ class _FiltersPageState extends State<FiltersPage> {
                 ),
               ),
 
-              SizedBox(height: 16),
+               SizedBox(height: 16),
             ],
           ),
 
@@ -365,20 +314,18 @@ class _FiltersPageState extends State<FiltersPage> {
               height: 58,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: primaryColor,
+                  backgroundColor: primaryDark,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
                   elevation: 6,
                 ),
-                onPressed: () {
-                  Navigator.pop(context, selection);
-                },
+                onPressed: () => Navigator.pop(context, selection),
                 child: FittedBox(
                   fit: BoxFit.scaleDown,
                   child: Text(
                     "filters.show_recipes".tr(args: ["${widget.totalRecipesCount}"]),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
+                    style:  TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
                   ),
                 ),
               ),
@@ -389,20 +336,41 @@ class _FiltersPageState extends State<FiltersPage> {
     );
   }
 
+  Widget _topSearchBar() {
+    return Container(
+      height: 54,
+      decoration: BoxDecoration(
+        color: card,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: border),
+      ),
+      child: TextField(
+        controller: searchCtrl,
+        onChanged: (_) => setState(() {}),
+        decoration: InputDecoration(
+          hintText: "filters.search".tr(),
+          prefixIcon: Icon(Icons.search, color: textSoft),
+          border: InputBorder.none,
+          contentPadding:  EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+        ),
+      ),
+    );
+  }
+
   Widget _sectionTitle(String title) {
     return Align(
       alignment: Alignment.centerLeft,
-      child: Text(title, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900)),
+      child: Text(title, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: textStrong)),
     );
   }
 
   Widget _cardSection({required String title, required Widget child}) {
     return Container(
-      padding: EdgeInsets.all(14),
+      padding:  EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: card,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: Colors.black12),
+        border: Border.all(color: border),
       ),
       child: Column(
         children: [
@@ -411,22 +379,19 @@ class _FiltersPageState extends State<FiltersPage> {
               Expanded(
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(title, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900)),
+                  child: Text(title, style: TextStyle(fontSize: 17, fontWeight: FontWeight.w900, color: textStrong)),
                 ),
               ),
-              InkWell(
-                onTap: () {},
-                child: Row(
-                  children: [
-                    Text("filters.view_all".tr(), style: TextStyle(fontWeight: FontWeight.w800)),
-                    SizedBox(width: 6),
-                    Icon(Icons.chevron_right),
-                  ],
-                ),
+              Row(
+                children: [
+                  Text("filters.view_all".tr(), style: TextStyle(fontWeight: FontWeight.w800, color: textSoft)),
+                   SizedBox(width: 6),
+                  Icon(Icons.chevron_right, color: textSoft),
+                ],
               ),
             ],
           ),
-          SizedBox(height: 12),
+           SizedBox(height: 12),
           child,
         ],
       ),
@@ -437,7 +402,6 @@ class _FiltersPageState extends State<FiltersPage> {
     required String label,
     required IconData icon,
     required bool selected,
-    required Color borderColor,
     required VoidCallback onTap,
   }) {
     return InkWell(
@@ -446,22 +410,22 @@ class _FiltersPageState extends State<FiltersPage> {
       child: Container(
         height: 54,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: selected ? selectedFill : card,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: borderColor, width: 1.2),
+          border: Border.all(color: selected ? primaryDark : border, width: 1.2),
         ),
-        padding: EdgeInsets.symmetric(horizontal: 14),
+        padding:  EdgeInsets.symmetric(horizontal: 12),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, size: 22),
-            SizedBox(width: 10),
+            Icon(icon, size: 22, color: selected ? primaryDark : textSoft),
+             SizedBox(width: 8),
             Flexible(
               child: Text(
                 label,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(fontWeight: FontWeight.w800),
+                style: TextStyle(fontWeight: FontWeight.w900, color: selected ? primaryDark : textStrong),
               ),
             ),
           ],
@@ -473,7 +437,6 @@ class _FiltersPageState extends State<FiltersPage> {
   Widget _timeTextChip({
     required String label,
     required bool selected,
-    required Color borderColor,
     required VoidCallback onTap,
   }) {
     return InkWell(
@@ -483,11 +446,16 @@ class _FiltersPageState extends State<FiltersPage> {
         height: 54,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: selected ? selectedFill : card,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: borderColor, width: 1.2),
+          border: Border.all(color: selected ? primaryDark : border, width: 1.2),
         ),
-        child: Text(label, style: TextStyle(fontWeight: FontWeight.w800)),
+        padding:  EdgeInsets.symmetric(horizontal: 10),
+        child: Text(
+          label,
+          textAlign: TextAlign.center,
+          style: TextStyle(fontWeight: FontWeight.w900, color: selected ? primaryDark : textStrong),
+        ),
       ),
     );
   }
@@ -501,9 +469,9 @@ class _FiltersPageState extends State<FiltersPage> {
 
     return GridView.builder(
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
+      physics:  NeverScrollableScrollPhysics(),
       itemCount: filtered.length,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 4,
         mainAxisSpacing: 12,
         crossAxisSpacing: 10,
@@ -524,11 +492,12 @@ class _FiltersPageState extends State<FiltersPage> {
                     width: 54,
                     height: 54,
                     decoration: BoxDecoration(
-                      color: Colors.grey.shade200,
+                      color: selected ? selectedFill : Colors.grey.shade200,
                       shape: BoxShape.circle,
+                      border: Border.all(color: selected ? primaryDark : Colors.transparent, width: 1.2),
                     ),
                     alignment: Alignment.center,
-                    child: Text(it.emoji, style: TextStyle(fontSize: 22)),
+                    child: Text(it.emoji, style:  TextStyle(fontSize: 22)),
                   ),
                   if (selected)
                     Positioned(
@@ -537,19 +506,19 @@ class _FiltersPageState extends State<FiltersPage> {
                       child: Container(
                         width: 22,
                         height: 22,
-                        decoration: BoxDecoration(color: primaryColor, shape: BoxShape.circle),
-                        child: Icon(Icons.check, size: 16, color: Colors.white),
+                        decoration: BoxDecoration(color: primaryDark, shape: BoxShape.circle),
+                        child:  Icon(Icons.check, size: 16, color: Colors.white),
                       ),
                     ),
                 ],
               ),
-              SizedBox(height: 8),
+               SizedBox(height: 8),
               Text(
                 it.labelKey.tr(),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w800, color: textStrong),
               ),
             ],
           ),
@@ -567,9 +536,9 @@ class _FiltersPageState extends State<FiltersPage> {
 
     return GridView.builder(
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
+      physics:  NeverScrollableScrollPhysics(),
       itemCount: filtered.length,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
         mainAxisSpacing: 14,
         crossAxisSpacing: 10,
@@ -590,11 +559,12 @@ class _FiltersPageState extends State<FiltersPage> {
                     width: 52,
                     height: 52,
                     decoration: BoxDecoration(
-                      color: Colors.grey.shade200,
+                      color: selected ? selectedFill : Colors.grey.shade200,
                       shape: BoxShape.circle,
+                      border: Border.all(color: selected ? primaryDark : Colors.transparent, width: 1.2),
                     ),
                     alignment: Alignment.center,
-                    child: Text(it.emoji, style: TextStyle(fontSize: 24)),
+                    child: Text(it.emoji, style:  TextStyle(fontSize: 24)),
                   ),
                   if (selected)
                     Positioned(
@@ -603,14 +573,18 @@ class _FiltersPageState extends State<FiltersPage> {
                       child: Container(
                         width: 22,
                         height: 22,
-                        decoration: BoxDecoration(color: primaryColor, shape: BoxShape.circle),
-                        child: Icon(Icons.check, size: 16, color: Colors.white),
+                        decoration: BoxDecoration(color: primaryDark, shape: BoxShape.circle),
+                        child:  Icon(Icons.check, size: 16, color: Colors.white),
                       ),
                     ),
                 ],
               ),
-              SizedBox(height: 8),
-              Text(it.labelKey.tr(), style: TextStyle(fontWeight: FontWeight.w800)),
+               SizedBox(height: 8),
+              Text(
+                it.labelKey.tr(),
+                textAlign: TextAlign.center,
+                style: TextStyle(fontWeight: FontWeight.w900, color: textStrong),
+              ),
             ],
           ),
         );
@@ -627,9 +601,9 @@ class _FiltersPageState extends State<FiltersPage> {
 
     return GridView.builder(
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
+      physics:  NeverScrollableScrollPhysics(),
       itemCount: filtered.length,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
         mainAxisSpacing: 14,
         crossAxisSpacing: 10,
@@ -646,11 +620,11 @@ class _FiltersPageState extends State<FiltersPage> {
             children: [
               Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: selected ? selectedFill : card,
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: Colors.black12),
+                  border: Border.all(color: selected ? primaryDark : border, width: 1.2),
                 ),
-                padding: EdgeInsets.all(12),
+                padding:  EdgeInsets.all(12),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -660,14 +634,15 @@ class _FiltersPageState extends State<FiltersPage> {
                       decoration: BoxDecoration(
                         color: Colors.grey.shade100,
                         shape: BoxShape.circle,
+                        border: Border.all(color: selected ? primaryDark : Colors.transparent, width: 1.2),
                       ),
-                      child: Icon(it.icon, size: 24),
+                      child: Icon(it.icon, size: 24, color: selected ? primaryDark : textSoft),
                     ),
-                    SizedBox(height: 10),
+                     SizedBox(height: 10),
                     Text(
                       it.labelKey.tr(),
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.w800),
+                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.w900, color: textStrong),
                     ),
                   ],
                 ),
@@ -679,8 +654,8 @@ class _FiltersPageState extends State<FiltersPage> {
                   child: Container(
                     width: 24,
                     height: 24,
-                    decoration: BoxDecoration(color: primaryColor, shape: BoxShape.circle),
-                    child: Icon(Icons.check, size: 16, color: Colors.white),
+                    decoration: BoxDecoration(color: primaryDark, shape: BoxShape.circle),
+                    child:  Icon(Icons.check, size: 16, color: Colors.white),
                   ),
                 ),
             ],
