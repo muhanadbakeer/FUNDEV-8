@@ -60,7 +60,7 @@ class _FirstState extends State<First> {
         if (!mounted) return;
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (_) => RecipesExplorePage()),
+          MaterialPageRoute(builder: (_) => RecipesHomePage()),
         );
       } else {
 

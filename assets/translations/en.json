@@ -186,11 +186,9 @@
   "Cannot open phone app": "Cannot open phone app",
   "WhatsApp not available": "WhatsApp not available",
   "Cannot open Google Maps": "Cannot open Google Maps",
-
   "app": {
     "name": "DIV Nutrition"
   },
-
   "common": {
     "save": "Save",
     "apply": "Apply",
@@ -199,7 +197,6 @@
     "next": "Next",
     "back": "Back"
   },
-
   "navigation": {
     "home": "Home",
     "history": "History",
@@ -209,7 +206,6 @@
     "favorites": "Favorites",
     "ratings": "Ratings"
   },
-
   "settings": {
     "title": "Settings",
     "account": "Account",
@@ -217,7 +213,6 @@
     "restoreSubscription": "Restore Subscription",
     "signIn": "Sign In",
     "rateUs": "Rate Us",
-
     "nutrition": "Nutrition",
     "calorieGoal": "Calorie Goal",
     "macrosGoal": "Macros Goal",
@@ -225,34 +220,28 @@
     "allergens": "Allergens",
     "favoriteCuisines": "Favorite Cuisines",
     "cookingSkill": "Cooking Skill",
-
     "mealPlan": "Meal Plan",
     "mealsPerDay": "Meals Per Day",
     "mealSchedule": "Meal Schedule",
     "mealPlanPriorities": "Meal Plan Priorities",
-
     "general": "General",
     "language": "Language",
     "units": "Units",
-
     "support": "Support",
     "privacyPolicy": "Privacy Policy",
     "terms": "Terms of Service",
     "recommendationSource": "Recommendation Source",
     "contactUs": "Contact Us",
-
     "access": "Access",
     "deleteAccount": "Delete Account",
     "referralCode": "Referral Code"
   },
-
   "language": {
     "title": "Language",
     "choose": "Choose your language",
     "arabic": "Arabic",
     "english": "English"
   },
-
   "history": {
     "title": "History",
     "protein": "Protein",
@@ -263,7 +252,6 @@
     "emptyTitle": "You haven't logged anything yet",
     "emptyDesc": "Start tracking your meals using photos, text, or manual entry"
   },
-
   "addMeal": {
     "title": "Add Meal",
     "text": "Text",
@@ -271,7 +259,6 @@
     "gallery": "Gallery",
     "manual": "Manual Macros Entry"
   },
-
   "notifications": {
     "title": "Notifications",
     "empty": "No notifications yet",
@@ -291,7 +278,94 @@
       "less_equal_minutes": "≤ {} min",
       "medical_diets": "Medical diets",
       "food_exclusions": "Food exclusions",
-      "show_recipes": "Show {} recipes"}}}
+      "show_recipes": "Show {} recipes",
+      "common": {
+        "back": "Back"
+      },
+      "filters": {
+        "clear": "Clear",
+        "view_all": "View all",
+        "search": "Search",
+        "meal_time": "Meal time",
+        "breakfast": "Breakfast",
+        "lunch": "Lunch",
+        "dinner": "Dinner",
+        "include_ingredients": "Include ingredients",
+        "exclude_ingredients": "Exclude ingredients",
+        "cuisines": "Cuisines",
+        "diets": "Diets",
+        "cook_time": "Cook time",
+        "less_equal_minutes": "≤ {0} min",
+        "medical_diets": "Medical diets",
+        "food_exclusions": "Food exclusions",
+        "show_recipes": "Show {0} recipes",
+        "chickpeas": "Chickpeas",
+        "butter": "Butter",
+        "mushroom": "Mushroom",
+        "tofu": "Tofu",
+        "rice": "Rice",
+        "pasta": "Pasta",
+        "peas": "Peas",
+        "beet": "Beet",
+        "ginger": "Ginger",
+        "egg": "Egg",
+        "beef": "Beef",
+        "kale": "Kale",
+        "lamb": "Lamb",
+        "honey": "Honey",
+        "avocado": "Avocado",
+        "tuna": "Tuna",
+        "dash": "DASH",
+        "diabetes": "Diabetes",
+        "low_fodmap": "Low FODMAP",
+        "mind": "MIND",
+        "anti_inflam": "Anti-inflam",
+        "low_sodium": "Low sodium",
+        "lactose_free": "Lactose free",
+        "dairy_free": "Dairy free",
+        "gluten_free": "Gluten free",
+        "kosher": "Kosher",
+        "halal": "Halal",
+        "alcohol_free": "Alcohol free",
+        "chinese": "Chinese",
+        "american": "American",
+        "asian": "Asian",
+        "mexican": "Mexican",
+        "italian": "Italian",
+        "indian": "Indian",
+        "plant": "Plant-based",
+        "keto": "Keto",
+        "lowcarb": "Low carb",
+        "clean": "Clean",
+        "med": "Mediterranean",
+        "flex": "Flexitarian",
+        "filters": {
+          "title": "Filters",
+          "clear": "Clear",
+          "view_all": "View all",
+          "exclude_ingredients": "Exclude ingredients",
+          "cook_time": "Cook time",
+          "less_equal_minutes": "≤ {0} min",
+          "show_recipes": "Show {0} recipes",
+          "plant": "Plant-based",
+          "keto": "Keto",
+          "lowcarb": "Low carb",
+          "clean": "Clean",
+          "med": "Mediterranean",
+          "flex": "Flexitarian",
+          "ginger": "Ginger",
+          "egg": "Egg",
+          "beef": "Beef",
+          "kale": "Kale",
+          "lamb": "Lamb",
+          "honey": "Honey",
+          "avocado": "Avocado",
+          "tuna": "Tuna"
+        }
+      }
+    }
+  }
+}
 
 
 

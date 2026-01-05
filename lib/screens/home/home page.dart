@@ -1,17 +1,22 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:http/http.dart' as http;
+
 import 'package:div/screens/auth/SplashView.dart';
 import 'package:div/screens/home/HistoryPage.dart';
 import 'package:div/screens/home/MealPlanPage.dart';
 import 'package:div/screens/home/NotificationsPage.dart';
 import 'package:div/screens/home/home/SETTINGS/SettingsPage.dart';
-import '../ profile/profile.dart';
-import '../../core/uite/recipe_filter.dart';
-import 'FiltersPage.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:http/http.dart' as http;
 
+import '../ profile/profile.dart';
+import 'FiltersPage.dart';
+import '../../core/uite/recipe_filter.dart';
+
+// ============================================================
+// API
+// ============================================================
 class RecipesApi {
   RecipesApi({
     required this.baseUrl,
@@ -23,44 +28,86 @@ class RecipesApi {
 
   Uri _u(String path) => Uri.parse('$baseUrl$path');
 
+  Future<List<RecipeItem>> getRecipes() async {
+    final res = await _client
+        .get(_u('/api/recipes'))
+        .timeout(const Duration(seconds: 10));
+
+    if (res.statusCode < 200 || res.statusCode >= 300) {
+      throw Exception('Recipes GET failed: ${res.statusCode} ${res.body}');
+    }
+
+    final data = jsonDecode(res.body);
+    if (data is! List) return [];
+
+    return data
+        .map<RecipeItem>((e) => RecipeItem.fromJson(e as Map<String, dynamic>))
+        .toList();
+  }
+
+  /// ✅ Supports:
+  /// - [1,2,3]
+  /// - [{id:1,...},{id:2,...}]
+  /// - [{Id:1,...}]
+  /// - [{recipeId:1,...}]
   Future<List<int>> getFavoriteIds(String userId) async {
-    final res = await _client.get(_u('/api/recipes/favorites/$userId'));
+    final res = await _client
+        .get(_u('/api/recipes/favorites/$userId'))
+        .timeout(const Duration(seconds: 10));
+
     if (res.statusCode < 200 || res.statusCode >= 300) {
       throw Exception('Favorites GET failed: ${res.statusCode} ${res.body}');
     }
 
     final data = jsonDecode(res.body);
+    if (data is! List || data.isEmpty) return [];
 
-    if (data is List) {
-      if (data.isEmpty) return [];
-      if (data.first is int) {
-        return data.cast<int>();
-      }
-      if (data.first is Map) {
-        return data
-            .map<int>((e) => (e['id'] ?? e['recipeId'] ?? 0) as int)
-            .where((id) => id > 0)
-            .toList();
-      }
+    final first = data.first;
+
+    // ✅ Case 1: [1,2,3]
+    if (first is num) {
+      return data.map((x) => (x as num).toInt()).toList();
     }
+
+    // ✅ Case 2: [{id:1,...}] / [{Id:1,...}] / [{recipeId:1,...}]
+    if (first is Map) {
+      return data
+          .map<int>((x) {
+        final m = x as Map<String, dynamic>;
+        final v = m['id'] ?? m['Id'] ?? m['recipeId'] ?? m['RecipeId'] ?? 0;
+        return (v as num).toInt();
+      })
+          .where((id) => id > 0)
+          .toList();
+    }
+
     return [];
   }
 
   Future<void> addFavorite(String userId, int recipeId) async {
-    final res = await _client.post(_u('/api/recipes/favorites/$userId/$recipeId'));
+    final res = await _client
+        .post(_u('/api/recipes/favorites/$userId/$recipeId'))
+        .timeout(const Duration(seconds: 10));
+
     if (res.statusCode < 200 || res.statusCode >= 300) {
       throw Exception('Favorites POST failed: ${res.statusCode} ${res.body}');
     }
   }
 
   Future<void> removeFavorite(String userId, int recipeId) async {
-    final res = await _client.delete(_u('/api/recipes/favorites/$userId/$recipeId'));
+    final res = await _client
+        .delete(_u('/api/recipes/favorites/$userId/$recipeId'))
+        .timeout(const Duration(seconds: 10));
+
     if (res.statusCode < 200 || res.statusCode >= 300) {
       throw Exception('Favorites DELETE failed: ${res.statusCode} ${res.body}');
     }
   }
 }
 
+// ============================================================
+// MODEL
+// ============================================================
 class RecipeItem {
   RecipeItem({
     required this.id,
@@ -78,25 +125,38 @@ class RecipeItem {
   final bool isPro;
   final bool isFav;
 
+  /// ✅ Supports ASP.NET (PascalCase) and camelCase
+  factory RecipeItem.fromJson(Map<String, dynamic> json) {
+    final idVal = json['id'] ?? json['Id'] ?? 0;
+    final minutesVal = json['minutes'] ?? json['Minutes'] ?? 0;
+
+    return RecipeItem(
+      id: (idVal as num).toInt(),
+      title: (json['title'] ?? json['Title'] ?? '') as String,
+      minutes: (minutesVal as num).toInt(),
+      imageUrl: (json['imageUrl'] ?? json['ImageUrl'] ?? '') as String,
+      isPro: (json['isPro'] ?? json['IsPro'] ?? false) as bool,
+      isFav: false,
+    );
+  }
+
   RecipeItem copyWith({
-    int? id,
-    String? title,
-    int? minutes,
-    String? imageUrl,
-    bool? isPro,
     bool? isFav,
   }) {
     return RecipeItem(
-      id: id ?? this.id,
-      title: title ?? this.title,
-      minutes: minutes ?? this.minutes,
-      imageUrl: imageUrl ?? this.imageUrl,
-      isPro: isPro ?? this.isPro,
+      id: id,
+      title: title,
+      minutes: minutes,
+      imageUrl: imageUrl,
+      isPro: isPro,
       isFav: isFav ?? this.isFav,
     );
   }
 }
 
+// ============================================================
+// STATE
+// ============================================================
 class RecipesState {
   RecipesState({
     required this.loading,
@@ -111,7 +171,6 @@ class RecipesState {
 
   final bool loading;
   final String? error;
-
   final String userId;
 
   final String search;
@@ -124,7 +183,6 @@ class RecipesState {
   RecipesState copyWith({
     bool? loading,
     String? error,
-    String? userId,
     String? search,
     int? filterCount,
     List<RecipeItem>? explore,
@@ -134,7 +192,7 @@ class RecipesState {
     return RecipesState(
       loading: loading ?? this.loading,
       error: error,
-      userId: userId ?? this.userId,
+      userId: userId,
       search: search ?? this.search,
       filterCount: filterCount ?? this.filterCount,
       explore: explore ?? this.explore,
@@ -150,13 +208,16 @@ class RecipesState {
       userId: userId,
       search: '',
       filterCount: 3,
-      explore: [],
-      favorites: [],
-      ratings: [],
+      explore: const [],
+      favorites: const [],
+      ratings: const [],
     );
   }
 }
 
+// ============================================================
+// CUBIT
+// ============================================================
 class RecipesCubit extends Cubit<RecipesState> {
   RecipesCubit({
     required this.api,
@@ -165,18 +226,22 @@ class RecipesCubit extends Cubit<RecipesState> {
 
   final RecipesApi api;
 
-  void init() async {
+  Future<void> init() async {
     emit(state.copyWith(loading: true, error: null));
 
-    final explore = _RecipeData.buildExplore();
-
     try {
-      final favIds = await api.getFavoriteIds(state.userId);
+      final recipes = await api.getRecipes();
 
-      final newExplore = explore.map((r) {
-        final isFav = favIds.contains(r.id);
-        return r.copyWith(isFav: isFav);
-      }).toList();
+      // ✅ حتى لو favorites فشل، لا نعلق الصفحة
+      List<int> favIds = [];
+      try {
+        favIds = await api.getFavoriteIds(state.userId);
+      } catch (_) {
+        favIds = [];
+      }
+
+      final newExplore =
+      recipes.map((r) => r.copyWith(isFav: favIds.contains(r.id))).toList();
 
       final favorites = newExplore.where((x) => x.isFav).toList();
 
@@ -185,30 +250,23 @@ class RecipesCubit extends Cubit<RecipesState> {
         error: null,
         explore: newExplore,
         favorites: favorites,
-        ratings: [],
+        ratings: const [],
       ));
     } catch (e) {
       emit(state.copyWith(
         loading: false,
         error: e.toString(),
-        explore: explore,
-        favorites: explore.where((x) => x.isFav).toList(),
-        ratings: [],
+        explore: const [],
+        favorites: const [],
+        ratings: const [],
       ));
     }
   }
 
-  void setSearch(String value) {
-    emit(state.copyWith(search: value));
-  }
+  void setSearch(String value) => emit(state.copyWith(search: value));
 
-  void clearFilters() {
-    emit(state.copyWith(filterCount: 0));
-  }
-
-  void applyFilters() {
-    emit(state.copyWith(filterCount: 3));
-  }
+  void clearFilters() => emit(state.copyWith(filterCount: 0));
+  void applyFilters() => emit(state.copyWith(filterCount: 3));
 
   List<RecipeItem> _applySearch(List<RecipeItem> list) {
     final q = state.search.trim().toLowerCase();
@@ -223,6 +281,7 @@ class RecipesCubit extends Cubit<RecipesState> {
   Future<void> toggleFavorite(RecipeItem item) async {
     final newIsFav = !item.isFav;
 
+    // optimistic UI
     final newExplore = state.explore.map((r) {
       if (r.id == item.id) return r.copyWith(isFav: newIsFav);
       return r;
@@ -243,30 +302,32 @@ class RecipesCubit extends Cubit<RecipesState> {
         await api.removeFavorite(state.userId, item.id);
       }
     } catch (e) {
+      // rollback
       final rollbackExplore = state.explore.map((r) {
         if (r.id == item.id) return r.copyWith(isFav: !newIsFav);
         return r;
       }).toList();
 
-      final rollbackFav = rollbackExplore.where((x) => x.isFav).toList();
-
       emit(state.copyWith(
         explore: rollbackExplore,
-        favorites: rollbackFav,
+        favorites: rollbackExplore.where((x) => x.isFav).toList(),
         error: e.toString(),
       ));
     }
   }
 }
 
-class RecipesExplorePage extends StatefulWidget {
-  RecipesExplorePage({super.key});
+// ============================================================
+// UI PAGE (HOME)
+// ============================================================
+class RecipesHomePage extends StatefulWidget {
+  const RecipesHomePage({super.key});
 
   @override
-  State<RecipesExplorePage> createState() => _RecipesExplorePageState();
+  State<RecipesHomePage> createState() => _RecipesHomePageState();
 }
 
-class _RecipesExplorePageState extends State<RecipesExplorePage> {
+class _RecipesHomePageState extends State<RecipesHomePage> {
   final TextEditingController search = TextEditingController();
 
   @override
@@ -278,6 +339,9 @@ class _RecipesExplorePageState extends State<RecipesExplorePage> {
   @override
   Widget build(BuildContext context) {
     final userId = "1";
+
+    // ✅ Emulator: 10.0.2.2
+    // ✅ Real device: use your PC IP: http://192.168.x.x:5172
     final api = RecipesApi(baseUrl: "http://10.0.2.2:5172");
 
     return BlocProvider(
@@ -298,29 +362,35 @@ class _RecipesExplorePageState extends State<RecipesExplorePage> {
                 centerTitle: true,
                 title: Text(
                   "DIV Nutrition".tr(),
-                  style: TextStyle(fontWeight: FontWeight.w800),
+                  style: const TextStyle(fontWeight: FontWeight.w800),
                 ),
                 actions: [
                   IconButton(
                     tooltip: "notifications.title".tr(),
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (_) => NotificationsPage()));
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => NotificationsPage()),
+                      );
                     },
-                    icon: Icon(Icons.notifications_none),
+                    icon: const Icon(Icons.notifications_none),
                   ),
                   IconButton(
                     tooltip: "Profile".tr(),
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (_) => items_mode()));
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => items_mode()),
+                      );
                     },
-                    icon: Icon(Icons.person_outline),
+                    icon: const Icon(Icons.person_outline),
                   ),
                 ],
                 bottom: TabBar(
                   indicatorColor: Colors.white,
                   labelColor: Colors.white,
                   unselectedLabelColor: Colors.white70,
-                  labelStyle: TextStyle(fontWeight: FontWeight.w700),
+                  labelStyle: const TextStyle(fontWeight: FontWeight.w700),
                   tabs: [
                     Tab(text: "Explore".tr()),
                     Tab(text: "Favorites".tr()),
@@ -334,7 +404,7 @@ class _RecipesExplorePageState extends State<RecipesExplorePage> {
                     children: [
                       Container(
                         width: double.infinity,
-                        padding: EdgeInsets.all(16),
+                        padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(color: green),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -344,17 +414,20 @@ class _RecipesExplorePageState extends State<RecipesExplorePage> {
                               backgroundColor: Colors.white,
                               child: Icon(Icons.restaurant, color: green, size: 28),
                             ),
-                            SizedBox(height: 10),
+                            const SizedBox(height: 10),
                             Text(
                               "DIV Nutrition".tr(),
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 18,
                                 fontWeight: FontWeight.w800,
                               ),
                             ),
-                            SizedBox(height: 2),
-                            Text("Quick navigation".tr(), style: TextStyle(color: Colors.white70)),
+                            const SizedBox(height: 2),
+                            Text(
+                              "Quick navigation".tr(),
+                              style: const TextStyle(color: Colors.white70),
+                            ),
                           ],
                         ),
                       ),
@@ -367,7 +440,10 @@ class _RecipesExplorePageState extends State<RecipesExplorePage> {
                               title: "settings.title".tr(),
                               onTap: () {
                                 Navigator.pop(context);
-                                Navigator.push(context, MaterialPageRoute(builder: (_) => SettingsPage()));
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (_) => SettingsPage()),
+                                );
                               },
                             ),
                             _drawerItem(
@@ -375,7 +451,10 @@ class _RecipesExplorePageState extends State<RecipesExplorePage> {
                               title: "history.title".tr(),
                               onTap: () {
                                 Navigator.pop(context);
-                                Navigator.push(context, MaterialPageRoute(builder: (_) => HistoryPage()));
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (_) => HistoryPage()),
+                                );
                               },
                             ),
                             _drawerItem(
@@ -383,10 +462,13 @@ class _RecipesExplorePageState extends State<RecipesExplorePage> {
                               title: "navigation.mealPlan".tr(),
                               onTap: () {
                                 Navigator.pop(context);
-                                Navigator.push(context, MaterialPageRoute(builder: (_) => MealPlanIntroPage()));
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (_) => MealPlanIntroPage()),
+                                );
                               },
                             ),
-                            Divider(height: 24),
+                            const Divider(height: 24),
                             _drawerItem(
                               icon: Icons.logout,
                               title: "settings.logout".tr(),
@@ -411,8 +493,8 @@ class _RecipesExplorePageState extends State<RecipesExplorePage> {
                   if (state.error != null)
                     Container(
                       width: double.infinity,
-                      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                      margin: EdgeInsets.fromLTRB(16, 12, 16, 0),
+                      margin: const EdgeInsets.fromLTRB(16, 12, 16, 0),
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                       decoration: BoxDecoration(
                         color: Colors.red.withOpacity(0.08),
                         borderRadius: BorderRadius.circular(12),
@@ -424,7 +506,7 @@ class _RecipesExplorePageState extends State<RecipesExplorePage> {
                       ),
                     ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(16, 14, 16, 12),
+                    padding: const EdgeInsets.fromLTRB(16, 14, 16, 12),
                     child: Row(
                       children: [
                         Expanded(
@@ -433,10 +515,10 @@ class _RecipesExplorePageState extends State<RecipesExplorePage> {
                             onChanged: (v) => cubit.setSearch(v),
                             decoration: InputDecoration(
                               hintText: "Search recipes".tr(),
-                              prefixIcon: Icon(Icons.search),
+                              prefixIcon: const Icon(Icons.search),
                               filled: true,
                               fillColor: Colors.white,
-                              contentPadding: EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                              contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(14),
                                 borderSide: BorderSide.none,
@@ -444,15 +526,15 @@ class _RecipesExplorePageState extends State<RecipesExplorePage> {
                             ),
                           ),
                         ),
-                        SizedBox(width: 12),
+                        const SizedBox(width: 12),
                         InkWell(
                           onTap: () async {
                             await Navigator.push<RecipeFiltersSelection>(
                               context,
                               MaterialPageRoute(
                                 builder: (_) => FiltersPage(
-                                  initial:  RecipeFiltersSelection(),
-                                  totalRecipesCount: 349,
+                                  initial: RecipeFiltersSelection(),
+                                  totalRecipesCount: state.explore.length,
                                 ),
                               ),
                             );
@@ -468,7 +550,7 @@ class _RecipesExplorePageState extends State<RecipesExplorePage> {
                                   color: green,
                                   borderRadius: BorderRadius.circular(14),
                                 ),
-                                child: Icon(Icons.tune, color: Colors.white),
+                                child: const Icon(Icons.tune, color: Colors.white),
                               ),
                               if (state.filterCount > 0)
                                 Positioned(
@@ -478,13 +560,13 @@ class _RecipesExplorePageState extends State<RecipesExplorePage> {
                                     width: 22,
                                     height: 22,
                                     alignment: Alignment.center,
-                                    decoration: BoxDecoration(
+                                    decoration: const BoxDecoration(
                                       color: Colors.lightGreenAccent,
                                       shape: BoxShape.circle,
                                     ),
                                     child: Text(
                                       "${state.filterCount}",
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 12,
                                         fontWeight: FontWeight.w800,
                                         color: Colors.black,
@@ -532,7 +614,7 @@ class _RecipesExplorePageState extends State<RecipesExplorePage> {
                           Positioned.fill(
                             child: Container(
                               color: Colors.black.withOpacity(0.03),
-                              child: Center(child: CircularProgressIndicator()),
+                              child: const Center(child: CircularProgressIndicator()),
                             ),
                           ),
                       ],
@@ -546,87 +628,11 @@ class _RecipesExplorePageState extends State<RecipesExplorePage> {
       ),
     );
   }
-  void _openFilters(BuildContext context, Color green, RecipesCubit cubit) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (_) {
-        return Padding(
-          padding: EdgeInsets.fromLTRB(
-            16,
-            16,
-            16,
-            MediaQuery.of(context).viewInsets.bottom + 16,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                width: 40,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: Colors.grey,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              SizedBox(height: 14),
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      "Filters".tr(),
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900),
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      cubit.clearFilters();
-                    },
-                    child: Text("Clear".tr(), style: TextStyle(color: green)),
-                  )
-                ],
-              ),
-              SizedBox(height: 12),
-              SizedBox(
-                width: double.infinity,
-                height: 48,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: green,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                  ),
-                  onPressed: () {
-                    cubit.applyFilters();
-                    Navigator.pop(context);
-                  },
-                  child: Text(
-                    "common.apply".tr(),
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _filterTile({required String title}) {
-    return ListTile(
-      leading: Icon(Icons.check_box_outline_blank, color: Colors.green),
-      title: Text(title),
-      onTap: () {},
-      contentPadding: EdgeInsets.zero,
-    );
-  }
 }
 
+// ============================================================
+// UI WIDGETS
+// ============================================================
 Widget _drawerItem({
   required IconData icon,
   required String title,
@@ -634,13 +640,13 @@ Widget _drawerItem({
 }) {
   return ListTile(
     leading: Icon(icon, color: Colors.green),
-    title: Text(title, style: TextStyle(fontWeight: FontWeight.w600)),
+    title: Text(title, style: const TextStyle(fontWeight: FontWeight.w600)),
     onTap: onTap,
   );
 }
 
 class _RecipesGrid extends StatelessWidget {
-  _RecipesGrid({
+  const _RecipesGrid({
     required this.items,
     required this.onImportTap,
     required this.onRecipeTap,
@@ -678,13 +684,13 @@ class _RecipesGrid extends StatelessWidget {
       return Center(
         child: Text(
           emptyText ?? "No items".tr(),
-          style: TextStyle(color: Colors.black54),
+          style: const TextStyle(color: Colors.black54),
         ),
       );
     }
 
     return GridView.count(
-      padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
       crossAxisCount: 2,
       crossAxisSpacing: 12,
       mainAxisSpacing: 12,
@@ -695,7 +701,7 @@ class _RecipesGrid extends StatelessWidget {
 }
 
 class _ImportCard extends StatelessWidget {
-  _ImportCard({required this.onTap});
+  const _ImportCard({required this.onTap});
   final VoidCallback onTap;
 
   @override
@@ -709,22 +715,22 @@ class _ImportCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: Colors.black12),
         ),
-        padding: EdgeInsets.all(14),
+        padding: const EdgeInsets.all(14),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               "Import Recipe".tr(),
               textAlign: TextAlign.center,
-              style: TextStyle(fontWeight: FontWeight.w800),
+              style: const TextStyle(fontWeight: FontWeight.w800),
             ),
-            SizedBox(height: 10),
-            Icon(Icons.add, size: 28, color: Colors.green),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
+            const Icon(Icons.add, size: 28, color: Colors.green),
+            const SizedBox(height: 10),
             Text(
               "From link, text, or photos".tr(),
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 12, color: Colors.black54),
+              style: const TextStyle(fontSize: 12, color: Colors.black54),
             ),
           ],
         ),
@@ -734,7 +740,7 @@ class _ImportCard extends StatelessWidget {
 }
 
 class _RecipeCard extends StatelessWidget {
-  _RecipeCard({
+  const _RecipeCard({
     required this.item,
     required this.onTap,
     required this.onFavTap,
@@ -753,7 +759,7 @@ class _RecipeCard extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
           color: Colors.white,
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(
               blurRadius: 10,
               offset: Offset(0, 6),
@@ -766,8 +772,29 @@ class _RecipeCard extends StatelessWidget {
           child: Stack(
             children: [
               Positioned.fill(
-                child: Image.network(item.imageUrl, fit: BoxFit.cover),
+                child: Image.network(
+                  item.imageUrl,
+                  fit: BoxFit.cover,
+                  // ✅ Loading placeholder
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) return child;
+                    return Container(
+                      color: Colors.black12,
+                      alignment: Alignment.center,
+                      child: const CircularProgressIndicator(strokeWidth: 2),
+                    );
+                  },
+                  // ✅ Error placeholder بدل X
+                  errorBuilder: (context, error, stackTrace) {
+                    return Container(
+                      color: Colors.black12,
+                      alignment: Alignment.center,
+                      child: const Icon(Icons.image_not_supported, size: 34, color: Colors.black45),
+                    );
+                  },
+                ),
               ),
+
               Positioned.fill(
                 child: DecoratedBox(
                   decoration: BoxDecoration(
@@ -791,7 +818,7 @@ class _RecipeCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30),
                     onTap: onFavTap,
                     child: Padding(
-                      padding: EdgeInsets.all(6),
+                      padding: const EdgeInsets.all(6),
                       child: Icon(
                         item.isFav ? Icons.favorite : Icons.favorite_border,
                         color: Colors.white,
@@ -805,12 +832,12 @@ class _RecipeCard extends StatelessWidget {
                   top: 10,
                   right: 10,
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
                       color: Colors.white70,
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: Text(
+                    child: const Text(
                       "PRO",
                       style: TextStyle(fontWeight: FontWeight.w900, fontSize: 12),
                     ),
@@ -820,14 +847,14 @@ class _RecipeCard extends StatelessWidget {
                 bottom: 44,
                 right: 10,
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
                     color: Colors.black54,
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Text(
                     "${item.minutes} min",
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 12,
                       fontWeight: FontWeight.w800,
@@ -843,7 +870,7 @@ class _RecipeCard extends StatelessWidget {
                   item.title,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w900,
                     fontSize: 13,
@@ -855,88 +882,5 @@ class _RecipeCard extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-// ========================= LOCAL DATA =========================
-class _RecipeData {
-  static List<RecipeItem> buildExplore() {
-    final titles = [
-      "Shirataki Stir-Fry Noodles",
-      "Roasted Asparagus",
-      "Herb Grilled Atlantic Salmon",
-      "Protein Salad",
-      "Greek Yogurt Bowl",
-      "Chicken & Veggie Plate",
-      "Overnight Oats",
-      "Healthy Rice Bowl",
-      "Avocado Toast",
-      "Fresh Green Salad",
-      "Tuna Salad Wrap",
-      "Egg & Spinach Omelet",
-      "Grilled Chicken Breast",
-      "Baked Sweet Potato",
-      "Beef & Broccoli",
-      "Turkey Sandwich",
-      "Quinoa Veggie Bowl",
-      "Lentil Soup",
-      "Oat Pancakes",
-      "Chia Pudding",
-      "Shrimp Stir-Fry",
-      "Salmon Rice Bowl",
-      "Cottage Cheese Plate",
-      "Roasted Veggies Mix",
-      "Chicken Caesar Salad",
-      "Brown Rice & Beans",
-      "Zucchini Noodles",
-      "Tomato Basil Salad",
-      "Chicken Wrap",
-      "Air-Fryer Potatoes",
-      "Veggie Omelet",
-      "Grilled Steak Bites",
-      "Mediterranean Bowl",
-      "Yogurt & Berries",
-      "Apple Cinnamon Oats",
-      "Light Pasta Bowl",
-      "Baked Cod Plate",
-      "Chicken Soup",
-      "Low-Cal Sandwich",
-      "High-Protein Breakfast",
-      "Veggie Snack Box",
-      "Egg Salad",
-      "Tuna Bowl",
-      "Beef Salad",
-      "Chicken Bowl",
-      "Green Smoothie Bowl",
-      "Oatmeal Power Bowl",
-      "Simple Meal Prep Box",
-      "Healthy Snack Plate",
-      "Chicken & Rice",
-      "Salmon & Greens",
-      "Eggs & Avocado",
-      "Lean Beef Bowl",
-      "Veggie Soup",
-      "Protein Lunch Box"
-    ];
-
-    final list = <RecipeItem>[];
-
-    for (int i = 0; i < titles.length; i++) {
-      final minutes = 10 + (i % 25);
-      final pro = (i % 7 == 0);
-      final img = "https://picsum.photos/seed/recipe_$i/600/600";
-
-      list.add(
-        RecipeItem(
-          id: i + 1,
-          title: titles[i],
-          minutes: minutes,
-          imageUrl: img,
-          isPro: pro,
-          isFav: false,
-        ),
-      );
-    }
-    return list;
   }
 }
