@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:div/screens/auth/SplashView.dart';
 import 'package:div/screens/home/HistoryPage.dart';
 import 'package:div/screens/home/MealPlanPage.dart';
@@ -9,14 +8,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
-
 import '../ profile/profile.dart';
 import 'FiltersPage.dart';
 import '../../core/uite/recipe_filter.dart';
 
-// ============================================================
-// API
-// ============================================================
 class RecipesApi {
   RecipesApi({
     required this.baseUrl,
@@ -45,11 +40,6 @@ class RecipesApi {
         .toList();
   }
 
-  /// ✅ Supports:
-  /// - [1,2,3]
-  /// - [{id:1,...},{id:2,...}]
-  /// - [{Id:1,...}]
-  /// - [{recipeId:1,...}]
   Future<List<int>> getFavoriteIds(String userId) async {
     final res = await _client
         .get(_u('/api/recipes/favorites/$userId'))
@@ -64,12 +54,10 @@ class RecipesApi {
 
     final first = data.first;
 
-    // ✅ Case 1: [1,2,3]
     if (first is num) {
       return data.map((x) => (x as num).toInt()).toList();
     }
 
-    // ✅ Case 2: [{id:1,...}] / [{Id:1,...}] / [{recipeId:1,...}]
     if (first is Map) {
       return data
           .map<int>((x) {
@@ -105,9 +93,6 @@ class RecipesApi {
   }
 }
 
-// ============================================================
-// MODEL
-// ============================================================
 class RecipeItem {
   RecipeItem({
     required this.id,
@@ -125,7 +110,6 @@ class RecipeItem {
   final bool isPro;
   final bool isFav;
 
-  /// ✅ Supports ASP.NET (PascalCase) and camelCase
   factory RecipeItem.fromJson(Map<String, dynamic> json) {
     final idVal = json['id'] ?? json['Id'] ?? 0;
     final minutesVal = json['minutes'] ?? json['Minutes'] ?? 0;
@@ -154,9 +138,6 @@ class RecipeItem {
   }
 }
 
-// ============================================================
-// STATE
-// ============================================================
 class RecipesState {
   RecipesState({
     required this.loading,
@@ -215,9 +196,6 @@ class RecipesState {
   }
 }
 
-// ============================================================
-// CUBIT
-// ============================================================
 class RecipesCubit extends Cubit<RecipesState> {
   RecipesCubit({
     required this.api,
@@ -232,7 +210,6 @@ class RecipesCubit extends Cubit<RecipesState> {
     try {
       final recipes = await api.getRecipes();
 
-      // ✅ حتى لو favorites فشل، لا نعلق الصفحة
       List<int> favIds = [];
       try {
         favIds = await api.getFavoriteIds(state.userId);
@@ -317,9 +294,6 @@ class RecipesCubit extends Cubit<RecipesState> {
   }
 }
 
-// ============================================================
-// UI PAGE (HOME)
-// ============================================================
 class RecipesHomePage extends StatefulWidget {
   const RecipesHomePage({super.key});
 
@@ -340,8 +314,6 @@ class _RecipesHomePageState extends State<RecipesHomePage> {
   Widget build(BuildContext context) {
     final userId = "1";
 
-    // ✅ Emulator: 10.0.2.2
-    // ✅ Real device: use your PC IP: http://192.168.x.x:5172
     final api = RecipesApi(baseUrl: "http://10.0.2.2:5172");
 
     return BlocProvider(
@@ -362,7 +334,7 @@ class _RecipesHomePageState extends State<RecipesHomePage> {
                 centerTitle: true,
                 title: Text(
                   "DIV Nutrition".tr(),
-                  style: const TextStyle(fontWeight: FontWeight.w800),
+                  style:  TextStyle(fontWeight: FontWeight.w800),
                 ),
                 actions: [
                   IconButton(
@@ -373,7 +345,7 @@ class _RecipesHomePageState extends State<RecipesHomePage> {
                         MaterialPageRoute(builder: (_) => NotificationsPage()),
                       );
                     },
-                    icon: const Icon(Icons.notifications_none),
+                    icon:  Icon(Icons.notifications_none),
                   ),
                   IconButton(
                     tooltip: "Profile".tr(),
@@ -383,14 +355,14 @@ class _RecipesHomePageState extends State<RecipesHomePage> {
                         MaterialPageRoute(builder: (_) => items_mode()),
                       );
                     },
-                    icon: const Icon(Icons.person_outline),
+                    icon:  Icon(Icons.person_outline),
                   ),
                 ],
                 bottom: TabBar(
                   indicatorColor: Colors.white,
                   labelColor: Colors.white,
                   unselectedLabelColor: Colors.white70,
-                  labelStyle: const TextStyle(fontWeight: FontWeight.w700),
+                  labelStyle:  TextStyle(fontWeight: FontWeight.w700),
                   tabs: [
                     Tab(text: "Explore".tr()),
                     Tab(text: "Favorites".tr()),
@@ -404,7 +376,7 @@ class _RecipesHomePageState extends State<RecipesHomePage> {
                     children: [
                       Container(
                         width: double.infinity,
-                        padding: const EdgeInsets.all(16),
+                        padding:  EdgeInsets.all(16),
                         decoration: BoxDecoration(color: green),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -414,19 +386,19 @@ class _RecipesHomePageState extends State<RecipesHomePage> {
                               backgroundColor: Colors.white,
                               child: Icon(Icons.restaurant, color: green, size: 28),
                             ),
-                            const SizedBox(height: 10),
+                             SizedBox(height: 10),
                             Text(
                               "DIV Nutrition".tr(),
-                              style: const TextStyle(
+                              style:  TextStyle(
                                 color: Colors.white,
                                 fontSize: 18,
                                 fontWeight: FontWeight.w800,
                               ),
                             ),
-                            const SizedBox(height: 2),
+                             SizedBox(height: 2),
                             Text(
                               "Quick navigation".tr(),
-                              style: const TextStyle(color: Colors.white70),
+                              style:  TextStyle(color: Colors.white70),
                             ),
                           ],
                         ),
@@ -468,7 +440,7 @@ class _RecipesHomePageState extends State<RecipesHomePage> {
                                 );
                               },
                             ),
-                            const Divider(height: 24),
+                             Divider(height: 24),
                             _drawerItem(
                               icon: Icons.logout,
                               title: "settings.logout".tr(),
@@ -493,8 +465,8 @@ class _RecipesHomePageState extends State<RecipesHomePage> {
                   if (state.error != null)
                     Container(
                       width: double.infinity,
-                      margin: const EdgeInsets.fromLTRB(16, 12, 16, 0),
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                      margin:  EdgeInsets.fromLTRB(16, 12, 16, 0),
+                      padding:  EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                       decoration: BoxDecoration(
                         color: Colors.red.withOpacity(0.08),
                         borderRadius: BorderRadius.circular(12),
@@ -506,7 +478,7 @@ class _RecipesHomePageState extends State<RecipesHomePage> {
                       ),
                     ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 14, 16, 12),
+                    padding:  EdgeInsets.fromLTRB(16, 14, 16, 12),
                     child: Row(
                       children: [
                         Expanded(
@@ -515,10 +487,10 @@ class _RecipesHomePageState extends State<RecipesHomePage> {
                             onChanged: (v) => cubit.setSearch(v),
                             decoration: InputDecoration(
                               hintText: "Search recipes".tr(),
-                              prefixIcon: const Icon(Icons.search),
+                              prefixIcon:  Icon(Icons.search),
                               filled: true,
                               fillColor: Colors.white,
-                              contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                              contentPadding:  EdgeInsets.symmetric(horizontal: 14, vertical: 12),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(14),
                                 borderSide: BorderSide.none,
@@ -526,7 +498,7 @@ class _RecipesHomePageState extends State<RecipesHomePage> {
                             ),
                           ),
                         ),
-                        const SizedBox(width: 12),
+                         SizedBox(width: 12),
                         InkWell(
                           onTap: () async {
                             await Navigator.push<RecipeFiltersSelection>(
@@ -550,7 +522,7 @@ class _RecipesHomePageState extends State<RecipesHomePage> {
                                   color: green,
                                   borderRadius: BorderRadius.circular(14),
                                 ),
-                                child: const Icon(Icons.tune, color: Colors.white),
+                                child:  Icon(Icons.tune, color: Colors.white),
                               ),
                               if (state.filterCount > 0)
                                 Positioned(
@@ -560,13 +532,13 @@ class _RecipesHomePageState extends State<RecipesHomePage> {
                                     width: 22,
                                     height: 22,
                                     alignment: Alignment.center,
-                                    decoration: const BoxDecoration(
+                                    decoration:  BoxDecoration(
                                       color: Colors.lightGreenAccent,
                                       shape: BoxShape.circle,
                                     ),
                                     child: Text(
                                       "${state.filterCount}",
-                                      style: const TextStyle(
+                                      style:  TextStyle(
                                         fontSize: 12,
                                         fontWeight: FontWeight.w800,
                                         color: Colors.black,
@@ -614,7 +586,7 @@ class _RecipesHomePageState extends State<RecipesHomePage> {
                           Positioned.fill(
                             child: Container(
                               color: Colors.black.withOpacity(0.03),
-                              child: const Center(child: CircularProgressIndicator()),
+                              child:  Center(child: CircularProgressIndicator()),
                             ),
                           ),
                       ],
@@ -630,9 +602,6 @@ class _RecipesHomePageState extends State<RecipesHomePage> {
   }
 }
 
-// ============================================================
-// UI WIDGETS
-// ============================================================
 Widget _drawerItem({
   required IconData icon,
   required String title,
@@ -640,7 +609,7 @@ Widget _drawerItem({
 }) {
   return ListTile(
     leading: Icon(icon, color: Colors.green),
-    title: Text(title, style: const TextStyle(fontWeight: FontWeight.w600)),
+    title: Text(title, style:  TextStyle(fontWeight: FontWeight.w600)),
     onTap: onTap,
   );
 }
@@ -684,13 +653,13 @@ class _RecipesGrid extends StatelessWidget {
       return Center(
         child: Text(
           emptyText ?? "No items".tr(),
-          style: const TextStyle(color: Colors.black54),
+          style:  TextStyle(color: Colors.black54),
         ),
       );
     }
 
     return GridView.count(
-      padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+      padding:  EdgeInsets.fromLTRB(16, 0, 16, 16),
       crossAxisCount: 2,
       crossAxisSpacing: 12,
       mainAxisSpacing: 12,
@@ -715,22 +684,22 @@ class _ImportCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: Colors.black12),
         ),
-        padding: const EdgeInsets.all(14),
+        padding:  EdgeInsets.all(14),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               "Import Recipe".tr(),
               textAlign: TextAlign.center,
-              style: const TextStyle(fontWeight: FontWeight.w800),
+              style:  TextStyle(fontWeight: FontWeight.w800),
             ),
-            const SizedBox(height: 10),
-            const Icon(Icons.add, size: 28, color: Colors.green),
-            const SizedBox(height: 10),
+             SizedBox(height: 10),
+             Icon(Icons.add, size: 28, color: Colors.green),
+             SizedBox(height: 10),
             Text(
               "From link, text, or photos".tr(),
               textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 12, color: Colors.black54),
+              style:  TextStyle(fontSize: 12, color: Colors.black54),
             ),
           ],
         ),
@@ -759,7 +728,7 @@ class _RecipeCard extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
           color: Colors.white,
-          boxShadow: const [
+          boxShadow:  [
             BoxShadow(
               blurRadius: 10,
               offset: Offset(0, 6),
@@ -775,21 +744,21 @@ class _RecipeCard extends StatelessWidget {
                 child: Image.network(
                   item.imageUrl,
                   fit: BoxFit.cover,
-                  // ✅ Loading placeholder
+
                   loadingBuilder: (context, child, loadingProgress) {
                     if (loadingProgress == null) return child;
                     return Container(
                       color: Colors.black12,
                       alignment: Alignment.center,
-                      child: const CircularProgressIndicator(strokeWidth: 2),
+                      child:  CircularProgressIndicator(strokeWidth: 2),
                     );
                   },
-                  // ✅ Error placeholder بدل X
+
                   errorBuilder: (context, error, stackTrace) {
                     return Container(
                       color: Colors.black12,
                       alignment: Alignment.center,
-                      child: const Icon(Icons.image_not_supported, size: 34, color: Colors.black45),
+                      child:  Icon(Icons.image_not_supported, size: 34, color: Colors.black45),
                     );
                   },
                 ),
@@ -818,7 +787,7 @@ class _RecipeCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30),
                     onTap: onFavTap,
                     child: Padding(
-                      padding: const EdgeInsets.all(6),
+                      padding:  EdgeInsets.all(6),
                       child: Icon(
                         item.isFav ? Icons.favorite : Icons.favorite_border,
                         color: Colors.white,
@@ -832,12 +801,12 @@ class _RecipeCard extends StatelessWidget {
                   top: 10,
                   right: 10,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding:  EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
                       color: Colors.white70,
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: const Text(
+                    child:  Text(
                       "PRO",
                       style: TextStyle(fontWeight: FontWeight.w900, fontSize: 12),
                     ),
@@ -847,14 +816,14 @@ class _RecipeCard extends StatelessWidget {
                 bottom: 44,
                 right: 10,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding:  EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
                     color: Colors.black54,
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Text(
                     "${item.minutes} min",
-                    style: const TextStyle(
+                    style:  TextStyle(
                       color: Colors.white,
                       fontSize: 12,
                       fontWeight: FontWeight.w800,
@@ -870,7 +839,7 @@ class _RecipeCard extends StatelessWidget {
                   item.title,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
+                  style:  TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w900,
                     fontSize: 13,

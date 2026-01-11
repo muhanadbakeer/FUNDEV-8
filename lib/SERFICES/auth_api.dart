@@ -7,9 +7,9 @@ class AuthApi {
       : _dio = dio ??
       Dio(
         BaseOptions(
-          baseUrl: "http://10.0.2.2:5172",
-          connectTimeout: Duration(seconds: 15),
-          receiveTimeout: Duration(seconds: 15),
+          baseUrl: "http://192.168.0.51:5172",
+          connectTimeout: Duration(seconds: 50),
+          receiveTimeout: Duration(seconds: 50),
           headers: {
             "Content-Type": "application/json",
           },
@@ -23,14 +23,15 @@ class AuthApi {
     required String password,
   }) async {
     final res = await _dio.post(
-      "/api/auth/register",
+      "api/auth/register",///http://localhost:5172/api/auth/register
       data: {
         "fullName": fullName,
         "email": email,
         "password": password,
       },
     );
-
+    print(res.data);
+    print(res.statusCode);
     return Map<String, dynamic>.from(res.data);
   }
 
